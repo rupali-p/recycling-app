@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.bg-light-blue-100 {
+    background-color: lightblue;
+}
+
+.accent {
+    background-color: #1D7874;
+}
+
+.accent-font {
+    color: #1D7874;
+}
+
+.text-white {
+    color: white;
+}
+
+.text-black {
+    color: black;
+}
+
+.block {
+    display: block;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.inline {
+    display: inline;
+}
+
+.hidden {
+    display: none;
+}
+
+.flex {
+    display: flex;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-start {
+    justify-content: start;
+}
+
+.item-center {
+    align-items: center;
+}
+
+.px-00-50 {
+    padding: 00px 50px;
+}
+
+.px-20-00 {
+    padding: 20px 00px;
+}
+
+.font-roboto {
+    font-family: 'Roboto', sans-serif;
+}
+
+.body-padding-10-50 {
+    padding: 05px 50px;
+}
+
+.btn {
+    /* height: 175%; */
+    width: 77%;
+    background-color: #1D7874;
+}
+
+.column {
+    float: left;
+    width: 50%;
+}
+
+.column-3 {
+    width: 33.3%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.margin-10 {
+    margin: 10px;
+}
+
+img {
+    border: 5px solid #1D7874;
+}
