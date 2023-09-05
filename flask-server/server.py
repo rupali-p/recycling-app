@@ -4,14 +4,14 @@ app = Flask(__name__)
 
 # Test API Route
 
-@app.route("/apiTests")
+@app.route("/members")
 def members():
-    return {"tests": ["test1", "test2", "test3"]}
+    return {"members": ["test1", "test2", "test3"]}
 
 
 # Runs on localhost:5000 as default
 # Change the directory to 'flask-server' and run command 'py server.py' to get started
-# Type localhost:5000/apiTests to see
+# Type localhost:5000/members to see
 
 if __name__ == "__main__":
     app.run(debug=True) 
