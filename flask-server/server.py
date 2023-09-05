@@ -11,7 +11,7 @@ def members():
 
 # Runs on localhost:5000 as default
 # Change the directory to 'flask-server' and run command 'py server.py' to get started
-# Type localhost:5000/individualTests to see
+# Type localhost:5000/apiTests to see
 
 if __name__ == "__main__":
     app.run(debug=True) 
