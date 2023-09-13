@@ -17,3 +17,11 @@ Branch names will be named as follows
 - A pull request name should match the name of the ticket on trello. 
 - When a sprint has been completed and all tribes branches for that sprint have been stablised (free of bugs or crashes), a member of that tribe will need to submit a PR for the branch changes to be merged with the 'dev' branch
 - Once the dev branch has been stablished with all requests, that branch should be merged with the main branch.
+
+
+### Run Instructions
+To run the backend on port 5000, cd into flask-server and run the command:
+### `py server.py`
+
+To run the front-end on port 3000, cd into client and run the command:
+### `npm start`
