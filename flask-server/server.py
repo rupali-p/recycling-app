@@ -2,16 +2,13 @@ from flask import Flask
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
-#Setup
 app = Flask(__name__)
-#Add connection details for database
 
 # Test API Route
 @app.route("/members")
 def members():
     return {"members": ["test1", "test2", "test3"]}
 
-    
 # Runs on localhost:5000 as default
 # Change the directory to 'flask-server' and run command 'py server.py' to get started
 # Type localhost:5000/members to see
