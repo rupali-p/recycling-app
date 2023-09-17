@@ -42,12 +42,22 @@ if __name__ == "__main__":
     uri = "mongodb+srv://SISTeam22:Torecycleornot7214@hamlet-db.kdfozrj.mongodb.net/?retryWrites=true&w=majority"
     # Create a new client and connect to the server
     client = MongoClient(uri, server_api=ServerApi('1'))
-    # Send a ping to confirm a successful connection. This will print in the console. 
-    try:
-        client.admin.command('ping')
-        print("Pinged your deployment. You successfully connected to MongoDB!")
-    except Exception as e:
-        print(e)
+    #Connect up to the user's collection. 
+    db = client["Hamlet-DB"]
+    user_col = db['Users']
     
+    #Login, test user 
+    userName = 'testUser'
+    password = 'secret'
+
+    print("Checking credentials")
+    document = user_col.find_one({"username" : userName})
+    try:
+        if(userName == document.get("username") and password == document.get("password")):
+            print("User matches")
+            print("Password matches")
+            print("Login")
+    except Exception:
+        print("Incorrect credentials. Please try again")
     #Then run the app
     app.run(debug=True)
