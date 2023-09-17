@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route }
+    from 'react-router-dom';
+import CounterPage from "./pages/CounterPage";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './views/Home';
 import Login from './views/Login';
@@ -19,6 +22,14 @@ const App = () => {
         <Route path="/UploadImage" element={<UploadImage/>}/>
       </Routes>
     </Router>
+    <div>
+      <CounterPage />
+      {/* {typeof data.members === "undefined" ? (
+        <p>Loading...</p>
+      ) : (
+        data.members.map((member, i) => <p key={i}>{member}</p>)
+      )} */}
+    </div>
   );
 };
 
