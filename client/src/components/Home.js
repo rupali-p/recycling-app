@@ -27,10 +27,9 @@ const Home = () => {
           <div>
             <div className="descriptive-text">
               <p sx={{ p: 5 }}>
-                In Australia, only 13% of all plastics are being recycled
-                correctly.
+                Currently, only 13% of plastics in Australia are being recycled correctly.
                 <br />
-                We don't like that number.
+                You can do better than that.
                 <br />
               </p>
               <p>
