@@ -131,3 +131,8 @@ To run the front-end on port 3000, cd into client and run the command:
   - Its annotation capabilities streamline the process of creating annotated datasets for YOLOv8, a crucial step in training accurate object detection models
   - ARL data can be found here: https://drive.google.com/drive/folders/1yxLlRc2n2mZ4P-ArWnj_5nR9JWGuLAMs 
   - Rups will do a live demo to get everyone to use CVAT and start annotating
+    - Example:
+      - <img width="1005" alt="image" src="https://github.com/rupali-p/recycling-app/assets/79547654/870a5ef4-3adb-4e57-a755-c7d744029e21">
+   
+      - <img width="1271" alt="image" src="https://github.com/rupali-p/recycling-app/assets/79547654/7023f911-b766-4e10-ac6b-3452087b58c2">
+   
