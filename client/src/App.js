@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route }
-    from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import CounterPage from "./pages/CounterPage";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './views/Home';
@@ -23,7 +22,20 @@ const App = () => {
       </Routes>
     </Router>
     <div>
-      <CounterPage />
+      <Router>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/CounterPage">Counter</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Routes>
+          <Route path="/CounterPage" element={<CounterPage />} />
+        </Routes>
+      </Router>
+
       {/* {typeof data.members === "undefined" ? (
         <p>Loading...</p>
       ) : (
