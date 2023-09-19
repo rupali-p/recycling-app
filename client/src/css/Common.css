@@ -30,4 +30,11 @@ h {
     position: absolute;
     padding-left: 50%;
     padding-top: 10%;
+    align-content: center;
+    align-items: center;
+  }
+
+  .copyright-text{
+    align-content: left;
+    text-align: left;
   }
