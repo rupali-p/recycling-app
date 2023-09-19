@@ -125,3 +125,9 @@ To run the front-end on port 3000, cd into client and run the command:
 - **YOLOv8**: For real-time object detection, YOLOv8 is integrated into the backend (via ONNX). This involves loading the YOLOv8 model, processing images or videos, and sending object detection results to the frontend.
 
 - **ONNX**: ONNX proves valuable for representing and working with deep learning models like YOLOv8 in the Flask app.
+
+- **CVAT**: CVAT simplifies the manual annotation for YOLOv8 dataset
+  - CVAT facilitates the annotation of objects in images, generating labeled data that can be used for training YOLOv8 object detection models
+  - Its annotation capabilities streamline the process of creating annotated datasets for YOLOv8, a crucial step in training accurate object detection models
+  - ARL data can be found here: https://drive.google.com/drive/folders/1yxLlRc2n2mZ4P-ArWnj_5nR9JWGuLAMs 
+  - Rups will do a live demo to get everyone to use CVAT and start annotating
