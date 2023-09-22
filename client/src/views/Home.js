@@ -17,7 +17,7 @@ const Home = () => {
               <h>Hamlet.</h>
             </Grid>
 
-            <Grid item xs={1} sx={{ p: 5, pt: 10 }}>
+            <Grid item xs={1} sx={{ p: 5}}>
               <Box display="flex" justifyContent="flex-end">
                 <MenuIcon style={{ color: "white" }} fontSize="large" />
               </Box>
