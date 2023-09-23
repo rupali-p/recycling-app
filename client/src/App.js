@@ -7,6 +7,7 @@ import SignUp from './views/SignUp';
 // Change the directory the client folder and use the command 'npm start' to launch the front end on port 3000
 
 const App = () => {
+const App = () => {
   return (
     <Router>
       <Routes>
@@ -16,6 +17,7 @@ const App = () => {
       </Routes>
     </Router>
   );
+};
 };
 
 export default App;
