@@ -5,7 +5,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Box from "@mui/material/Box";
 import moebius from "../images/moebius-loop.png";
 import Button from "@mui/material/Button";
-import { ArrowLeftIcon } from "@mui/x-date-pickers";
 
 const Home = () => {
   return (
