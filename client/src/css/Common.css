@@ -21,7 +21,19 @@ p {
     border-top: 5px solid black;
     padding: 0;
   }
+p {
+  font-size: 20px;
+  color: white;
+  font-family: inter;
+  align-content: center;
+}
 
+.gradient_background {
+  background: linear-gradient(90deg, #12261E, #1A4D39);
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+}
   .gradient_background {
     background: linear-gradient(90deg, #12261E, #1A4D39);
     height: 100vh;
@@ -61,7 +73,7 @@ p {
     align-content: center;
     align-items: center;
     padding-right: 20%;
-  }  
+  }
 
   .pic-middle-divider{
     display: block;
@@ -170,6 +182,13 @@ p {
     align-content: center;
     align-items: center;
   }
+.descriptive-text{
+  position: absolute;
+  padding-left: 50%;
+  padding-top: 10%;
+  align-content: center;
+  align-items: center;
+}
 
 .copyright-text{
   align-content: left;
@@ -180,6 +199,25 @@ p {
   border-radius: 40px !important;
 }
 
+.section-left {
+  align-content: left;
+  text-align: center;
+  color: white;
+  font-family: inter;
+  padding-right: 50%;
+}
+
+.number-of-scans {
+  font-size: 900%;
+}
+
+.section-right {
+  align-content: right;
+  text-align: center;
+  color: white;
+  font-family: inter;
+  padding-left: 50%;
+}
 .section-left {
   align-content: left;
   text-align: center;
