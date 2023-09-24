@@ -1,10 +1,32 @@
-from flask import Flask
+from flask import Flask, request
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+
+from register_user import register_user, USER_ADDED, EMAIL_EXISTS
 
 
 app = Flask(__name__)
 
+@app.route("/api/register-user", methods=["POST"])
+def handle_register_user():
+    print("Uploading user")
+    data = request.get_json()
+    print(data)
+    register_result = register_user(
+        password=data["password"],
+        first_name=data["firstName"],
+        last_name=data["lastName"],
+        email=data["email"]
+    )
+    print(data)
+    print(type(data))
+    res = {"result": register_result}
+    print(register_result)
+
+    if register_result == USER_ADDED:
+        return res, 201
+    elif register_result == EMAIL_EXISTS:
+        return res, 200
 
 @app.route("/members")
 def members():
