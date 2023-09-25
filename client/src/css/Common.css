@@ -204,7 +204,6 @@ p {
   text-align: center;
   color: white;
   font-family: inter;
-  padding-right: 50%;
 }
 
 .number-of-scans {
@@ -216,8 +215,21 @@ p {
   text-align: center;
   color: white;
   font-family: inter;
-  padding-left: 50%;
 }
+
+.table-container{
+  padding-left: 10%;
+}
+
+.placeholder-image-container{
+  border-radius: 8%;
+  border: 1% solid #ddd;
+  padding: 5%;
+  max-width: 100px;
+  height: auto;
+}
+
+
 .section-left {
   align-content: left;
   text-align: center;
