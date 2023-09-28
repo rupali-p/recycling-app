@@ -10,6 +10,7 @@ from flask import Flask, request, jsonify
 
 from models.ml_model import make_prediction
 from register_user import register_user, USER_ADDED, EMAIL_EXISTS
+from get_pic_result import get_pic_result
 from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
 import json
 
@@ -96,6 +97,15 @@ def handle_login():
 @app.route("/members")
 def members():
     return {"members": ["test1", "test2", "test3"]}
+
+@app.route("/api/view-PIC")
+def view_PIC():
+    print("Retrieving PIC result")
+    #Call the function here
+    result = get_pic_result()
+    if(result != 'Error'):
+        return result, 200
+    return result, 500
 
 # Runs on localhost:5000 as default
 # Change the directory to 'flask-server' and run command 'py server.py' to get started
