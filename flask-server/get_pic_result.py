@@ -9,20 +9,22 @@ def get_pic_result(picNum):
   db = client["Hamlet-DB"]
   pics = db.PICs
 
-  print("Looking for PICs")
+  #Search the documents for the number being requested
   pic_doc = pics.find_one({"PIC Number" : picNum})
 
+  #If the number is found, get the values and return them
   if pic_doc != "None":
     pic_name = pic_doc.get("Name")
     desc = pic_doc.get("Short Desc")
     result = pic_doc.get("Result")
     Applications = pic_doc.get("Application")
-    print("Returning result")
     return {
       'Pic Name' : pic_name,
       "Short Description" : desc,
       "Bin to use" : result,
       "Applications of PIC" : Applications
     }
+
+  #Else, return an error message
   else:
-    return "Error, requested failed. Check your IP Address, collection name and types"  
+    return "Error, requested failed due to number not existing"  
