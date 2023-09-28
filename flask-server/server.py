@@ -100,7 +100,7 @@ def members():
 
 @app.route("/api/view-PIC")
 def view_PIC():
-    result = get_pic_result("1")
+    result = get_pic_result(1) #This number should be changed to an input passed from the machine when need be
     if(result != 'Error'):
         return result, 200
     else:
