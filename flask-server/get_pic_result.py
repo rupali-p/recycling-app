@@ -1,7 +1,7 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
-def get_pic_result():
+def get_pic_result(picNum):
   #Connect to the database,
   print("Setting up DB connection")
   uri = "mongodb+srv://SISTeam22:Torecycleornot7214@hamlet-db.kdfozrj.mongodb.net/?retryWrites=true&w=majority"
@@ -10,7 +10,7 @@ def get_pic_result():
   pics = db.PICs
 
   print("Looking for PICs")
-  pic_doc = pics.find_one({"PIC Number" : "1"})
+  pic_doc = pics.find_one({"PIC Number" : picNum})
 
   if pic_doc != "None":
     pic_name = pic_doc.get("Name")
