@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './views/Home';
 import Login from './views/Login';
 import SignUp from './views/SignUp';
-import Result from './views/Result'
 
 // Change the directory the client folder and use the command 'npm start' to launch the front end on port 3000
 
