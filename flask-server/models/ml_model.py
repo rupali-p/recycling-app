@@ -183,7 +183,8 @@ def _visualize_results(image_array: np.ndarray, detections, class_labels) -> np.
     result_image = image_array.copy()
     for detection in detections:
         x1, y1, x2, y2 = detection["bounding_box"]
-        class_label = class_labels[detection["class_label"]]
+        class_label = detection["class_label"]
+        # class_label = class_labels[detection["class_label"]]
         confidence = detection["confidence"]
         color = (0, 255, 0)
         thickness = 2
