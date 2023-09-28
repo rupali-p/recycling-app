@@ -9,10 +9,12 @@ def get_pic_result(picNum):
   db = client["Hamlet-DB"]
   pics = db.PICs
 
+  picNum = int(picNum)
+
   #Search the documents for the number being requested
   pic_doc = pics.find_one({"PIC Number" : picNum})
 
-  #If the number is found, get the values and return them
+    #If the number is found, get the values and return them
   if pic_doc != "None":
     pic_name = pic_doc.get("Name")
     desc = pic_doc.get("Short Desc")
