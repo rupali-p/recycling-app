@@ -102,7 +102,7 @@ def members():
 def view_PIC():
     print("Retrieving PIC result")
     #Call the function here
-    result = get_pic_result()
+    result = get_pic_result("1")
     if(result != 'Error'):
         return result, 200
     return result, 500
