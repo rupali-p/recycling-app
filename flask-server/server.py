@@ -10,9 +10,9 @@ app = Flask(__name__)
 def members():
     return {"members": ["test1", "test2", "test3"]}
 
-@app.route("/api/view-PIC")
-def view_PIC():
-    result = get_pic_result(1) #This number should be changed to an input passed from the machine when need be
+@app.route("/api/view-PIC/<picNum>")
+def view_PIC(picNum):
+    result = get_pic_result(picNum) #This number should be changed to an input passed from the machine when need be
     if(result != 'Error'):
         return result, 200
     else:
