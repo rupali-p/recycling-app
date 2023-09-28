@@ -8,17 +8,15 @@ def get_pic_result():
   client = MongoClient(uri, server_api=ServerApi('1'))
   db = client["Hamlet-DB"]
   pics = db.PICs
-  #Get the result using the integer value
-  #Based on that, get the required results and send it
-  print("Looking for PICs")
-  try:
-    pic_doc = pics.find_one({"Name" : "Polyethylene Terephthalate (PET)"})
 
-    #Create an object/dictionary or json that cnange be stored and sent to the front-end
+  print("Looking for PICs")
+  pic_doc = pics.find_one({"PIC Number" : "1"})
+
+  if pic_doc != "None":
     pic_name = pic_doc.get("Name")
     desc = pic_doc.get("Short Desc")
     result = pic_doc.get("Result")
-    Applications = pic_doc.get("Applications")
+    Applications = pic_doc.get("Application")
     print("Returning result")
     print(pic_name)
     print(desc)
@@ -30,5 +28,5 @@ def get_pic_result():
       "Bin to use" : result,
       "Applications of PIC" : Applications
     }
-  except Exception:
-    return "Error"
+  else:
+    return "Error, requested failed. Check your IP Address, collection name and types"
