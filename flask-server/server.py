@@ -100,16 +100,16 @@ def members():
 
 @app.route("/api/view-PIC")
 def view_PIC():
-    print("Retrieving PIC result")
-    #Call the function here
     result = get_pic_result("1")
     if(result != 'Error'):
         return result, 200
-    return result, 500
+    else:
+        return result, 500
 
 # Runs on localhost:5000 as default
 # Change the directory to 'flask-server' and run command 'py server.py' to get started
 # Type localhost:5000/members to see
 
 if __name__ == "__main__":
+
     app.run(debug=True)

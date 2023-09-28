@@ -18,10 +18,6 @@ def get_pic_result(picNum):
     result = pic_doc.get("Result")
     Applications = pic_doc.get("Application")
     print("Returning result")
-    print(pic_name)
-    print(desc)
-    print(result)
-    print(Applications)
     return {
       'Pic Name' : pic_name,
       "Short Description" : desc,
@@ -29,4 +25,4 @@ def get_pic_result(picNum):
       "Applications of PIC" : Applications
     }
   else:
-    return "Error, requested failed. Check your IP Address, collection name and types"
+    return "Error, requested failed. Check your IP Address, collection name and types"  
