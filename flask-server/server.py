@@ -28,12 +28,13 @@ def handle_register_user():
     elif register_result == EMAIL_EXISTS:
         return res, 200
 
-@app.route("/Login", methods=["GET"])
+@app.route("/Login", methods=["POST"])
 def handle_login():
     #Get the data from the api
     data = request.get_json()
     #Call the function to log the user in
-    login_result = login_user(uName = data["username"],
+    print("In backend")
+    login_result = login_user(uName = data["Usernane"],
     password = data["password"])
     result = {"result": login_result}
     

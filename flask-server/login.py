@@ -13,15 +13,17 @@ def login_user(uName: str, password: str) -> str:
     #Connect up to the user's collection. 
     db = client["Hamlet-DB"]
     user_col = db.Users
-  
+    print("connected")
     #Get credential details
     userName = uName #testUser
     password = password #secret
+    print(uName)
+    print(password)
 
     #Check credentials
     print("Checking credentials")
-    document = user_col.find_one({"username" : userName})
-    if userName == document.get("username") and password == document.get("password"):
+    document = user_col.find_one({"email" : userName})
+    if userName == document.get("email") and password == document.get("password"):
       print("Success")
       return LOGIN_SUCCCESS
     else:
