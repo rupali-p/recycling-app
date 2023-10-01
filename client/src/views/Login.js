@@ -51,8 +51,10 @@ const Login = () => {
             setLoginResultSeverity('success');
               setLoginResult(`${data.result} Redirecting to Home page...`);
               setTimeout(() => {
-                  navigate("/Home") //Need to change the redirection
+                  navigate("/") //Need to change the redirection
               }, 2000)
+
+              
           } else if (res.status === 401) {
             setLoginResultSeverity('Login error');
               setLoginResult(data.result);
