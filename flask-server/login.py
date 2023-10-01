@@ -22,6 +22,7 @@ def login_user(uName: str, password: str) -> str:
     print("Checking credentials")
     document = user_col.find_one({"username" : userName})
     if userName == document.get("username") and password == document.get("password"):
+      print("Success")
       return LOGIN_SUCCCESS
     else:
       return  LOGIN_FAILED

@@ -1,4 +1,6 @@
 import * as React from 'react';
+import {useState} from 'react';
+import {useNavigate} from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,8 +16,53 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const defaultTheme = createTheme();
 
+
 const Login = () => {
+  
+  //Logic for the form
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [setLoginResult] = useState('')
+    const [setLoginResultSeverity] = useState('')
+    const navigate = useNavigate();
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    loginUser()
+    console.log(email, password)
+  }
+  
+  const loginUser = async() => {
+    console.log(email)
+    console.log(password)
+    
+    await fetch("/Login", {
+      method: "POST",
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({  
+          "Usernane": email,
+          "password": password,
+      })
+  }).then(res => {
+      res.json().then(data => {
+          if (res.status === 200) {
+            setLoginResultSeverity('success');
+              setLoginResult(`${data.result} Redirecting to Home page...`);
+              setTimeout(() => {
+                  navigate("/Home") //Need to change the redirection
+              }, 2000)
+          } else if (res.status === 401) {
+            setLoginResultSeverity('Login error');
+              setLoginResult(data.result);
+          }
+      })
+  })
+  }
+
     return (
+      <form onSubmit={handleSubmit} action={<Link to="/"/>}>
       <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
@@ -56,6 +103,8 @@ const Login = () => {
                 id="email"
                 label="Email Address"
                 name="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
                 autoComplete="email"
                 autoFocus
               />
@@ -67,6 +116,8 @@ const Login = () => {
                 label="Password"
                 type="password"
                 id="password"
+                onChange={e => setPassword(e.target.value)}
+                value={password}
                 autoComplete="current-password"
               />
               <FormControlLabel
@@ -78,6 +129,7 @@ const Login = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={loginUser}
               >
                 Sign In
               </Button>
@@ -98,6 +150,7 @@ const Login = () => {
         </Grid>
       </Grid>
     </ThemeProvider>
+    </form>
     ) 
   };
   

@@ -3,6 +3,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from register_user import register_user, USER_ADDED, EMAIL_EXISTS
 from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
+import json
 
 app = Flask(__name__)
 
@@ -27,7 +28,7 @@ def handle_register_user():
     elif register_result == EMAIL_EXISTS:
         return res, 200
 
-@app.route("/login")
+@app.route("/Login", methods=["GET"])
 def handle_login():
     #Get the data from the api
     data = request.get_json()
@@ -37,10 +38,11 @@ def handle_login():
     result = {"result": login_result}
     
     #Send the appropriate message
-    if login_result == LOGIN_SUCCESS:
-        return res, 200
+    if login_result == LOGIN_SUCCCESS:
+        print("Logged in, sending results")
+        return result, 200
     elif login_result == LOGIN_FAILED:
-        return res, 401
+        return result, 401
 
 
 
