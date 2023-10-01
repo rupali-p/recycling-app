@@ -37,7 +37,7 @@ const Login = () => {
     console.log(password)
     
     await fetch("/Login", {
-      method: "POST",
+      method: "GET",
       headers: {
           'Content-Type': 'application/json',
       },
