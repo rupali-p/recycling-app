@@ -45,17 +45,17 @@ const Login = () => {
           "Usernane": email,
           "password": password,
       })
-  }).then(res => {
-      res.json().then(data => {
-          if (res.status === 200) {
+  }).then(result => {
+    result.json().then(data => {
+          if (result.status === 200) {
             setLoginResultSeverity('success');
               setLoginResult(`${data.result} Redirecting to Home page...`);
               setTimeout(() => {
-                  navigate("/") //Need to change the redirection
+                  navigate("/") //Placeholder, need to change the redirection to something suitable. 
               }, 2000)
 
-              
-          } else if (res.status === 401) {
+
+          } else if (result.status === 401) {
             setLoginResultSeverity('Login error');
               setLoginResult(data.result);
           }
