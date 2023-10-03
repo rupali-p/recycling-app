@@ -1,39 +1,29 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+
 import '../css/Navbar.css'
+import { Link, NavLink } from "react-router-dom";
 
-const Navbar = () => {
+export const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
 
-    // to change burger classes
-    const [burger_class, setBurgerClass] = useState("burger-bar unclicked")
-    const [menu_class, setMenuClass] = useState("menu hidden")
-    const [isMenuClicked, setIsMenuClicked] = useState(false)
-
-    // toggle burger menu change
-    const updateMenu = () => {
-        if(!isMenuClicked) {
-            setBurgerClass("burger-bar clicked")
-            setMenuClass("menu visible")
-        }
-        else {
-            setBurgerClass("burger-bar unclicked")
-            setMenuClass("menu hidden")
-        }
-        setIsMenuClicked(!isMenuClicked)
-    }
-
-    return(
-        <div style={{width: '100%', height: '100vh'}}>
-            <nav>
-                <div className="burger-menu" onClick={updateMenu}>
-                    <div className={burger_class} ></div>
-                    <div className={burger_class} ></div>
-                    <div className={burger_class} ></div>
-                </div>
-            </nav>
-
-            <div className={menu_class}></div>
-        </div>
-    )
-}
-
-export default Navbar
+  return (
+    <nav>
+        <Link to="/" className="title">
+      <h>Hamlet.</h>
+      </Link>
+      <div className="menu" onClick={() => setMenuOpen(!menuOpen)}>
+      </div>
+      <ul className={menuOpen ? "open" : ""}>
+        <li>
+          <NavLink to="/about">About Us</NavLink>
+        </li>
+        <li>
+          <NavLink to="/services">Services</NavLink>
+        </li>
+        <li>
+          <NavLink to="/contact">Contact</NavLink>
+        </li>
+      </ul>
+    </nav>
+  );
+};
