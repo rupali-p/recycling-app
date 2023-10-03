@@ -1,8 +1,10 @@
 import React from "react";
 import Button from "@mui/material/Button";
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import CameraIcon from '@mui/icons-material/Camera';
-import SwitchVideoIcon from '@mui/icons-material/SwitchVideo';
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import CameraIcon from "@mui/icons-material/Camera";
+import SwitchVideoIcon from "@mui/icons-material/SwitchVideo";
+import { IconButton } from "@mui/material";
+import "../css/scanning.css";
 
 class TakePicture extends React.Component {
   constructor() {
@@ -63,7 +65,7 @@ class TakePicture extends React.Component {
 
   handleSave = (imageDataURL) => {
     this.props.handleSave(imageDataURL);
-  }
+  };
 
   capturePicture = () => {
     var canvas = document.createElement("canvas");
@@ -77,7 +79,7 @@ class TakePicture extends React.Component {
 
     console.log(canvas.toDataURL());
     this.setState({ imageDataURL: canvas.toDataURL() });
-    this.handleSave(canvas.toDataURL().split(';base64,')[1]);
+    this.handleSave(canvas.toDataURL().split(";base64,")[1]);
 
     // var canvas = document.createElement("canvas");
     // canvas.width = this.player.videoWidth;
@@ -153,15 +155,19 @@ class TakePicture extends React.Component {
     return (
       <div>
         {playerORImage}
-        <Button onClick={this.initializeMedia}>
+        {/* <Button onClick={this.initializeMedia}>
           <CameraAltIcon/> Take Photo
-        </Button>
-        <Button onClick={this.capturePicture}>
-          <CameraIcon/> Capture
-        </Button>
-        <Button onClick={this.switchCamera}>
-          <SwitchVideoIcon/> Switch Camera
-        </Button>
+        </Button> */}
+        <div className="capture">
+          <IconButton onClick={this.capturePicture}>
+            <CameraIcon /> Capture
+          </IconButton>
+        </div>
+        <div className="switch">
+          <IconButton onClick={this.switchCamera} color="#fafafa">
+            <SwitchVideoIcon /> Switch Camera
+          </IconButton>
+        </div>
       </div>
     );
   }

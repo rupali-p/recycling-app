@@ -1,0 +1,12 @@
+.capture {
+  position: fixed;
+  bottom: 2%;
+  left: 50%;
+}
+
+.switch {
+  position: fixed;
+  top: 0;
+  right: 2%;
+  color: white;
+}

@@ -42,3 +42,15 @@ h {
   .MuiButton-contained {
     border-radius: 40px !important;
 }
+
+.previous {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  color: #f1f1f1;
+  border-radius: 50%;
+}
+
+.previous:hover {
+  background-color: lightgrey;
+}
