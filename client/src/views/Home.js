@@ -5,12 +5,17 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Box from "@mui/material/Box";
 import moebius from "../images/moebius-loop.png";
 import Button from "@mui/material/Button";
+import Navbar from '../components/Navbar';
+
 
 const Home = () => {
   return (
     <div>
       <div className="gradient_background">
         <div>
+        <Navbar />
+        </div>
+        {/* <div>
           <Grid container columns={2} sx={{ p: 5 }}>
             <Grid item xs={1}>
               <h>Hamlet.</h>
@@ -46,9 +51,8 @@ const Home = () => {
               />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
-      <div></div>
     </div>
   );
 };
