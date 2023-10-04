@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Button from "@mui/material/Button";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import CameraIcon from '@mui/icons-material/Camera';
@@ -7,6 +7,7 @@ import SwitchVideoIcon from '@mui/icons-material/SwitchVideo';
 const TakePicture = ({handleSave}) => {
 
   const [imageDataURL, setImageDataURL] = useState()
+  const [cameraAvailable, setCameraAvailable] = useState(false)
   const [player, setPlayer] = useState()
   const cameraNumber = 0
 
@@ -15,8 +16,6 @@ const TakePicture = ({handleSave}) => {
     if (!("mediaDevices" in navigator)) {
       navigator.mediaDevices = {};
     }
-    console.log("Constraints")
-    console.log(navigator.mediaDevices.getSupportedConstraints())
 
     if (!("getUserMedia" in navigator.mediaDevices)) {
       navigator.mediaDevices.getUserMedia = function (constraints) {
@@ -111,6 +110,21 @@ const TakePicture = ({handleSave}) => {
     //Filter video outputs (for devices with multiple cameras)
     return enumerateDevices.filter((device) => device.kind === "videoinput");
   };
+  useEffect(() => {
+        getListOfVideoInputs().then((vInputs) => {
+          console.log(vInputs)
+
+          console.log(vInputs.length > 0 && vInputs[0].deviceId != "")
+          setCameraAvailable(
+              vInputs.length > 0 && vInputs[0].deviceId != ""
+          )
+
+        })
+      }
+  )
+
+  console.log("Available")
+  console.log(cameraAvailable)
 
   const playerORImage = Boolean(imageDataURL) ? (
       <img src={imageDataURL} alt="cameraPic" />
@@ -123,10 +137,11 @@ const TakePicture = ({handleSave}) => {
       ></video>
   );
 
+
   return (
       <div>
         {playerORImage}
-        <Button onClick={initializeMedia}>
+        <Button onClick={initializeMedia} disabled={!cameraAvailable}>
           <CameraAltIcon/> Take Photo
         </Button>
         <Button onClick={capturePicture}>
