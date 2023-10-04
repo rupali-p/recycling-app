@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import TakePicture from "../components/Camera";
 import Button from "@mui/material/Button";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import { FormControl, FormLabel } from '@mui/material';
 
 // Change the directory the client folder and use the command 'npm start' to launch the front end on port 3000
 
@@ -58,8 +57,7 @@ const ScanImage = () => {
 
     return(
         <>
-            {/*<TakePicture handleSave={handleSave.bind(this)}/>*/}
-            <TakePicture handleSave={handleSave.bind(this)}/>
+            <TakePicture handleSave={handleSave}/>
             <form onSubmit={handleSubmit} className="container mt-5 pt-5 pb-5" encType="multipart/form-data">
                 <div className="form-inline justify-content-center mt-5">
                     {/*<label htmlFor="image" className="ml-sm-4 font-weight-bold mr-md-4">Image : </label>*/}
