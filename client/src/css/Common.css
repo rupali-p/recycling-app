@@ -14,6 +14,14 @@ h {
     text-align: center;
   }
 
+  hr {
+    display: block;
+    height: 10px;
+    border: none;
+    border-top: 5px solid black;
+    padding: 0;
+  }
+
 .gradient_background {
     background: linear-gradient(90deg, #12261E, #1A4D39);
     height: 100vh;
@@ -24,6 +32,60 @@ h {
   .moebius-image-container{
     z-index: 9;
     padding-left: 5%;
+  }
+
+  .pic-background {
+    height: 100%;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    padding-left: 10%;
+    padding-top: 3%;
+  }
+
+  .pic-headings {
+    font-size: 45px;
+    color: black;
+    font-family: inter;
+    font-weight: bold;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+    padding-right: 20%;
+  }  
+
+  .pic-image-container{
+    border-radius: 8%;
+    border: 1% solid #ddd;
+    padding: 15%;
+    max-width: 80px;
+    height: 80px;
+  }
+
+  .bin-image-container{
+    border-radius: 8%;
+    border: 1% solid #ddd;
+    max-width: auto;
+    height: 300px;
+    padding-left: 20%;
+  }
+
+  .pic-text-result {
+    font-size: 25px;
+    color: black;
+    font-family: inter;
+    text-align: center;
+    padding-top: 10%;
+    padding-left: 25%;
+  }
+
+  .pic-scan-button-container{
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 3%;
   }
 
   .descriptive-text{
@@ -42,3 +104,4 @@ h {
   .MuiButton-contained {
     border-radius: 40px !important;
 }
+
