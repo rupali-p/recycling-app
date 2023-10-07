@@ -65,6 +65,10 @@ p {
   padding-left: 10%;
 }
 
+.flexGrowth{
+  flex-grow: 1;
+}
+
 .placeholder-image-container{
   border-radius: 8%;
   border: 1% solid #ddd;

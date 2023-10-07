@@ -1,6 +1,6 @@
 import * as React from "react";
 import "../css/Common.css";
-import Grid from "@mui/material/Grid";
+import Grid from '@mui/material/Grid';
 import MenuIcon from "@mui/icons-material/Menu";
 import Box from "@mui/material/Box";
 import Table from '@mui/material/Table';
@@ -171,7 +171,7 @@ const Counter = () => {
         <div>
         <div className="gradient_background">
             <div>
-                <Grid container columns={2} sx={{ p: 5 }}>
+                <Grid container columns={2}>
                 <Grid item xs={1}>
                     <h>Hamlet.</h>
                 </Grid>
@@ -183,50 +183,52 @@ const Counter = () => {
                 </Grid>
                 </Grid>
 
-                <Grid container columns={2}>
-                    <Grid item xs={1}>
-                        <div className="section-left">
-                            <h1>
-                            You've scanned
-                            </h1>
+                <div style={{flexGrow: 1}}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} md={6}>
+                            <div className="section-left">
+                                <h1>
+                                You've scanned
+                                </h1>
 
-                            <br />
+                                <br />
 
-                            <p style={{display: 'inline-block'}}>
-                                <strong className="number-of-scans">27</strong> items
-                            </p>
+                                <p style={{display: 'inline-block'}}>
+                                    <strong className="number-of-scans">27</strong> items
+                                </p>
 
-                            <br />
+                                <br />
 
-                            <p>
-                                <strong>Did you know</strong> that’s enough plastic to make
-                            </p>
-                            <p>
-                                exactly 3.52 Kardashians?
-                            </p>
-                        </div>
-                    </Grid>
-
-                    <Grid item xs={1}>
-                        <div className="section-right">
-                            <h1 >
-                                Scan History
-                            </h1>
-
-                            <div className="table-container">
-                                <Paper style={{ height: 350, width: '90%'}}> 
-                                    <TableVirtuoso
-                                        data={rows}
-                                        components={VirtuosoTableComponents}
-                                        fixedHeaderContent={fixedHeaderContent}
-                                        itemContent={rowContent}
-                                    />
-                                </Paper>
+                                <p>
+                                    <strong>Did you know</strong> that’s enough plastic to make
+                                </p>
+                                <p>
+                                    exactly 3.52 Kardashians?
+                                </p>
                             </div>
-                           
-                        </div>
+                        </Grid>
+
+                        <Grid item xs={12} md={6}>
+                            <div className="section-right">
+                                <h1 >
+                                    Scan History
+                                </h1>
+
+                                <div className="table-container">
+                                    <Paper style={{ height: 350, width: '90%'}}> 
+                                        <TableVirtuoso
+                                            data={rows}
+                                            components={VirtuosoTableComponents}
+                                            fixedHeaderContent={fixedHeaderContent}
+                                            itemContent={rowContent}
+                                        />
+                                    </Paper>
+                                </div>
+                            
+                            </div>
+                        </Grid>
                     </Grid>
-                </Grid>
+                </div>
             </div>
         </div>
         <div></div>
