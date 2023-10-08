@@ -22,18 +22,18 @@ def make_prediction(
     :return: The image with the detections on it, the output file format and the detections
     """
 
-    # Check if an image is uploaded and display it
+    # Resize image
     image = Image.open(input_image)
-    # image = image.convert("RGB")
     target_size = (640, 640)
     image = image.resize(target_size)
+    image = image.convert("RGB")
 
     # Load the ONNX model
     model_path = "best.onnx"
     ort_session = onnxruntime.InferenceSession(model_path)
 
     # Preprocess your input image
-    input_data = _preprocess_image(image)
+    input_data = _convert_to_image_array(image)
 
     # Perform inference
     outputs = ort_session.run(None, {"images": input_data})
@@ -44,33 +44,28 @@ def make_prediction(
     for i, output in enumerate(output_info):
         print(f"Output {i} - Name: {output.name}, Shape: {output.shape}")
 
-    # Access the output tensor(s) by index
-    output = outputs[0]  # Access the first output tensor
-
     # Define a confidence threshold
-    confidence_threshold = 0.25
+    confidence_threshold = 0.5
 
     # Post-process the results
     detections = _postprocess_results(outputs, confidence_threshold)
     class_labels = [
-        "Acral Lentiginous Melanoma",
-        "Beaus Line",
-        "Blue Finger",
-        "Clubbing",
-        "Healthy Nail",
-        "Koilonychia",
-        "Lindsay-s Nail",
-        "Muehrckes Lines",
-        "Onychogryphosis",
-        "Pitting",
-        "Terry-s Nail",
+        "HDPE",
+        "LDPE",
+        "OTHER",
+        "PET",
+        "PP",
+        "PS",
+        "PVC"
     ]
 
-    print("Number of Detections:", len(detections))  # Print the number of detections
-    print("Detections:", detections)  # Print the list of detections
+    print("Number of Detections:", len(detections))
+    print("Detections:", detections)
 
-    # Visualize the results
-    result_image = _visualize_results(np.array(image), detections, class_labels)
+    # Visualise the results
+    highest_detection = [_get_highest_detection(detections)] if len(detections) > 0 else []
+
+    result_image = _visualise_results(np.array(image), highest_detection, class_labels)
     encoded_image = _get_encoded_img(result_image, output_img_format)
 
     return {
@@ -80,26 +75,25 @@ def make_prediction(
     }
 
 
-def _preprocess_image(
-    image: Image, input_size: tuple[int, int] = (640, 640)
+def _convert_to_image_array(
+    image: Image,
 ) -> np.ndarray:
     """
-    Preprocess the image, so it can be used an input to the model.
+    Convert the image to an array, so it can be used an input to the model.
 
     :param image: The image to process
-    :param input_size: The input size to resize the image to
     :return: The image as an array
     """
-    image = image.resize(input_size)
-    image = image.convert("RGB")
-    image_array = np.array(image, dtype=np.float32)  # Ensure the data type is float
-    # if image_array.shape[-1] == 4:
-    #     image_array = np.array(image, dtype=np.float32)
+    # Ensure the data type is float
+    image_array = np.array(image, dtype=np.float32)
+
+    # Normalise array
     image_array = image_array / 255.0
+
+    # Ensure image array has input form of (1, target_size, dimensions) e.g. (1, 640, 640, 3)
     image_array = image_array.transpose((2, 0, 1))
     image_array = np.expand_dims(image_array, axis=0)
-    print("Image array")
-    print(type(image_array))
+
     return image_array
 
 
@@ -113,52 +107,40 @@ def _postprocess_results(
     :param confidence_threshold: The threshold to determine whether it's a valid detection
     :return: The detections as a list
     """
-    # The output tensor has shape [1, 25200, 16]
-    output = outputs[0]
+    # The output tensor has shape [1, 11, 8400]
     print(f"outputs[0]: {outputs[0]}")
-    # print(f"output[0]: {output[0]}")
-    # print(f"outputs shape: {outputs.shape}")
-    # print(f"output[1]: {output[1]}")
-    # print(f"outputs[1]: {outputs[1]}")
-    # print(f"outputs[2]: {outputs[2]}")
-    # The output tensor has shape [1, 25200, 16]
     output = outputs[0]
 
     # Access the shape of the output tensor
     output_shape = output.shape
 
     # Access the first dimension, which contains the value 25200
-    value_25200 = output_shape[1]
+    value_11 = output_shape[1]
     print(f"The 1st value is obtained from the shape: {output_shape[0]}")
     print(f"The 1st value is obtained: {output[0]}")
     print(f"The 1st1st value is obtained: {output[0][0]}")
-    print(f"The value 25200 is obtained from the shape: {value_25200}")
+    print(f"The value 11 is obtained from the shape: {value_11}")
     print(f"The 3rd value is obtained from the shape: {output_shape[2]}")
 
-    # The output tensor has shape [1, 25200, 16]
-    output = outputs[0]
+    output = outputs[0][0]
+    output = output.transpose()
     print(output)
-
-    # Iterate through the tensor elements
-    # for i in range(output.shape[0]):
-    #     for j in range(output.shape[1]):
-    #         for k in range(output.shape[2]):
-    #             value = output[i, j, k]
-    #             print(f"Value at index ({i}, {j}, {k}): {value}")
 
     detections = []
     i = 0
-    for detection in output[0]:
+    for detection in output:
         print(f"detection{i}: {detection}")
         i = i + 1
 
-    for detection in output[0]:
-        class_label = int(detection[5])
-        confidence = detection[4]
+    for detection in output:
+        class_predictions = detection[4:]
+        class_label = class_predictions.argmax()
+        confidence = class_predictions.max()
 
         if confidence >= confidence_threshold:
-            x, y, w, h = map(int, detection[:4])
-            x1, y1, x2, y2 = x, y, x + w, y + h
+            x, y, w, h = detection[:4]
+            x1, y1 = int(x - w / 2), int(y - h / 2)
+            x2, y2 = int(x + w / 2), int(y + h / 2)
 
             detections.append(
                 {
@@ -170,8 +152,16 @@ def _postprocess_results(
 
     return detections
 
+def _get_highest_detection(detections: list[dict]) -> dict:
+    confidences = np.array([detection["confidence"] for detection in detections])
+    i = np.argmax(confidences)
+    highest_detection = detections[i]
+    print(f"Highest detection {highest_detection}")
+    return highest_detection
 
-def _visualize_results(image_array: np.ndarray, detections, class_labels) -> np.ndarray:
+
+# TODO: Add text for no detections?
+def _visualise_results(image_array: np.ndarray, detections, class_labels) -> np.ndarray:
     """
     Create an output image that shows the identified objects on it.
 
@@ -183,8 +173,7 @@ def _visualize_results(image_array: np.ndarray, detections, class_labels) -> np.
     result_image = image_array.copy()
     for detection in detections:
         x1, y1, x2, y2 = detection["bounding_box"]
-        class_label = detection["class_label"]
-        # class_label = class_labels[detection["class_label"]]
+        class_label = class_labels[detection["class_label"]]
         confidence = detection["confidence"]
         color = (0, 255, 0)
         thickness = 2

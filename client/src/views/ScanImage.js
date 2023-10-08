@@ -32,6 +32,7 @@ const ScanImage = () => {
                     body: formData
                 }).then(resp => {
                     resp.json().then(data => {
+                        console.log("Image response")
                         console.log(data);
                         setImage(data.image)
                     })
