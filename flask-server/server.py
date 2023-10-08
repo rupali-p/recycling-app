@@ -54,7 +54,8 @@ def handle_upload():
         "success": True,
         "file": "Received",
         "image": results_image,
-        "encoding": image_format.lower()
+        "encoding": image_format.lower(),
+        # "detections": detections
     })
 
 
@@ -84,7 +85,8 @@ def handle_upload_2():
         "success": True,
         "file": "Received",
         "image": results_image,
-        "encoding": image_format.lower()
+        "encoding": image_format.lower(),
+        # "detections": detections
     })
 
 @app.route("/Login", methods=["POST"])

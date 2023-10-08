@@ -123,9 +123,6 @@ const TakePicture = ({handleSave}) => {
       }
   )
 
-  console.log("Available")
-  console.log(cameraAvailable)
-
   const playerORImage = Boolean(imageDataURL) ? (
       <img src={imageDataURL} alt="cameraPic" />
   ) : (
