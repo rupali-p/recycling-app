@@ -10,7 +10,7 @@ from flask import Flask, request, jsonify
 
 from models.ml_model import make_prediction
 from register_user import register_user, USER_ADDED, EMAIL_EXISTS
-from get_pic_result import get_pic_result
+from get_pic_result import get_recycling_result
 from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
 import json
 
@@ -98,9 +98,9 @@ def handle_login():
 def members():
     return {"members": ["test1", "test2", "test3"]}
 
-@app.route("/api/view-PIC/<picNum>")
-def view_PIC(picNum):
-    result = get_pic_result(picNum) #This number should be changed to an input passed from the machine when need be
+@app.route("/api/view-Result/<articleNum>")
+def view_result(articleNum):
+    result = get_recycling_result(articleNum) #This number should be changed to an input passed from the machine when need be
     if(result != 'Error'):
         return result, 200
     else:
