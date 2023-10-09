@@ -1,48 +1,39 @@
 import * as React from "react";
 import "../css/Common.css";
 import Grid from "@mui/material/Grid";
-import MenuIcon from "@mui/icons-material/Menu";
-import Box from "@mui/material/Box";
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import PicCode1 from "../images/Symbol_Resin_Code_1_PETE.svg";
-import PicCode2 from "../images/Symbol_Resin_Code_2_HDPE.svg";
-import PicCode3 from "../images/Symbol_Resin_Code_3_V.svg";
-import PicCode4 from "../images/Symbol_Resin_Code_4_LDPE.svg";
-import PicCode5 from "../images/Symbol_Resin_Code_5_PP.svg";
-import PicCode6 from "../images/Symbol_Resin_Code_6_PS.svg";
-import PicCode7 from "../images/Symbol_Resin_Code_7_OTHER.svg";
 import YellowBin from "../images/yellow_bin.png";
-import RedBin from "../images/red_bin.png";
 
-const PICResult = () => {
+const PICResult1 = () => {
   return (
     <div>
       <div className="gradient_background">
         <div> 
             <div className="pic-background">
               <div>
-                <Paper elevation={3} square={false} style={{ width: '100%'}}>
+                <Paper elevation={3} square={false} style={{ width: '1200px'}}>
                   <div>
-                  <Grid container>
-                    <Grid item xs={2}>
-                      <img src={PicCode1} alt="PIC_1" className="pic-image-container"></img>
-                    </Grid>
+                    <Grid container>
+                      <Grid item xs={2}>
+                        <img src={PicCode1} alt="PIC_1" className="pic-image-container"></img>
+                      </Grid>
 
-                    <Grid item xs={10}>
-                      <p className="pic-headings">Recycle!</p>
-                    </Grid>
+                      <Grid item xs={10}>
+                        <p className="pic-headings">Recycle!</p>
+                      </Grid>
 
-                    <Grid item xs={12}>
-                      <hr/>
+                      <Grid item xs={12}>
+                        <hr/>
+                      </Grid>
                     </Grid>
-                  </Grid>
                   </div>
                   
                   <div>
                     <Grid container>
                       <Grid item xs={4}>
-                        <p className="pic-text-result">
+                        <p className="pic-text-result-left-only">
                           PET is commonly used to make water, soft drink and sport drink bottles, as well as condiment bottles and peanut butter and vegemite containers.
                         </p>
                       </Grid>
@@ -52,7 +43,7 @@ const PICResult = () => {
                       </Grid>
 
                       <Grid item xs={4}>
-                        <img src={YellowBin} alt="yellow-bin" className="bin-image-container"></img>
+                        <img src={YellowBin} alt="yellow-bin" className="bin-image-container-right"></img>
                       </Grid>
 
                     </Grid>
@@ -71,4 +62,4 @@ const PICResult = () => {
   );
 };
 
-export default PICResult;
+export default PICResult1;
