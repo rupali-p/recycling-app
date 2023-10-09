@@ -16,6 +16,7 @@ import json
 
 from const import OUTPUT_IMAGE_FORMAT
 
+
 app = Flask(__name__)
 
 
