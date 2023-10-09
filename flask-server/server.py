@@ -62,7 +62,9 @@ def handle_upload():
 @app.route("/api/upload-captured-photo", methods=["POST"])
 def handle_upload_2():
     print("Requesting...")
-    print(request.data)
+    # print(request.data)
+    with open("output.txt", "w") as f:
+        print(request.data, file=f)
     print("done")
 
     decoded = base64.b64decode(request.data)

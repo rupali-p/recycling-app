@@ -4,11 +4,12 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import CameraIcon from '@mui/icons-material/Camera';
 import SwitchVideoIcon from '@mui/icons-material/SwitchVideo';
 
-const TakePicture = ({handleSave}) => {
+const TakePicture = ({handleTakePhoto, }) => {
 
   const [imageDataURL, setImageDataURL] = useState()
   const [cameraAvailable, setCameraAvailable] = useState(false)
   const [player, setPlayer] = useState()
+  const [isMobileDevice, setIsMobileDevice] = useState(true)
   const cameraNumber = 0
 
   const initializeMedia = async() => {
@@ -55,13 +56,16 @@ const TakePicture = ({handleSave}) => {
     }
   };
 
-
   const capturePicture = () => {
-    var canvas = document.createElement("canvas");
-    canvas.width = player.videoWidth;
-    canvas.height = player.videoHeight;
+    var imgSize = Math.min(player.videoWidth, player.videoHeight);
+    var left = (player.videoWidth - imgSize) / 2;
+    var top = (player.videoHeight - imgSize) / 2;
+
+    var canvas = document.getElementById("image-preview");
+    canvas.width = 400
+    canvas.height = 400
     var contex = canvas.getContext("2d");
-    contex.drawImage(player, 0, 0, canvas.width, canvas.height);
+    contex.drawImage(player, left, top, imgSize, imgSize, 0, 0, canvas.width, canvas.height)
     player.srcObject.getVideoTracks().forEach((track) => {
       track.stop();
     });
@@ -71,8 +75,34 @@ const TakePicture = ({handleSave}) => {
     handlePhotoCapture(canvas.toDataURL().split(';base64,')[1])
   };
 
+  const handleMobilePhoto = async (event) => {
+    const canvas = document.getElementById("image-preview")
+    canvas.width = 400
+    canvas.height = 400
+    var contex = canvas.getContext("2d");
+
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      var imageFile = new Image();
+      imageFile.src = reader.result
+      imageFile.onload = () => {
+        var imgSize = Math.min(imageFile.width, imageFile.height);
+        var left = (imageFile.width - imgSize) / 2;
+        var top = (imageFile.height - imgSize) / 2;
+
+        contex.drawImage(imageFile, left, top, imgSize, imgSize, 0, 0, canvas.width, canvas.height)
+        handlePhotoCapture(canvas.toDataURL().split(';base64,')[1])
+
+      }
+    }
+    reader.readAsDataURL(event.target.files[0])
+
+  }
+
+
+
   const handlePhotoCapture = (imageDataURL) => {
-    handleSave(imageDataURL);
+    handleTakePhoto(imageDataURL);
   }
   const switchCamera = async () => {
     const listOfVideoInputs = await getListOfVideoInputs();
@@ -105,12 +135,23 @@ const TakePicture = ({handleSave}) => {
 
   const getListOfVideoInputs = async () => {
     // Get the details of audio and video output of the device
-    const enumerateDevices = await navigator.mediaDevices.enumerateDevices();
+    try {
+      const eD= await navigator.mediaDevices.enumerateDevices();
+      //Filter video outputs (for devices with multiple cameras)
+      return eD.filter((device) => device.kind === "videoinput");
+    } catch {
+      return []
+    }
 
-    //Filter video outputs (for devices with multiple cameras)
-    return enumerateDevices.filter((device) => device.kind === "videoinput");
   };
   useEffect(() => {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test (navigator.userAgent)) {
+      setIsMobileDevice(true)
+   }
+   else {
+     setIsMobileDevice(false)
+   };
+    setCameraAvailable(true)
         getListOfVideoInputs().then((vInputs) => {
           console.log(vInputs)
 
@@ -123,30 +164,47 @@ const TakePicture = ({handleSave}) => {
       }
   )
 
-  const playerORImage = Boolean(imageDataURL) ? (
-      <img src={imageDataURL} alt="cameraPic" />
-  ) : (
-      <video
-          ref={(reference) => {
-            setPlayer(reference)
-          }}
-          autoPlay
-      ></video>
-  );
-
-
   return (
       <div>
-        {playerORImage}
-        <Button onClick={initializeMedia} disabled={!cameraAvailable}>
-          <CameraAltIcon/> Take Photo
-        </Button>
-        <Button onClick={capturePicture}>
-          <CameraIcon/> Capture
-        </Button>
-        <Button onClick={switchCamera}>
-          <SwitchVideoIcon/> Switch Camera
-        </Button>
+        {
+          !Boolean(imageDataURL) ? (
+              <video
+                  ref={(reference) => {
+                    setPlayer(reference)
+                  }}
+                  autoPlay
+              ></video>
+          ) : (
+              <></>
+          )
+        }
+        {
+          isMobileDevice ? (
+              <Button component={"label"}>
+                <CameraAltIcon/> Open Camera Mobile
+                <input
+                    accept="image/*"
+                    id="mobile-camera-input"
+                    type="file"
+                    capture="environment"
+                    hidden
+                    onChange={handleMobilePhoto}
+                />
+              </Button>
+          ) : (
+              <>
+                <Button onClick={initializeMedia} disabled={!cameraAvailable}>
+                  <CameraAltIcon/> Open Camera
+                </Button>
+                <Button onClick={capturePicture}>
+                  <CameraIcon/> Take Photo
+                </Button>
+                <Button onClick={switchCamera}>
+                  <SwitchVideoIcon/> Switch Camera
+                </Button>
+              </>
+          )
+        }
       </div>
   );
 }
