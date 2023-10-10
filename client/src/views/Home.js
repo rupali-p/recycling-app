@@ -33,7 +33,10 @@ const Home = () => {
               </p>
               <p>
                 <Button variant="contained" color="grey" sx={{ p: 2 }} href={"./ScanImage"}>
-                  Begin Scan
+                  Live Scan
+                </Button>
+                <Button variant="contained" color="grey" sx={{ p: 2 }} href={"./UploadImage"}>
+                  Upload Scan
                 </Button>
               </p>
             </div>
