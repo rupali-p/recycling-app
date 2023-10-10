@@ -9,70 +9,81 @@ import cv2
 import io
 import base64
 
+from const import CONFIDENCE_THRESHOLD, CLASS_LABELS, TARGET_IMAGE_SIZE, OUTPUT_IMAGE_FORMAT
+
 
 def make_prediction(
     input_image: werkzeug.datastructures.file_storage.FileStorage | io.BytesIO,
-    output_img_format: str = "PNG",
+    output_img_format: str = OUTPUT_IMAGE_FORMAT,
 ) -> dict:
     """
     Makes object detections of the given image
 
     :param input_image: The image to make detections on
     :param output_img_format: The output file format to use e.g. PNG, JPEG
-    :return: The image with the detections on it, the output file format and the detections
+    :return: The image with its classification on it, the output file format and the classification
     """
 
-    # Resize image
-    image = Image.open(input_image)
-    target_size = (640, 640)
-    image = image.resize(target_size)
-    image = image.convert("RGB")
-
-    # Load the ONNX model
-    model_path = "best.onnx"
-    ort_session = onnxruntime.InferenceSession(model_path)
-
-    # Preprocess your input image
+    image = _load_image_object(input_image)
     input_data = _convert_to_image_array(image)
 
-    # Perform inference
-    outputs = ort_session.run(None, {"images": input_data})
-    output_info = ort_session.get_outputs()
-    print(f"Number of output tensors: {len(output_info)}")
-
-    # Print information about each output tensor
-    for i, output in enumerate(output_info):
-        print(f"Output {i} - Name: {output.name}, Shape: {output.shape}")
-
-    # Define a confidence threshold
-    confidence_threshold = 0.5
-
-    # Post-process the results
-    detections = _postprocess_results(outputs, confidence_threshold)
-    class_labels = [
-        "HDPE",
-        "LDPE",
-        "OTHER",
-        "PET",
-        "PP",
-        "PS",
-        "PVC"
-    ]
+    outputs = _perform_inference(input_data, model_path="best.onnx")
+    detections = _get_output_detections(outputs, CONFIDENCE_THRESHOLD)
 
     print("Number of Detections:", len(detections))
     print("Detections:", detections)
 
-    # Visualise the results
-    highest_detection = [_get_highest_detection(detections)] if len(detections) > 0 else []
+    highest_detection = (
+        [_get_highest_detection(detections)] if len(detections) > 0 else []
+    )
 
-    result_image = _visualise_results(np.array(image), highest_detection, class_labels)
+    result_image = _visualise_results(np.array(image), highest_detection, CLASS_LABELS)
     encoded_image = _get_encoded_img(result_image, output_img_format)
 
     return {
         "results_image": encoded_image,
         "image_format": output_img_format,
-        "detections": detections,
+        "classification": highest_detection
     }
+
+def _load_image_object(
+        input_image: werkzeug.datastructures.file_storage.FileStorage | io.BytesIO
+) -> Image:
+    """
+    Loads the input image as an Image object with the target size and dimensions.
+
+    :param input_image: The input image to load
+    :return: The image object with the target size and dimensions
+    """
+    image = Image.open(input_image)
+    image = image.resize(TARGET_IMAGE_SIZE)
+    image = image.convert("RGB")
+
+    return image
+
+def _perform_inference(
+    input_data: np.ndarray,
+    model_path: str
+) -> list:
+    """
+    Performs inference on the given input data using the onnx model.
+
+    :param input_data: The input data to use the model on.
+    :param model_path: The path to the onnx model to load.
+    :return: The outputs from the model's inference.
+    """
+
+    ort_session = onnxruntime.InferenceSession(model_path)
+
+    outputs = ort_session.run(None, {"images": input_data})
+    output_info = ort_session.get_outputs()
+
+    print(f"Number of output tensors: {len(output_info)}")
+
+    for i, output in enumerate(output_info):
+        print(f"Output {i} - Name: {output.name}, Shape: {output.shape}")
+
+    return outputs
 
 
 def _convert_to_image_array(
@@ -97,42 +108,29 @@ def _convert_to_image_array(
     return image_array
 
 
-def _postprocess_results(
+def _get_output_detections(
     outputs: list, confidence_threshold: float = 0.5
 ) -> list[dict]:
     """
-    Gets the detections from the model.
+    Gets the detections from the model's output.
 
     :param outputs: The outputs from the model
     :param confidence_threshold: The threshold to determine whether it's a valid detection
     :return: The detections as a list
     """
-    # The output tensor has shape [1, 11, 8400]
-    print(f"outputs[0]: {outputs[0]}")
-    output = outputs[0]
 
-    # Access the shape of the output tensor
-    output_shape = output.shape
+    output_tensor = outputs[0]
 
-    # Access the first dimension, which contains the value 25200
-    value_11 = output_shape[1]
-    print(f"The 1st value is obtained from the shape: {output_shape[0]}")
-    print(f"The 1st value is obtained: {output[0]}")
-    print(f"The 1st1st value is obtained: {output[0][0]}")
-    print(f"The value 11 is obtained from the shape: {value_11}")
-    print(f"The 3rd value is obtained from the shape: {output_shape[2]}")
+    # The output tensor has shape (1, 11, 8400)
+    print(f"output tensor shape {output_tensor.shape}")
+    print(f"outputs[0]: {output_tensor}")
 
-    output = outputs[0][0]
-    output = output.transpose()
-    print(output)
+    detections = output_tensor[0]
+    detections = detections.transpose()
 
-    detections = []
-    i = 0
-    for detection in output:
-        print(f"detection{i}: {detection}")
-        i = i + 1
+    threshold_detections = []
 
-    for detection in output:
+    for detection in detections:
         class_predictions = detection[4:]
         class_label = class_predictions.argmax()
         confidence = class_predictions.max()
@@ -142,7 +140,7 @@ def _postprocess_results(
             x1, y1 = int(x - w / 2), int(y - h / 2)
             x2, y2 = int(x + w / 2), int(y + h / 2)
 
-            detections.append(
+            threshold_detections.append(
                 {
                     "class_label": class_label,
                     "confidence": confidence,
@@ -150,17 +148,26 @@ def _postprocess_results(
                 }
             )
 
-    return detections
+    return threshold_detections
+
 
 def _get_highest_detection(detections: list[dict]) -> dict:
+    """
+    Gets the detection with the highest confidence score.
+
+    :param detections: The list of detections to examine.
+    :return: The detection with the highest confidence score.
+    """
+
     confidences = np.array([detection["confidence"] for detection in detections])
     i = np.argmax(confidences)
     highest_detection = detections[i]
+
     print(f"Highest detection {highest_detection}")
+
     return highest_detection
 
 
-# TODO: Add text for no detections?
 def _visualise_results(image_array: np.ndarray, detections, class_labels) -> np.ndarray:
     """
     Create an output image that shows the identified objects on it.
@@ -170,21 +177,26 @@ def _visualise_results(image_array: np.ndarray, detections, class_labels) -> np.
     :param class_labels: The class labels that correspond to the detections
     :return: A new image with the detections labelled with the corresponding classes
     """
+
     result_image = image_array.copy()
     for detection in detections:
         x1, y1, x2, y2 = detection["bounding_box"]
         class_label = class_labels[detection["class_label"]]
         confidence = detection["confidence"]
+
         color = (0, 255, 0)
         thickness = 2
         cv2.rectangle(result_image, (x1, y1), (x2, y2), color, thickness)
+
         label = f"{class_label} ({confidence:.2f})"
         font = cv2.FONT_HERSHEY_SIMPLEX
         font_scale = 0.5
         font_thickness = 1
+
         text_size, _ = cv2.getTextSize(label, font, font_scale, font_thickness)
         text_x = x1
         text_y = y1 - 5 if y1 >= 5 else y1 + 15
+
         cv2.putText(
             result_image,
             label,
@@ -210,4 +222,5 @@ def _get_encoded_img(image_array, encoding_format: str) -> str:
     img_byte_arr = io.BytesIO()
     image.save(img_byte_arr, format=encoding_format)
     encoded_img = base64.encodebytes(img_byte_arr.getvalue()).decode("ascii")
+
     return encoded_img
