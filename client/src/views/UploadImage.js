@@ -3,13 +3,13 @@
  */
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { displaySquareImage } from "../components/Camera";
 import "../css/Common.css";
 import { styled } from "@mui/material/styles";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import TopNav from "../components/TopNav";
 
 const UploadImage = () => {
   const VisuallyHiddenInput = styled("input")({
@@ -23,6 +23,17 @@ const UploadImage = () => {
     whiteSpace: "nowrap",
     width: 1,
   });
+
+  const Modalstyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -58,22 +69,13 @@ const UploadImage = () => {
       };
     };
     reader.readAsDataURL(event.target.files[0]);
+    handleOpen();
   };
 
   return (
     <>
       <div className="gradient_background ">
-        <Box
-          sx={{
-            height: 90,
-            backgroundColor: "#969595",
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-          }}
-        ></Box>
-        <canvas id={"image-preview"} />
+        {/* <TopNav /> */}
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="input-group">
             <input
@@ -86,7 +88,7 @@ const UploadImage = () => {
               onChange={handleUploadFile}
             />
             <label htmlFor="image">
-              <div class="center">
+              <div class="center" id="Upload Image Box">
                 <Box
                   component="span"
                   sx={{
@@ -104,39 +106,58 @@ const UploadImage = () => {
                     component="label"
                     variant="text"
                     size="large"
-                    colour="info"
+                    sx={{
+                      color: "white",
+                    }}
                   >
+                    <UploadFileIcon />
                     Upload file
                     <VisuallyHiddenInput type="file" />
                   </Button>
                 </Box>
-
-                {/* Something for later, I want the image selected to pop-up in a modal */}
-                {/* <Modal
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
-                  <Box sx={style}>
-                  </Box>
-                </Modal> */}
               </div>
             </label>
           </div>
 
-          <div className="center-lower">
-            <Button variant="contained" size="large" type="submit">
-              Identify
-            </Button>
-          </div>
-          {/* <div>
-            {image ? (
-              <img src={`data:image/png;base64,${image}`} />
-            ) : (
-              <p>This is where the results image will go.</p>
-            )}
-          </div> */}
+          {/*  post image selection modal  */}
+
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={{ Modalstyle }}>
+              <div className="center">
+                <div>
+                  {image ? (
+                    <img src={`data:image/png;base64,${image}`} />
+                  ) : (
+                    <p>Continue with this image?</p>
+                  )}
+                </div>
+                <canvas id={"image-preview"} />
+              </div>
+
+              <div className="center-lower">
+                <Button
+                  variant="contained"
+                  size="extra large"
+                  type="submit"
+                  sx={{
+                    backgroundColor: "white",
+                    color: "Black",
+                    "&:hover": {
+                      backgroundColor: "green",
+                      color: "white",
+                    },
+                  }}
+                >
+                  Continue
+                </Button>
+              </div>
+            </Box>
+          </Modal>
         </form>
       </div>
     </>
