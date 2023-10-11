@@ -1,9 +1,9 @@
 from flask import Flask, request
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-
 from register_user import register_user, USER_ADDED, EMAIL_EXISTS
-
+from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
+import json
 
 app = Flask(__name__)
 
@@ -28,6 +28,27 @@ def handle_register_user():
     elif register_result == EMAIL_EXISTS:
         return res, 200
 
+@app.route("/Login", methods=["POST"])
+def handle_login():
+    #Get the data from the api
+    data = request.get_json()
+    #Call the function to log the user in
+    print("In backend")
+    login_result = login_user(uName = data["Usernane"],
+    password = data["password"])
+    result = {"result": login_result}
+    
+    #Send the appropriate message
+    if login_result == LOGIN_SUCCCESS:
+        print("Logged in, sending results")
+        return result, 200
+    elif login_result == LOGIN_FAILED:
+        return result, 401
+
+
+
+
+
 @app.route("/members")
 def members():
     return {"members": ["test1", "test2", "test3"]}
@@ -38,16 +59,6 @@ def members():
 
 if __name__ == "__main__":
     
-    ##Set up the mongoDB database connection
-    uri = "mongodb+srv://SISTeam22:Torecycleornot7214@hamlet-db.kdfozrj.mongodb.net/?retryWrites=true&w=majority"
-    # Create a new client and connect to the server
-    client = MongoClient(uri, server_api=ServerApi('1'))
-    # Send a ping to confirm a successful connection. This will print in the console. 
-    try:
-        client.admin.command('ping')
-        print("Pinged your deployment. You successfully connected to MongoDB!")
-    except Exception as e:
-        print(e)
     
     #Then run the app
     app.run(debug=True)
