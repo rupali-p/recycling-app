@@ -9,15 +9,20 @@ import {
     FormControl,
     TextField,
     Button,
-    Stack,
     Typography,
     Alert,
+    Grid,
+    CssBaseline,
+    Paper
 } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {Link, useNavigate} from "react-router-dom"
 
 
-const RegisterForm = () => {
+const defaultTheme = createTheme();
+
+const Signup = () => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
 
@@ -93,92 +98,6 @@ const RegisterForm = () => {
     }
 
     return (
-        <div>
-            <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
-
-                <form onSubmit={handleSubmit} action={<Link to="/login"/>}>
-                    <Stack spacing={4}>
-                        <Typography variant="h2">Sign Up</Typography>
-                        <TextField
-                            type="text"
-                            variant='outlined'
-                            color='secondary'
-                            label="First Name"
-                            onChange={e => setFirstName(e.target.value)}
-                            value={firstName}
-                            required
-                        />
-                        <TextField
-                            type="text"
-                            variant='outlined'
-                            color='secondary'
-                            label="Last Name"
-                            onChange={e => setLastName(e.target.value)}
-                            value={lastName}
-                            required
-                        />
-                        <TextField
-                            type="email"
-                            variant='outlined'
-                            color='secondary'
-                            label="Email"
-                            onChange={e => setEmail(e.target.value)}
-                            onBlur={e => validateEmail()}
-                            error={emailError !== ''}
-                            value={email}
-                            helperText={emailError}
-                        />
-                        <FormControl variant="outlined">
-                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                            <OutlinedInput
-                                id="outlined-adornment-password"
-                                type={showPassword ? 'text' : 'password'}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            edge="end"
-                                        >
-                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                label="Password"
-                                onChange={e => setPassword(e.target.value)}
-                                onBlur={e => validatePassword(e.target.value)}
-                                value={password}
-                                error={passwordError != ""}
-                            />
-                            <FormHelperText>{passwordError}</FormHelperText>
-                        </FormControl>
-                        <Button
-                            variant="outlined"
-                            color="secondary"
-                            type="submit"
-                            disabled={
-                                firstName == "" || lastName == "" || email == "" || password == ""
-                                || (email != "" && emailError != "")
-                                || (password != "" && passwordError != "")
-                            }
-                            fullWidth
-                        >
-                            Register
-                        </Button>
-                        {registerResult != "" ? (
-                            <Alert severity={registerResultSeverity}>{registerResult}</Alert>
-                        ) : <div></div>}
-                        <Typography variant="subtitle1">Already have an account? <Link to="/Login">Login
-                            Here</Link></Typography>
-                    </Stack>
-                </form>
-            </Box>
-        </div>
-    )
-}
-const SignUp = () => {
-    return (
       <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
@@ -212,7 +131,29 @@ const SignUp = () => {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <Box component="form" sx={{ mt: 1 }}>
+            <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit}>
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    name="first name"
+                    autoFocus
+                    onChange={e => setFirstName(e.target.value)}
+                    value={firstName}
+                />
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="lastName"
+                    label="Last Name"
+                    name="last name"
+                    autoFocus
+                    onChange={e => setLastName(e.target.value)}
+                    value={lastName}
+                />
               <TextField
                 margin="normal"
                 required
@@ -222,31 +163,61 @@ const SignUp = () => {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={e => setEmail(e.target.value)}
+                onBlur={e => validateEmail()}
+                error={emailError !== ''}
+                value={email}
+                helperText={emailError}
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign Up
-              </Button>
+                <FormControl variant="outlined" fullWidth margin={"normal"} required>
+                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                    <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={showPassword ? 'text' : 'password'}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                >
+                                    {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                        label="Password"
+                        onChange={e => setPassword(e.target.value)}
+                        onBlur={e => validatePassword(e.target.value)}
+                        value={password}
+                        error={passwordError != ""}
+                    />
+                    <FormHelperText>{passwordError}</FormHelperText>
+                </FormControl>
+                <Button
+                    margin="normal"
+                    variant="outlined"
+                    color="secondary"
+                    type="submit"
+                    disabled={
+                        firstName == "" || lastName == "" || email == "" || password == ""
+                        || (email != "" && emailError != "")
+                        || (password != "" && passwordError != "")
+                    }
+                    fullWidth
+                >
+                    Register
+                </Button>
+                {registerResult != "" ? (
+                    <Alert severity={registerResultSeverity}>{registerResult}</Alert>
+                ) : <div></div>}
+                <Typography variant="subtitle1">Already have an account? <Link to="/Login">Login
+                    Here</Link></Typography>
             </Box>
           </Box>
         </Grid>
       </Grid>
     </ThemeProvider>
-    ) 
-  };
-  
-  export default SignUp;
+    )
+}
+export default Signup;
