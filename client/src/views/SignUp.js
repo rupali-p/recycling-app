@@ -9,15 +9,20 @@ import {
     FormControl,
     TextField,
     Button,
-    Stack,
     Typography,
     Alert,
+    Grid,
+    CssBaseline,
+    Paper
 } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {Link, useNavigate} from "react-router-dom"
 
 
-const RegisterForm = () => {
+const defaultTheme = createTheme();
+
+const Signup = () => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
 
@@ -93,89 +98,126 @@ const RegisterForm = () => {
     }
 
     return (
-        <div>
-            <Box sx={{display: 'flex', flexWrap: 'wrap'}}>
-
-                <form onSubmit={handleSubmit} action={<Link to="/login"/>}>
-                    <Stack spacing={4}>
-                        <Typography variant="h2">Sign Up</Typography>
-                        <TextField
-                            type="text"
-                            variant='outlined'
-                            color='secondary'
-                            label="First Name"
-                            onChange={e => setFirstName(e.target.value)}
-                            value={firstName}
-                            required
-                        />
-                        <TextField
-                            type="text"
-                            variant='outlined'
-                            color='secondary'
-                            label="Last Name"
-                            onChange={e => setLastName(e.target.value)}
-                            value={lastName}
-                            required
-                        />
-                        <TextField
-                            type="email"
-                            variant='outlined'
-                            color='secondary'
-                            label="Email"
-                            onChange={e => setEmail(e.target.value)}
-                            onBlur={e => validateEmail()}
-                            error={emailError !== ''}
-                            value={email}
-                            helperText={emailError}
-                        />
-                        <FormControl variant="outlined">
-                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                            <OutlinedInput
-                                id="outlined-adornment-password"
-                                type={showPassword ? 'text' : 'password'}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            edge="end"
-                                        >
-                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                label="Password"
-                                onChange={e => setPassword(e.target.value)}
-                                onBlur={e => validatePassword(e.target.value)}
-                                value={password}
-                                error={passwordError != ""}
-                            />
-                            <FormHelperText>{passwordError}</FormHelperText>
-                        </FormControl>
-                        <Button
-                            variant="outlined"
-                            color="secondary"
-                            type="submit"
-                            disabled={
-                                firstName == "" || lastName == "" || email == "" || password == ""
-                                || (email != "" && emailError != "")
-                                || (password != "" && passwordError != "")
-                            }
-                            fullWidth
-                        >
-                            Register
-                        </Button>
-                        {registerResult != "" ? (
-                            <Alert severity={registerResultSeverity}>{registerResult}</Alert>
-                        ) : <div></div>}
-                        <Typography variant="subtitle1">Already have an account? <Link to="/Login">Login
-                            Here</Link></Typography>
-                    </Stack>
-                </form>
+      <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Typography component="hea1" variant="h1">
+              Hamlet.
+            </Typography>
+            <Typography component="h1" variant="h5">
+              Sign up
+            </Typography>
+            <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit}>
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    name="first name"
+                    autoFocus
+                    onChange={e => setFirstName(e.target.value)}
+                    value={firstName}
+                />
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="lastName"
+                    label="Last Name"
+                    name="last name"
+                    autoFocus
+                    onChange={e => setLastName(e.target.value)}
+                    value={lastName}
+                />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={e => setEmail(e.target.value)}
+                onBlur={e => validateEmail()}
+                error={emailError !== ''}
+                value={email}
+                helperText={emailError}
+              />
+                <FormControl variant="outlined" fullWidth margin={"normal"} required>
+                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                    <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={showPassword ? 'text' : 'password'}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                >
+                                    {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                        label="Password"
+                        onChange={e => setPassword(e.target.value)}
+                        onBlur={e => validatePassword(e.target.value)}
+                        value={password}
+                        error={passwordError != ""}
+                    />
+                    <FormHelperText>{passwordError}</FormHelperText>
+                </FormControl>
+                <Button
+                    margin="normal"
+                    variant="outlined"
+                    color="secondary"
+                    type="submit"
+                    disabled={
+                        firstName == "" || lastName == "" || email == "" || password == ""
+                        || (email != "" && emailError != "")
+                        || (password != "" && passwordError != "")
+                    }
+                    fullWidth
+                >
+                    Register
+                </Button>
+                {registerResult != "" ? (
+                    <Alert severity={registerResultSeverity}>{registerResult}</Alert>
+                ) : <div></div>}
+                <Typography variant="subtitle1">Already have an account? <Link to="/Login">Login
+                    Here</Link></Typography>
             </Box>
-        </div>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
     )
 }
-
-export default RegisterForm;
+export default Signup;
