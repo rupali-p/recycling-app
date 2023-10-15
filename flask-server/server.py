@@ -13,6 +13,7 @@ from register_user import register_user, USER_ADDED, EMAIL_EXISTS
 from get_scan_results import get_recycling_result
 from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
 import json
+import numpy as np
 
 from const import OUTPUT_IMAGE_FORMAT
 
@@ -44,6 +45,9 @@ def handle_register_user():
     elif register_result == EMAIL_EXISTS:
         return res, 200
 
+def np_encoder(object):
+    if isinstance(object, np.generic):
+        return object.item()
 
 # TODO: Return the classification in the response
 @app.route("/api/upload", methods=["POST"])
@@ -62,7 +66,7 @@ def handle_upload():
     results = make_prediction(input_image=buf, output_img_format=OUTPUT_IMAGE_FORMAT)
     results_image = results.get("results_image")
     image_format = results.get("image_format")
-    classification = results.get("classification")
+    detections = results.get("detections")
 
     return jsonify(
         {
@@ -70,7 +74,7 @@ def handle_upload():
             "file": "Received",
             "image": results_image,
             "encoding": image_format.lower(),
-            # "classification": classification
+            "detections": json.dumps(detections, default=np_encoder),
         }
     )
 
