@@ -2,10 +2,19 @@
  * The camera component and image related components
  */
 import React, {useState, useEffect} from "react";
-import Button from "@mui/material/Button";
+import {
+    Button,
+    Grid,
+    Modal,
+    Typography,
+    Box,
+    CardMedia
+} from "@mui/material";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import CameraIcon from '@mui/icons-material/Camera';
 import SwitchVideoIcon from '@mui/icons-material/SwitchVideo';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 /**
  * Displays the given image as a square and returns this square canvas image
@@ -17,7 +26,7 @@ import SwitchVideoIcon from '@mui/icons-material/SwitchVideo';
  * @param canvasHeight {number} The height of the canvas
  * @returns {HTMLElement} The canvas element with the image drawn on it
  */
-export const displaySquareImage = (image, imageWidth, imageHeight, canvasId = "image-preview", canvasWidth = 400, canvasHeight = 400) => {
+export const displaySquareImage = (image, imageWidth, imageHeight, canvasId = "image-modal-preview", canvasWidth = 400, canvasHeight = 400) => {
     const canvas = document.getElementById(canvasId)
     canvas.width = canvasWidth
     canvas.height = canvasHeight
@@ -44,8 +53,43 @@ const Camera = ({handleTakePhoto}) => {
     const [closeVideo, setCloseVideo] = useState(false)
     const cameraNumber = 0
 
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    }
+  const handleClose = () => {
+      setOpen(false);
+      if (player.srcObject != null) {
+          player.srcObject.getVideoTracks().forEach((track) => {
+              track.stop();
+          });
+      }
+      setPlayer(null)
+      // setCloseVideo(false)
+  }
+  const handleCloseNoVideo = () => {
+        setOpen(false);
+      setImageDataURL(null);
+      setCloseVideo(false);
+  }
+
+  const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+
     const initializeMedia = async () => {
-        setImageDataURL(null);
+        // setImageDataURL(null);
+
         if (!("mediaDevices" in navigator)) {
             navigator.mediaDevices = {};
         }
@@ -97,8 +141,27 @@ const Camera = ({handleTakePhoto}) => {
         setPlayer(null)
 
         setImageDataURL(canvas.toDataURL());
-        handleTakePhoto(canvas.toDataURL().split(';base64,')[1])
+        // setOpen(false)
     };
+
+    const handleConfirm = () => {
+        const canvas = document.getElementById("image-modal-preview")
+        handleTakePhoto(canvas.toDataURL())
+        setOpen(false);
+        setImageDataURL(null);
+        setCloseVideo(false);
+    }
+
+    const handleRetake = () => {
+        console.log("retaking")
+        setImageDataURL(null);
+        const canvas = document.getElementById("image-modal-preview")
+        canvas.width = 0;
+        canvas.height = 0;
+        setCloseVideo(false);
+        setImageDataURL(null);
+        initializeMedia();
+    }
 
 
     const handleMobilePhoto = async (event) => {
@@ -107,8 +170,8 @@ const Camera = ({handleTakePhoto}) => {
             const imageFile = new Image();
             imageFile.src = reader.result
             imageFile.onload = () => {
-                const canvas = displaySquareImage(imageFile, imageFile.width, imageFile.height)
-                handleTakePhoto(canvas.toDataURL().split(';base64,')[1])
+                const canvas = displaySquareImage(imageFile, imageFile.width, imageFile.height, "image-preview")
+                handleTakePhoto(canvas.toDataURL())
             }
         }
         reader.readAsDataURL(event.target.files[0])
@@ -161,45 +224,102 @@ const Camera = ({handleTakePhoto}) => {
             setIsMobileDevice(true)
         } else {
             setIsMobileDevice(false)
-            setCloseVideo(false)
         }
         setCameraAvailable(true)
         getListOfVideoInputs().then((vInputs) => {
             setCameraAvailable(vInputs.length > 0 && vInputs[0].deviceId != "")
-
         })
+        if (player && !closeVideo) {
+            initializeMedia()
+        }
+        // else {
+        //     setCloseVideo(false)
+        // }
     })
 
 
-    return (<div>
-        {!Boolean(imageDataURL) || !closeVideo ? (<video
-            ref={(reference) => {
-                setPlayer(reference)
-            }}
-            autoPlay
-        ></video>) : (<></>)}
-        {isMobileDevice ? (<Button component={"label"}>
-            <CameraAltIcon/> Open Camera Mobile
-            <input
-                accept="image/*"
-                id="mobile-camera-input"
-                type="file"
-                capture="environment"
-                hidden
-                onChange={handleMobilePhoto}
-            />
-        </Button>) : (<>
-            <Button onClick={initializeMedia} disabled={!cameraAvailable}>
-                <CameraAltIcon/> Open Camera
-            </Button>
-            <Button onClick={capturePicture}>
-                <CameraIcon/> Take Photo
-            </Button>
-            <Button onClick={switchCamera}>
-                <SwitchVideoIcon/> Switch Camera
-            </Button>
-        </>)}
-    </div>);
+
+    return (
+        <div>
+            {isMobileDevice ? (
+                <Button component={"label"}>
+                    <CameraAltIcon/> Open Camera Mobile
+                    <input
+                        accept="image/*"
+                        id="mobile-camera-input"
+                        type="file"
+                        capture="environment"
+                        hidden
+                        onChange={handleMobilePhoto}
+                    />
+                </Button>
+                ) : (
+                   <>
+                       <Button onClick={handleOpen}> <CameraAltIcon /> Open Camera</Button>
+                       <Modal
+                           open={open}
+                           onClose={handleClose}
+                           aria-labelledby="modal-modal-title"
+                           aria-describedby="modal-modal-description"
+                           allow={"autoPlay"}
+                           id={"modal"}
+                       >
+                           <Grid container spacing={2}>
+                               <Grid item xs={12} align={"center"} mt={10}>
+                                   {
+                                       !closeVideo || !imageDataURL ? (
+                                           <video
+                                               id={"video"}
+                                               ref={(reference) => {
+                                                   if (reference != null) {
+                                                       setPlayer(reference)
+                                                   }
+                                               }}
+                                               autoPlay
+                                           ></video>
+                                       ) : (
+                                           <></>
+                                       )
+                                   }
+                                   <canvas id={"image-modal-preview"}/>
+                               </Grid>
+                               <Grid item xs={12} align={"center"}>
+                                   <>
+                                       {
+                                           open && !closeVideo ? (
+                                               <Button onClick={capturePicture}>
+                                                   <CameraIcon/> Take Photo
+                                               </Button>
+                                           ) : (
+                                               <Button onClick={handleConfirm}>
+                                                   <CheckCircleIcon /> Confirm
+                                               </Button>
+                                           )
+                                       }
+                                       {
+                                           player ? (
+                                               <Button onClick={handleClose} disabled={!cameraAvailable}>
+                                                   <CancelIcon /> Cancel
+                                               </Button>
+                                           ) : (
+                                               <Button onClick={handleCloseNoVideo}>
+                                                   <CameraIcon /> Cancel
+                                               </Button>
+                                           )
+                                       }
+                                       {/*<Button onClick={switchCamera}>*/}
+                                       {/*    <SwitchVideoIcon/> Switch Camera*/}
+                                       {/*</Button>*/}
+                                   </>
+
+                               </Grid>
+                           </Grid>
+                       </Modal>
+
+                   </>
+            )}
+    </div>
+    );
 }
 
 export default Camera;
