@@ -32,11 +32,10 @@ export const Navbar = () => {
         <div class="overlay-content">
         <Link to="/">Home</Link>
         <Link to="/AboutUs">About Us</Link>
+        <Link to="/Resources">Resources</Link>
         <Link to="/BeginScan">Begin Scan</Link>
         <Link to="/Login">Login</Link>
         <Link to="/SignUp">Sign Up</Link>
-        <Link to="/Resources">Resources</Link>
-        
         </div>
       </div>
 
