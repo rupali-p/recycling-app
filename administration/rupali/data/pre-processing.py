@@ -2,7 +2,8 @@ import os
 current_directory = os.getcwd()
 print(f"Current Directory: {current_directory}")
 
-folder_path = 'administration/rupali/data/arl-done/obj_train_data'
+# folder_path = 'administration/rupali/data/arl-done/obj_train_data'
+folder_path = 'administration/rupali/data/new-arls/obj_train_data'
 # Iterate over each file in the folder
 # for filename in os.listdir(folder_path):
 #     if filename.endswith(".txt"):
