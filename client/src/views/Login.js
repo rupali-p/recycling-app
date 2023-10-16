@@ -1,4 +1,6 @@
 import * as React from 'react';
+import {useState} from 'react';
+import {useNavigate} from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,12 +12,59 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';  
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const defaultTheme = createTheme();
 
+
 const Login = () => {
+
+  //Logic for the form
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [setLoginResult] = useState('')
+    const [setLoginResultSeverity] = useState('')
+    const navigate = useNavigate();
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    loginUser()
+    console.log(email, password)
+  }
+
+  const loginUser = async() => {
+    console.log(email)
+    console.log(password)
+
+    await fetch("/Login", {
+      method: "POST",
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          "Usernane": email,
+          "password": password,
+      })
+  }).then(result => {
+    result.json().then(data => {
+          if (result.status === 200) {
+            setLoginResultSeverity('success');
+              setLoginResult(`${data.result} Redirecting to Home page...`);
+              setTimeout(() => {
+                  navigate("/") //Placeholder, need to change the redirection to something suitable.
+              }, 2000)
+
+
+          } else if (result.status === 401) {
+            setLoginResultSeverity('Login error');
+              setLoginResult(data.result);
+          }
+      })
+  })
+  }
+
     return (
+      <form onSubmit={handleSubmit} action={<Link to="/"/>}>
       <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
@@ -56,6 +105,8 @@ const Login = () => {
                 id="email"
                 label="Email Address"
                 name="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
                 autoComplete="email"
                 autoFocus
               />
@@ -67,6 +118,8 @@ const Login = () => {
                 label="Password"
                 type="password"
                 id="password"
+                onChange={e => setPassword(e.target.value)}
+                value={password}
                 autoComplete="current-password"
               />
               <FormControlLabel
@@ -78,6 +131,7 @@ const Login = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={loginUser}
               >
                 Sign In
               </Button>
@@ -98,7 +152,8 @@ const Login = () => {
         </Grid>
       </Grid>
     </ThemeProvider>
-    ) 
+    </form>
+    )
   };
-  
+
   export default Login;

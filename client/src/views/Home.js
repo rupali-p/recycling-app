@@ -5,6 +5,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Box from "@mui/material/Box";
 import moebius from "../images/moebius-loop.png";
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -16,7 +17,7 @@ const Home = () => {
               <h>Hamlet.</h>
             </Grid>
 
-            <Grid item xs={1} sx={{ p: 5}}>
+            <Grid item xs={1} sx={{ p: 5 }}>
               <Box display="flex" justifyContent="flex-end">
                 <MenuIcon style={{ color: "white" }} fontSize="large" />
               </Box>
@@ -32,8 +33,23 @@ const Home = () => {
                 <br />
               </p>
               <p>
+                <Button variant="contained" color="grey" sx={{ p: 2 }} href={"./ScanImage"}>
+                  Live Scan
+                </Button>
+                <Button variant="contained" color="grey" sx={{ p: 2 }} href={"./UploadImage"}>
+                  Upload Scan
+                </Button>
                 <Button variant="contained" color="grey" sx={{ p: 2 }}>
-                  Begin Scan
+                  <Link to="/Login">Login</Link>
+                </Button>
+                <Button variant="contained" color="grey" sx={{ p: 2 }}>
+                  <Link to="/SignUp">Sign Up</Link>
+                </Button>
+                <Button variant="contained" color="grey" sx={{ p: 2 }}>
+                  <Link to="/Login">Login</Link>
+                </Button>
+                <Button variant="contained" color="grey" sx={{ p: 2 }}>
+                  <Link to="/Account">Account</Link>
                 </Button>
               </p>
             </div>
