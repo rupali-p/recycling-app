@@ -10,7 +10,7 @@ from flask import Flask, request, jsonify
 
 from models.ml_model import make_prediction
 from register_user import register_user, USER_ADDED, EMAIL_EXISTS
-from get_pic_result import get_recycling_result
+from get_scan_results import get_recycling_result
 from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
 import json
 

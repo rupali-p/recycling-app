@@ -27,7 +27,7 @@ def get_recycling_result(articleNum):
       "Applications of PIC" : Applications
     }
 
-  elif articleNum >= 8 and articleNum <= 10:
+  elif articleNum >= 8 and articleNum <= 11:
     article_val = pics.find_one({"ArticleNum" : articleNum})
     arl_name = article_val.get("Name")
     symbol = article_val.get("Symbol")
