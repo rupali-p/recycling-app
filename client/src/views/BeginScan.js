@@ -9,7 +9,7 @@ import { Navbar } from "../components/Navbar";
 
 import { Link } from "react-router-dom";
 
-const Home = () => {
+const BeginScan = () => {
   return (
     <div>
       <div className="gradient_background">
@@ -17,8 +17,7 @@ const Home = () => {
         <div className="bodyWrapper">
           <div className="descriptive-text">
             <p sx={{ p: 5 }}>
-              Currently, only 13% of plastics in Australia are being recycled
-              correctly.
+              THIS IS ACTUALLY BEGIN SCAN HAHAHAHA
               <br />
               You can do better than that.
               <br />
@@ -28,9 +27,29 @@ const Home = () => {
                 variant="contained"
                 color="grey"
                 sx={{ p: 2 }}
-                href={"./BeginScan"}
+                href={"./ScanImage"}
               >
-                Begin Scan
+                Live Scan
+              </Button>
+              <Button
+                variant="contained"
+                color="grey"
+                sx={{ p: 2 }}
+                href={"./UploadImage"}
+              >
+                Upload Scan
+              </Button>
+              <Button variant="contained" color="grey" sx={{ p: 2 }}>
+                <Link to="/Login">Login</Link>
+              </Button>
+              <Button variant="contained" color="grey" sx={{ p: 2 }}>
+                <Link to="/SignUp">Sign Up</Link>
+              </Button>
+              <Button variant="contained" color="grey" sx={{ p: 2 }}>
+                <Link to="/Login">Login</Link>
+              </Button>
+              <Button variant="contained" color="grey" sx={{ p: 2 }}>
+                <Link to="/Account">Account</Link>
               </Button>
             </p>
           </div>
@@ -44,4 +63,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default BeginScan;
