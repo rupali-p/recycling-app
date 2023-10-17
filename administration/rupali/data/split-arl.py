@@ -3,11 +3,11 @@ import random
 import shutil
 
 # Define paths for labels and images
-labels_path = 'administration/rupali/data/arl-done/obj_train_data'
-images_path = 'administration/rupali/data/arl-done/arl-images'
+labels_path = 'administration/rupali/data/new-arls/obj_train_data'
+images_path = 'administration/rupali/data/new-arls-images'
 
 # Define paths for output directories
-output_path = 'administration/rupali/data/arl-done/arl-131'
+output_path = 'administration/rupali/data/new-arl-images-done'
 
 # Create 'train', 'valid', and 'test' directories
 for split in ['train', 'valid', 'test']:
@@ -48,9 +48,27 @@ copy_files(labels_path, os.path.join(output_path, 'valid', 'labels'), valid_labe
 copy_files(labels_path, os.path.join(output_path, 'test', 'labels'), test_labels)
 
 # Split images
-train_images = [f.replace('.txt', '.jpg') for f in train_labels]
-valid_images = [f.replace('.txt', '.jpg') for f in valid_labels]
-test_images = [f.replace('.txt', '.jpg') for f in test_labels]
+train_images = []
+valid_images = []
+test_images = []
+
+for label_file in train_labels:
+    image_file = label_file.replace('.txt', '.jpg')
+    if not os.path.exists(os.path.join(images_path, image_file)):
+        image_file = label_file.replace('.txt', '.jpeg')
+    train_images.append(image_file)
+
+for label_file in valid_labels:
+    image_file = label_file.replace('.txt', '.jpg')
+    if not os.path.exists(os.path.join(images_path, image_file)):
+        image_file = label_file.replace('.txt', '.jpeg')
+    valid_images.append(image_file)
+
+for label_file in test_labels:
+    image_file = label_file.replace('.txt', '.jpg')
+    if not os.path.exists(os.path.join(images_path, image_file)):
+        image_file = label_file.replace('.txt', '.jpeg')
+    test_images.append(image_file)
 
 # Copy image files to the corresponding split
 copy_files(images_path, os.path.join(output_path, 'train', 'images'), train_images)
