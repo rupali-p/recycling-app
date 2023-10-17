@@ -109,6 +109,17 @@ p {
   padding-left: 33%;
 }
 
+.drop-shadow{
+  background-color: #12221C;
+  height: 108px;
+  width: 370px;
+  border-radius: 50%;
+  margin: -20%;
+  margin-left: 70%;
+  opacity: 75%;
+  z-index: -1;
+}
+
 .juice-image-container-left{
   border-radius: 8%;
   border: 1% solid #ddd;
@@ -127,20 +138,32 @@ p {
   padding-left: 10%;
 }
 
-.bin-image-container-right{
+.result-bin-image-container-right{
   border-radius: 8%;
   border: 1% solid #ddd;
   max-width: auto;
   height: 350px;
   padding-top: 5%;
   padding-left: 75%;
+  z-index: 2;
+  position: relative;
+}
+
+.bin-image-container-right{
+  border-radius: 8%;
+  border: 1% solid #ddd;
+  max-width: auto;
+  height: 250px;
+  padding-top: 5%;
+  padding-left: 5%;
 }
 
 .pic-text-result-left-only {
   font-size: 20px;
-  color: white;
+  color: black;
   font-family: inter;
-  text-align: left;
+  text-align: center;
+  padding-top: 15%;
   padding-left: 30%;
 }
 

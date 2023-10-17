@@ -8,6 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Box from "@mui/material/Box";
 
 import YellowBin from "../images/yellow_bin.png";
+import { Rectangle } from "@mui/icons-material";
 
 const YellowBinResult = () => {
     return (
@@ -40,20 +41,21 @@ const YellowBinResult = () => {
                         </p>
 
                         <p className="text-result-left-regular">
-                            To correctly dispose of this item, please put it in the yellow bin.
+                            To correctly dispose of this item, please put it in the <b>yellow bin.</b> 
                         </p>
 
                         </Grid>
 
                         <Grid item xs={4}>
-                            <img src={YellowBin} alt="yellow-bin" className="bin-image-container-right"></img>
+                            <img src={YellowBin} alt="yellow-bin" className="result-bin-image-container-right"></img>
+                            <div className="drop-shadow"/>
                         </Grid>
 
                     </Grid>
                 </div>
                     
-                <div className="pic-scan-button-container">
-                        <Button variant="contained" style={{height: "40px", width:"250px", color: "black", backgroundColor: "white"}}>Scan again</Button>
+                <div className="scan-button-container">
+                    <Button variant="contained" style={{height: "40px", width:"250px", color: "black", backgroundColor: "white"}}>Scan again</Button>
                 </div>
             </div> 
         </div> 
