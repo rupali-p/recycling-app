@@ -1,22 +1,22 @@
-import React, {Fragment} from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import PrivateRoute from './components/PrivateRoute';
-import Home from './views/Home';
-import Login from './views/Login';
-import SignUp from './views/SignUp';
-import ScanImage from './views/ScanImage';
-import UploadImage from './views/UploadImage';
-import Counter from './views/Counter';
-import Account from './views/Account';
-import PICResult1 from './views/PICResult1';
-import PICResult2 from './views/PICResult2';
-import PICResult3 from './views/PICResult3';
-import PICResult4 from './views/PICResult4';
-import PICResult5 from './views/PICResult5';
-import PICResult6 from './views/PICResult6';
-import PICResult7 from './views/PICResult7';
-import AboutUs from './views/AboutUs';
-import BeginScan from './views/BeginScan';
+import React, { Fragment } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
+import Home from "./views/Home";
+import Login from "./views/Login";
+import SignUp from "./views/SignUp";
+import ScanImage from "./views/ScanImage";
+import UploadImage from "./views/UploadImage";
+import Counter from "./views/Counter";
+import Account from "./views/Account";
+import PICResult1 from "./views/PICResult1";
+import PICResult2 from "./views/PICResult2";
+import PICResult3 from "./views/PICResult3";
+import PICResult4 from "./views/PICResult4";
+import PICResult5 from "./views/PICResult5";
+import PICResult6 from "./views/PICResult6";
+import PICResult7 from "./views/PICResult7";
+import AboutUs from "./views/AboutUs";
+import BeginScan from "./views/BeginScan";
 
 const App = () => {
   return (
@@ -34,13 +34,18 @@ const App = () => {
         <Route path="/pic-result-6" element={<PICResult6 />} />
         <Route path="/pic-result-7" element={<PICResult7 />} />
         <Route path="/about-us" element={<AboutUs />} />
-        {/* <PrivateRoute path="/account" element={<Account />} />
-        <PrivateRoute path="/scan-image" element={<ScanImage />} />
-        <PrivateRoute path="/upload-image" element={<UploadImage />} />
-        <PrivateRoute path="/begin-scan" element={<BeginScan />} /> */}
-        <Route exact path='/begin-scan' element={<PrivateRoute/>}>
-            <Route exact path='/begin-scan' element={<BeginScan/>}/>
-          </Route>
+        <Route exact path="/beginScan" element={<PrivateRoute />}>
+          <Route exact path="/beginScan" element={<BeginScan />} />
+        </Route>
+        <Route exact path="/account" element={<Account />}>
+          <Route exact path="/account" element={<Account />} />
+        </Route>
+        <Route exact path="/scanImage" element={<ScanImage />}>
+          <Route exact path="/scanImage" element={<ScanImage />} />
+        </Route>
+        <Route exact path="/uploadImage" element={<UploadImage />}>
+          <Route exact path="/uploadImage" element={<UploadImage />} />
+        </Route>
       </Routes>
     </Router>
   );
