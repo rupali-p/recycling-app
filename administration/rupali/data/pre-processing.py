@@ -3,7 +3,7 @@ current_directory = os.getcwd()
 print(f"Current Directory: {current_directory}")
 
 # folder_path = 'administration/rupali/data/arl-done/obj_train_data'
-folder_path = 'administration/rupali/data/new-arls/obj_train_data'
+folder_path = 'administration/rupali/data/new-arls-normal/obj_train_data'
 # Iterate over each file in the folder
 # for filename in os.listdir(folder_path):
 #     if filename.endswith(".txt"):
@@ -15,12 +15,12 @@ folder_path = 'administration/rupali/data/new-arls/obj_train_data'
 def is_empty(file_path):
     return os.path.getsize(file_path) == 0
 
-# Function to replace the first character of each line
-def replace_first_char(line):
-    if line and line[0].isdigit():
-        new_char = str(int(line[0]) + 8)
-        return new_char + line[1:]
-    return line
+# # Function to replace the first character of each line
+# def replace_first_char(line):
+#     if line and line[0].isdigit():
+#         new_char = str(int(line[0]) + 8)
+#         return new_char + line[1:]
+#     return line
 
 # Iterate over each file in the folder
 for filename in os.listdir(folder_path):
@@ -36,10 +36,10 @@ for filename in os.listdir(folder_path):
             with open(file_path, 'r') as file:
                 lines = file.readlines()
             
-            modified_lines = [replace_first_char(line) for line in lines]
+            # modified_lines = [replace_first_char(line) for line in lines]
 
-            with open(file_path, 'w') as file:
-                file.writelines(modified_lines)
+            # with open(file_path, 'w') as file:
+            #     file.writelines(modified_lines)
             print(f"Modified and saved: {filename}")
 
 print("Task completed.")

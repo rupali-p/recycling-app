@@ -3,7 +3,7 @@ import random
 import shutil
 
 # Define paths for labels and images
-labels_path = 'administration/rupali/data/new-arls/obj_train_data'
+labels_path = 'administration/rupali/data/new-arls-normal/obj_train_data'
 images_path = 'administration/rupali/data/new-arls-images'
 
 # Define paths for output directories
