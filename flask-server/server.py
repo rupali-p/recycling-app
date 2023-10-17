@@ -103,7 +103,7 @@ def handle_login():
 def members():
     return {"members": ["test1", "test2", "test3"]}
 
-@app.route("/api/view-Result/<articleNum>")
+@app.route("/api/view-result/<articleNum>")
 def view_result(articleNum):
     result = get_recycling_result(articleNum) #This number should be changed to an input passed from the machine when need be
     if(result != 'Error'):
