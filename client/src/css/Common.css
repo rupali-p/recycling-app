@@ -284,3 +284,10 @@ p {
   transform: translate(-50%, -50%);
   padding: 10px;
 }
+
+/** jerome tings **/
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
