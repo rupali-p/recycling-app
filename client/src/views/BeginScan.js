@@ -1,4 +1,5 @@
-import * as React from "react";
+import React from "react";
+import { Link, Navigate } from "react-router-dom";
 import "../css/Common.css";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -8,11 +9,22 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-import { Link } from "react-router-dom";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { isAuthenticated } from '../Auth'; // Import the auth utility
 
 const BeginScan = () => {
+  if (!isAuthenticated()) {
+    return (
+      <div>
+        <Typography variant="h6" color="error">
+          You are not authenticated. Please
+          <Link to="/login"> log in</Link>.
+        </Typography>
+      </div>
+    );
+  }
+
   function handleClickUpload(e) {
     e.preventDefault();
     document.getElementById("myNav").style.width = "100%";
@@ -24,7 +36,7 @@ const BeginScan = () => {
       <div className="gradient_background">
         <Navbar />
         <Grid container columns={2}>
-          <Grid item xs={1}>
+        <Grid item xs={1}>
             <Box sx={{ pl: 10, pr: 10, pt: 3 }}>
               <Card sx={{ width: "100%" }}>
                 <CardActionArea href="/ScanImage" sx={{ textAlign: "center" }}>

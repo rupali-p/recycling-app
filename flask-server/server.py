@@ -8,6 +8,11 @@ import base64
 import io
 from flask import Flask, request, jsonify
 
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+
 from models.ml_model import make_prediction
 from register_user import register_user, USER_ADDED, EMAIL_EXISTS
 from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
@@ -17,7 +22,12 @@ from const import OUTPUT_IMAGE_FORMAT
 
 app = Flask(__name__)
 
+# Setup the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = "super-secret"  # Supposed to change this but leaving it in
+jwt = JWTManager(app)
 
+# Create a route to authenticate your users and return JWTs. The
+# create_access_token() function is used to actually generate the JWT.
 @app.route("/api/register-user", methods=["POST"])
 def handle_register_user():
     """
@@ -72,26 +82,53 @@ def handle_upload():
         }
     )
 
-@app.route("/Login", methods=["POST"])
+# @app.route("/Login", methods=["POST"])
+# def handle_login():
+#     #Get the data from the api
+#     data = request.get_json()
+
+#     #Call the function to log the user in
+#     print("In backend")
+#     login_result = login_user(uName = data["Usernane"],
+#     password = data["password"])
+#     result = {"result": login_result}
+
+#     #Send the appropriate message
+#     if login_result == LOGIN_SUCCCESS:
+#         print("Logged in, sending results")
+#         return result, 200
+#     elif login_result == LOGIN_FAILED:
+#         return result, 401
+
+
+@app.route("/login", methods=["POST"])
 def handle_login():
-    #Get the data from the api
+    # Get the data from the API
     data = request.get_json()
-    #Call the function to log the user in
-    print("In backend")
-    login_result = login_user(uName = data["Usernane"],
-    password = data["password"])
-    result = {"result": login_result}
 
-    #Send the appropriate message
+    # Call the function to log the user in
+    login_result = login_user(username=data["Usernane"], password=data["password"])
+
+    # Send the appropriate message
     if login_result == LOGIN_SUCCCESS:
-        print("Logged in, sending results")
-        return result, 200
+        # Create an access token
+        access_token = create_access_token(identity=data["Username"])
+
+        # Return the token along with the result
+        result = {"result": login_result, "access_token": access_token}
+        return jsonify(result), 200
     elif login_result == LOGIN_FAILED:
-        return result, 401
+        result = {"result": login_result}
+        return jsonify(result), 401
 
-
-
-
+# Protect a route with jwt_required, which will kick out requests
+# without a valid JWT present.
+@app.route("/protected", methods=["GET"])
+@jwt_required()
+def protected():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
 
 @app.route("/members")
 def members():
