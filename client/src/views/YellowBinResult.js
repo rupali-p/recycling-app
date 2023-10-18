@@ -1,6 +1,8 @@
 import * as React from "react";
 import "../css/Common.css";
 
+import {Routes, Route, useNavigate} from 'react-router-dom';
+
 import Grid from "@mui/material/Grid";
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
@@ -11,6 +13,14 @@ import YellowBin from "../images/yellow_bin.png";
 import { Rectangle } from "@mui/icons-material";
 
 const YellowBinResult = () => {
+    const navigate = useNavigate();
+
+  
+    const navigateHome = () => {
+      // 👇️ navigate to /
+      navigate('/');
+    };
+
     return (
         <div>
             <div className="gradient_background">
@@ -55,7 +65,7 @@ const YellowBinResult = () => {
                 </div>
                     
                 <div className="scan-button-container">
-                    <Button variant="contained" style={{height: "40px", width:"250px", color: "black", backgroundColor: "white"}}>Scan again</Button>
+                    <Button onClick={navigateHome} variant="contained" style={{height: "40px", width:"250px", color: "black", backgroundColor: "white"}}>Scan again</Button>
                 </div>
             </div> 
         </div> 
