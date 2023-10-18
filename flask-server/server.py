@@ -10,10 +10,12 @@ from flask import Flask, request, jsonify
 
 from models.ml_model import make_prediction
 from register_user import register_user, USER_ADDED, EMAIL_EXISTS
+from get_scan_results import get_recycling_result
 from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
 import json
 
 from const import OUTPUT_IMAGE_FORMAT
+
 
 app = Flask(__name__)
 
@@ -97,9 +99,18 @@ def handle_login():
 def members():
     return {"members": ["test1", "test2", "test3"]}
 
+@app.route("/api/view-Result/<articleNum>")
+def view_result(articleNum):
+    result = get_recycling_result(articleNum) #This number should be changed to an input passed from the machine when need be
+    if(result != 'Error'):
+        return result, 200
+    else:
+        return result, 500
+
 # Runs on localhost:5000 as default
 # Change the directory to 'flask-server' and run command 'py server.py' to get started
 # Type localhost:5000/members to see
 
 if __name__ == "__main__":
+
     app.run(debug=True)
