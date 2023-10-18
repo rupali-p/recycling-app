@@ -52,24 +52,41 @@ const Login = () => {
 
   const loginUser = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/login', {
-        username: email,
-        password: password,
-      });
+      await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "email": email,
+          "password": password,
+        })
+      }).then(res => {
+        res.json().then(data => {
+          console.log(data)
+          const { result, access_token } = data;
+          if (result === 'Login successful') {
+            setAuthToken(access_token);
+            setLoginResultSeverity('success');
+            setLoginResult(`${result} Redirecting to Home page...`);
+            setTimeout(() => {
+              navigate('/Account');
+            }, 2000);
+          } else if (result === 'failed') {
+            setLoginResultSeverity('error');
+            setLoginResult('Login error: Invalid username or password');
+          }
 
-      const { result, access_token } = response.data;
 
-      if (result === 'success') {
-        setAuthToken(access_token);
-        setLoginResultSeverity('success');
-        setLoginResult(`${result} Redirecting to Home page...`);
-        setTimeout(() => {
-          navigate('/Account');
-        }, 2000);
-      } else if (result === 'failed') {
-        setLoginResultSeverity('error');
-        setLoginResult('Login error: Invalid username or password');
-      }
+        })
+
+      })
+      // const response = await axios.post('http://localhost:5000/login', {
+      //   email: email,
+      //   password: password,
+      // });
+
     } catch (error) {
       console.error('Login error:', error);
       setLoginResultSeverity('error');
@@ -78,7 +95,6 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} action={<Link to="/" />}>
       <ThemeProvider theme={defaultTheme}>
         <Grid container component="main" sx={{ height: '100vh' }}>
           <CssBaseline />
@@ -121,7 +137,7 @@ const Login = () => {
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-              <Box component="form" sx={{ mt: 1 }}>
+              <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                 <TextField
                   margin="normal"
                   required
@@ -155,7 +171,7 @@ const Login = () => {
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
-                  // onClick={loginUser}
+                  // onClick={handleSubmit}
                 >
                   Sign In
                 </Button>
@@ -179,7 +195,6 @@ const Login = () => {
           </Grid>
         </Grid>
       </ThemeProvider>
-    </form>
   );
 };
 

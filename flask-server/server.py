@@ -101,18 +101,19 @@ def handle_upload():
 #         return result, 401
 
 
-@app.route("/login", methods=["POST"])
+@app.route("/api/login", methods=["POST"])
 def handle_login():
     # Get the data from the API
+    print("Logging in")
     data = request.get_json()
 
     # Call the function to log the user in
-    login_result = login_user(username=data["Usernane"], password=data["password"])
+    login_result = login_user(uName=data["email"], password=data["password"])
 
     # Send the appropriate message
     if login_result == LOGIN_SUCCCESS:
         # Create an access token
-        access_token = create_access_token(identity=data["Username"])
+        access_token = create_access_token(identity=data["email"])
 
         # Return the token along with the result
         result = {"result": login_result, "access_token": access_token}

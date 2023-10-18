@@ -11,19 +11,19 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import { isAuthenticated } from '../Auth'; // Import the auth utility
+// import { isAuthenticated } from '../Auth'; // Import the auth utility
 
 const BeginScan = () => {
-  if (!isAuthenticated()) {
-    return (
-      <div>
-        <Typography variant="h6" color="error">
-          You are not authenticated. Please
-          <Link to="/login"> log in</Link>.
-        </Typography>
-      </div>
-    );
-  }
+  // if (!isAuthenticated()) {
+  //   return (
+  //     <div>
+  //       <Typography variant="h6" color="error">
+  //         You are not authenticated. Please
+  //         <Link to="/login"> log in</Link>.
+  //       </Typography>
+  //     </div>
+  //   );
+  // }
 
   function handleClickUpload(e) {
     e.preventDefault();

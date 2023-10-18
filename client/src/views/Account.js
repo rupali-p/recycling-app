@@ -213,7 +213,6 @@ const Account = () => {
         background: 'linear-gradient(to right, #12271e, #1a4d39)',
         padding: '20px', // Add some padding for better spacing
         width: '100%',
-        height: '100vh'
       }}
     >
       <Typography variant="h2" style={{ marginBottom: '20px', color: 'white', fontSize: '8rem' }}>
