@@ -13,7 +13,8 @@ import PICResult4 from './views/PICResult4';
 import PICResult5 from './views/PICResult5';
 import PICResult6 from './views/PICResult6';
 import PICResult7 from './views/PICResult7';
-import Account from './views/Account'
+import Account from './views/Account';
+import MapTest from './views/MapTest';
 
 // Change the directory the client folder and use the command 'npm start' to launch the front end on port 3000
 
@@ -28,6 +29,7 @@ const App = () => {
                 <Route path="/UploadImage" element={<UploadImage/>}/>
                 <Route path="/Counter" element={<Counter/>}/>
                 <Route path="/Account" element={<Account />} />
+                <Route path="/MapTest" element={<MapTest />} />
                 <Route path="/PICResult1" element={<PICResult1 />} />
                 <Route path="/PICResult2" element={<PICResult2 />} />
                 <Route path="/PICResult3" element={<PICResult3 />} />

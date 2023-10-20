@@ -14,13 +14,14 @@ p {
   align-content: center;
 }
 
-  hr {
-    display: block;
-    height: 10px;
-    border: none;
-    border-top: 5px solid black;
-    padding: 0;
-  }
+hr {
+  display: block;
+  height: 10px;
+  border: none;
+  border-top: 5px solid black;
+  padding: 0;
+}
+
 p {
   font-size: 20px;
   color: white;
@@ -28,10 +29,15 @@ p {
   align-content: center;
 }
 
-.gradient_background {
-  background: linear-gradient(90deg, #12261E, #1A4D39);
+.map-container {
   height: 100vh;
   width: 100%;
+}
+
+.gradient_background {
+  background: linear-gradient(90deg, #12261E, #1A4D39);
+  height: 50vh;
+  width: 50%;
   margin: 0;
 }
   .gradient_background {
