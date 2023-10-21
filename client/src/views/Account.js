@@ -62,6 +62,7 @@ const Account = () => {
   const [tabValue, setTabValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
+    console.log("New Tab Value:", newValue);
     setTabValue(newValue);
   };
 
@@ -349,10 +350,11 @@ const Account = () => {
       >
         Hamlet.
       </Typography>
-      <WhiteIndicatorTabs onChange={handleChange}>
+      <WhiteIndicatorTabs onChange={handleChange} value={tabValue}>
         <Tabs value={tabValue} onChange={handleChange}>
           <Tab
             label="Account details"
+            value={0}
             style={{
               color: "white",
               minWidth: "20rem",
@@ -360,6 +362,7 @@ const Account = () => {
           />
           <Tab
             label="Your Journey"
+            value={1}
             style={{
               color: "white",
               minWidth: "20rem",
@@ -431,7 +434,7 @@ const Account = () => {
               <Grid item xs={12} md={6}>
                 <div className="section-left">
                   <h1>You've scanned</h1>
-
+                  
                   <br />
 
                   <p style={{ display: "inline-block" }}>
