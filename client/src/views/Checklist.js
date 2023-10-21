@@ -40,7 +40,7 @@ const Checklist = () => {
             sx={{
               width: "100%",
               maxWidth: "90%",
-              padding: 5,
+              marginLeft: 10,
               color: "white",
             }}
           >
