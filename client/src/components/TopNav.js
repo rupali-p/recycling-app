@@ -1,6 +1,3 @@
-/**
- * Upload Image page
- */
 import React, { useState } from "react";
 import "../css/Common.css";
 import Box from "@mui/material/Box";
