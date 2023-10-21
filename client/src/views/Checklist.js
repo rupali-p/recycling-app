@@ -12,20 +12,6 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
 const Checklist = () => {
-  const [checked, setChecked] = React.useState([0]);
-
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
 
   return (
     <div>
