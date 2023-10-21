@@ -19,6 +19,7 @@ import MuiAlert from "@mui/material/Alert";
 
 const defaultTheme = createTheme();
 
+
 const Login = () => {
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
@@ -66,6 +67,8 @@ const Login = () => {
       result.json().then((data) => {
         if (result.status === 200) {
           setLoginResultSeverity("success");
+          localStorage.setItem("userName", email);
+          console.log("username is " + localStorage.getItem("userName"));
           setLoginResult(`${data.result} Redirecting to Home page...`);
           setTimeout(() => {
             navigate("/"); //Placeholder, need to change the redirection to something suitable.

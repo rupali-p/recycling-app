@@ -21,12 +21,7 @@ const Home = () => {
               <br />
             </p>
             <p>
-              <Button
-                variant="contained"
-                color="grey"
-                sx={{ p: 2 }}
-                href={"./BeginScan"}
-              >
+              <Button variant="contained" color="grey" sx={{ p: 2 }}>
                 Begin Scan
               </Button>
             </p>

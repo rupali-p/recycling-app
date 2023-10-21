@@ -65,6 +65,12 @@ const Account = () => {
     setTabValue(newValue);
   };
 
+  function handleClick(e) {
+    console.log("username is " + localStorage.getItem("userName"));
+    localStorage.clear();
+    console.log("username is now " + localStorage.getItem("userName"));
+  }
+
   function createData(
     image,
     classification,
@@ -250,7 +256,10 @@ const Account = () => {
             margin: '10px',
             minWidth: '30rem'
           }}>Edit</Button>
-          <Button style={{ textDecoration: 'underline'}}> Sign Out </Button>
+          <Button style={{ textDecoration: 'underline'}}
+          onClick={handleClick}
+          href='/'
+          > Sign Out </Button>
         </div>
       )}
       {tabValue === 1 && (
