@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useLayoutEffect } from "react";
 import "../css/Common.css";
 
 import Grid from "@mui/material/Grid";
@@ -11,13 +11,18 @@ import YellowBin from "../images/yellow_bin.png";
 import { Rectangle } from "@mui/icons-material";
 
 const YellowBinResult = () => {
+    
+    useLayoutEffect(() => {
+        document.body.style.background = "linear-gradient(90deg, #12261E, #1A4D39)"
+    })
+
     return (
         <div>
-            <div className="gradient_background">
+            <div>
                 <div>
                     <Grid container columns={2} sx={{ p: 5 }}>
                     <Grid item xs={1}>
-                    <h>Hamlet.</h>
+                        <h>Hamlet.</h>
                     </Grid>
 
                     <Grid item xs={1} sx={{ p: 5 }}>
