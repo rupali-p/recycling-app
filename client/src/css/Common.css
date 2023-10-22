@@ -152,7 +152,8 @@ hr {
   height: 108px;
   width: 370px;
   border-radius: 50%;
-  position: inherit;
+  margin-top: -50%;
+  position: relative;
   opacity: 75%;
   z-index: -1;
 }
