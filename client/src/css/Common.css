@@ -291,3 +291,13 @@ body {
   width: 100%;
   margin: 0;
 }
+
+.white-underline::before {
+  border-bottom-color: white; /* Set the underline color to white */
+}
+
+@media (min-width: 768px) {
+  .hamlet-image {
+    width: 60vh;
+  }
+}

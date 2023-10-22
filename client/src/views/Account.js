@@ -29,6 +29,7 @@ import placeholder7 from "../images/dummy photos/placeholder_arl_table_7.jpg"
 import placeholder8 from "../images/dummy photos/placeholder_arl_table_8.jpg"
 import placeholder9 from "../images/dummy photos/placeholder_arl_table_9.jpg"
 import placeholder10 from "../images/dummy photos/placeholder_arl_table_10.jpg"
+import { NearMe } from "@mui/icons-material";
 
 const councils = [
   {
@@ -80,6 +81,12 @@ const Account = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [postcode, setPostcode] = useState('');
 
   const [council, setCouncil] = React.useState('');
   const [tabValue, setTabValue] = React.useState(0);
@@ -260,10 +267,46 @@ const Account = () => {
         </WhiteIndicatorTabs>
         {tabValue === 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
-            <TextField label="Name" variant="outlined" style={tabStyle} InputLabelProps={{ style: { color: 'black' } }} />
-            <TextField label="Email" variant="outlined" style={tabStyle} InputLabelProps={{ style: { color: 'black' } }} />
-            <TextField label="Password" variant="outlined" style={tabStyle} InputLabelProps={{ style: { color: 'black' } }} />
-            <TextField label="Postcode" variant="outlined" style={tabStyle} InputLabelProps={{ style: { color: 'black' } }} />
+            <TextField
+                    margin="normal"
+                    required
+                    label="Name"
+                    style={tabStyle}
+                    autoFocus
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    disabled={!isEditMode} // Disable the input field when not in edit mode
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    label="Email"
+                    style={tabStyle}
+                    autoFocus
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={!isEditMode} // Disable the input field when not in edit mode
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    label="Password"
+                    style={tabStyle}
+                    autoFocus
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={!isEditMode} // Disable the input field when not in edit mode
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    label="Postcode"
+                    style={tabStyle}
+                    autoFocus
+                    value={postcode}
+                    onChange={(e) => setPostcode(e.target.value)}
+                    disabled={!isEditMode} // Disable the input field when not in edit mode
+                  />
             <Button style={{
               borderRadius: '50px',
               textTransform: 'none',
@@ -273,8 +316,49 @@ const Account = () => {
               color: 'black',
               margin: '10px',
               minWidth: '30rem'
-            }}>Edit</Button>
-            <Button style={{ textDecoration: 'underline' }}> Sign Out </Button>
+            }} onClick={() => setIsEditMode(true)}>Edit</Button>
+            {isEditMode && (
+                      <React.Fragment>
+                        <div display="row" align="center">
+                        <Button
+                          style={{
+                            borderRadius: '50px',
+                            textTransform: 'none',
+                            padding: '10px 20px',
+                            borderColor: 'green',
+                            backgroundColor: '#d9d9d9',
+                            color: 'black',
+                            margin: '10px',
+                            textAlign: 'center'
+                          }}
+                          onClick={() => {
+                            // Save changes and disable edit mode
+                            setIsEditMode(false);
+                            // Implement save logic here
+                          }}
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          style={{
+                            borderRadius: '50px',
+                            textTransform: 'none',
+                            padding: '10px 20px',
+                            borderColor: 'red',
+                            backgroundColor: '#d9d9d9',
+                            color: 'black',
+                            margin: '10px',
+                            textAlign: 'center'
+                          }}
+                          onClick={() => setIsEditMode(false)} // Exit edit mode without saving changes
+                        >
+                          Exit
+                        </Button>
+                        </div>
+                      </React.Fragment>
+                      
+            )}
+            <Button style={{ textDecoration: 'underline', textAlign: 'center' }}> Sign Out </Button>
           </div>
         )}
         {tabValue === 1 && (
@@ -366,6 +450,9 @@ const Account = () => {
                     label="Name"
                     style={tabStylePhone}
                     autoFocus
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    disabled={!isEditMode} // Disable the input field when not in edit mode
                   />
                   <TextField
                     margin="normal"
@@ -374,6 +461,9 @@ const Account = () => {
                     label="Email"
                     style={tabStylePhone}
                     autoFocus
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={!isEditMode} // Disable the input field when not in edit mode
                   />
                   <TextField
                     margin="normal"
@@ -382,6 +472,9 @@ const Account = () => {
                     label="Password"
                     style={tabStylePhone}
                     autoFocus
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={!isEditMode} // Disable the input field when not in edit mode
                   />
                   <TextField
                     margin="normal"
@@ -390,6 +483,9 @@ const Account = () => {
                     label="Postcode"
                     style={tabStylePhone}
                     autoFocus
+                    value={postcode}
+                    onChange={(e) => setPostcode(e.target.value)}
+                    disabled={!isEditMode} // Disable the input field when not in edit mode
                   />
                   <div style={{ display: 'flex', justifyContent: 'center', margin: '10px 0', flexDirection: 'column' }}>
                     <Button style={{
@@ -401,14 +497,55 @@ const Account = () => {
                       color: 'black',
                       margin: '10px',
                       textAlign: 'center'
-                    }}>Edit</Button> <br />
+                    }} onClick={() => setIsEditMode(true)}>
+                      Edit</Button> <br />
+                    {isEditMode && (
+                      <React.Fragment>
+                        <div display="row" align="center">
+                        <Button
+                          style={{
+                            borderRadius: '50px',
+                            textTransform: 'none',
+                            padding: '10px 20px',
+                            borderColor: 'green',
+                            backgroundColor: '#d9d9d9',
+                            color: 'black',
+                            margin: '10px',
+                            textAlign: 'center'
+                          }}
+                          onClick={() => {
+                            // Save changes and disable edit mode
+                            setIsEditMode(false);
+                            // Implement save logic here
+                          }}
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          style={{
+                            borderRadius: '50px',
+                            textTransform: 'none',
+                            padding: '10px 20px',
+                            borderColor: 'red',
+                            backgroundColor: '#d9d9d9',
+                            color: 'black',
+                            margin: '10px',
+                            textAlign: 'center'
+                          }}
+                          onClick={() => setIsEditMode(false)} // Exit edit mode without saving changes
+                        >
+                          Exit
+                        </Button>
+                        </div>
+                      </React.Fragment>
+                    )}
                     <Button style={{ textDecoration: 'underline', textAlign: 'center' }}> Sign Out </Button>
                   </div>
                 </Box>
               )}
               {tabValue === 1 && (
                 <Box component="form" sx={{ mt: 1 }}>
-                <div className="section-left">
+                  <div className="section-left">
                     <h1>
                       You've scanned
                     </h1>
@@ -425,23 +562,23 @@ const Account = () => {
                     </p>
                   </div>
                   <div>
-                  <div className="section-right">
-                    <h1 >
-                      Scan History
-                    </h1>
-                    <div className="table-container">
-                      <Paper style={{ height: 350, width: '90%', marginBottom: '20px'}}>
-                        <TableVirtuoso
-                          data={rows}
-                          components={VirtuosoTableComponents}
-                          fixedHeaderContent={fixedHeaderContent}
-                          itemContent={rowContent}
-                        />
-                      </Paper>
+                    <div className="section-right">
+                      <h1 >
+                        Scan History
+                      </h1>
+                      <div className="table-container">
+                        <Paper style={{ height: 350, width: '90%', marginBottom: '20px' }}>
+                          <TableVirtuoso
+                            data={rows}
+                            components={VirtuosoTableComponents}
+                            fixedHeaderContent={fixedHeaderContent}
+                            itemContent={rowContent}
+                          />
+                        </Paper>
+                      </div>
                     </div>
                   </div>
-                  </div>
-              </Box>
+                </Box>
               )}
             </Box>
           </Grid>
