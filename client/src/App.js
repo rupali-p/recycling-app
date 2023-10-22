@@ -25,7 +25,7 @@ const App = () => {
     const saveRouteAndRedirect = () => {
       const selectedRoute = window.location.pathname;
       localStorage.setItem("selectedRoute", selectedRoute);
-      console.log("selected route is " + selectedRoute);
+      console.log("confirm " + localStorage.getItem("selectedRoute"));
       return <Navigate to="/login" />;
     };
   

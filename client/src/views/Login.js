@@ -40,7 +40,6 @@ const Login = () => {
     // Handle the case when selectedRoute is null, maybe set a default path
     destinationPath = "/Account";
   }
-  localStorage.removeItem("selectedRoute");
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
@@ -77,6 +76,7 @@ const Login = () => {
         if (result.status === 200) {
           setLoginResultSeverity("success");
           localStorage.setItem("userName", email);
+          localStorage.removeItem("selectedRoute");
           console.log("username is " + localStorage.getItem("userName"));
           console.log("destination is " + destinationPath);
           setLoginResult(`${data.result} Redirecting...`);
