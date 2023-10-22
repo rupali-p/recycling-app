@@ -20,15 +20,22 @@ import BeginScan from "./views/BeginScan";
 // Change the directory the client folder and use the command 'npm start' to launch the front end on port 3000
 
 const App = () => {
-  const userName = localStorage.getItem("userName");
+  const PrivateRoute = ({ children }) => {
+    const userName = localStorage.getItem("userName");
 
-  const PrivateRoute = ({ children }) => { //ternary operator to determine which route to go to
+    const saveRouteAndRedirect = () => {
+      const selectedRoute = window.location.pathname;
+      localStorage.setItem("selectedRoute", selectedRoute);
+      console.log("selected route is " + selectedRoute);
+      return <Navigate to="/login" />;
+    };
+  
     return userName ? (
       // If userName is true, render the provided children
       children
     ) : (
-      // If userName is falsy, navigate to "/login"
-      <Navigate to="/login" />
+      // If userName is false, navigate to "/login" and save the selected route
+      saveRouteAndRedirect()
     );
   };
 
@@ -38,10 +45,6 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/SignUp" element={<SignUp />} />
-        <Route path="/ScanImage" element={<ScanImage />} />
-        <Route path="/UploadImage" element={<UploadImage />} />
-        <Route path="/Counter" element={<Counter />} />
-        <Route path="/Account" element={<Account />} />
         <Route path="/PICResult1" element={<PICResult1 />} />
         <Route path="/PICResult2" element={<PICResult2 />} />
         <Route path="/PICResult3" element={<PICResult3 />} />
@@ -51,14 +54,11 @@ const App = () => {
         <Route path="/PICResult7" element={<PICResult7 />} />
         <Route path="/AboutUs" element={<AboutUs />} />
 
-        <Route
-          path="/beginScan"
-          element={
-            <PrivateRoute>
-              <BeginScan />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/beginScan" element={<PrivateRoute><BeginScan /></PrivateRoute>}/>
+        <Route path="/Account" element={<PrivateRoute><Account /></PrivateRoute>}/>
+        <Route path="/ScanImage" element={<PrivateRoute><ScanImage /></PrivateRoute>}/>
+        <Route path="/UploadImage" element={<PrivateRoute><UploadImage /></PrivateRoute>}/>
+
       </Routes>
     </Router>
   );
