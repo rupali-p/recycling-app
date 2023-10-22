@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useLayoutEffect } from "react";
 import "../css/Common.css";
 import Grid from "@mui/material/Grid";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -8,9 +8,14 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+
+  useLayoutEffect(() => {
+    document.body.style.background = "linear-gradient(90deg, #12261E, #1A4D39)"
+  })
+
   return (
     <div>
-      <div className="gradient_background">
+      <div>
         <div>
           <Grid container columns={2} sx={{ p: 5 }}>
             <Grid item xs={1}>
@@ -33,28 +38,34 @@ const Home = () => {
                 <br />
               </p>
               <p>
-                <Button variant="contained" color="grey" sx={{
-              backgroundColor: "white",
-              color: "Black",
-              marginRight: 2,
-              "&:hover": {
-                backgroundColor: "grey",
-                color: "white",
-              },
-            }} href={"./ScanImage"}>
-                  Live Scan
-                </Button>
-                <Button variant="contained" color="grey" sx={{
-              backgroundColor: "white",
-              color: "Black",
-              marginRight: 2,
-              "&:hover": {
-                backgroundColor: "grey",
-                color: "white",
-              },
-            }} href={"./UploadImage"}>
-                  Upload Scan
-                </Button>
+              <Button variant="contained" 
+                        color="grey"  
+                        sx={{
+                        backgroundColor: "white",
+                        color: "Black",
+                        marginRight: 2,
+                          "&:hover": {
+                            backgroundColor: "grey",
+                            color: "white",
+                          },
+                        }}
+                        href={"./ScanImage"}>
+                Live Scan
+              </Button>
+              <Button variant="contained" 
+                        color="grey" 
+                        sx={{
+                          backgroundColor: "white",
+                          color: "Black",
+                          marginRight: 2,
+                          "&:hover": {
+                            backgroundColor: "grey",
+                            color: "white",
+                          },
+                        }} 
+                        href={"./UploadImage"}>
+                Upload Scan
+              </Button>
                 <Button variant="contained" color="grey" sx={{ p: 2 }}>
                   <Link to="/Login">Login</Link>
                 </Button>
@@ -80,7 +91,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div></div>
     </div>
   );
 };

@@ -16,6 +16,7 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import TopNav from "../components/TopNav";
 import {PIC_MAPPING} from "../const";
 import {Link} from "react-router-dom";
+import MenuIcon from "@mui/icons-material/Menu";
 
 
 /**
@@ -199,9 +200,16 @@ const UploadImage = () => {
     return (
         <>
             <Grid container spacing={2}>
-                <Grid item xs={12} m={5}>
+                <Grid item xs={1} m={5}>
                     <h>Hamlet.</h>
                 </Grid>
+
+                <Grid item xs={9} m={5}>
+                    <Box display="flex" justifyContent="flex-end">
+                        <MenuIcon style={{ color: "white" }} fontSize="large" />
+                    </Box>
+                </Grid>
+                
                 {/* <TopNav /> */}
                 {
                     !image ? (

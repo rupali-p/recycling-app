@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useLayoutEffect } from "react";
 import "../css/Common.css";
 import Grid from "@mui/material/Grid";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -12,10 +12,14 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
 const Checklist = () => {
+  
+  useLayoutEffect(() => {
+    document.body.style.background = "linear-gradient(90deg, #12261E, #1A4D39)"
+  })
 
   return (
     <div>
-      <div className="gradient_background">
+      <div>
         <div>
           <Grid container columns={2} sx={{ p: 5 }}>
             <Grid item xs={1}>
@@ -36,14 +40,13 @@ const Checklist = () => {
             <p>Before you put it in the recycling bin . . .</p>
           </div>
 
-          <List
-            sx={{
-              width: "100%",
-              maxWidth: "90%",
-              marginLeft: 10,
-              color: "white",
-            }}
-          >
+          <List sx={{
+                  width: "100%",
+                  maxWidth: "90%",
+                  marginLeft: 10,
+                  color: "white",
+                }}>
+              
             <ListItemButton role={undefined} dense>
               <ListItemIcon>
                 <Checkbox
