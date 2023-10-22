@@ -14,6 +14,7 @@ import PICResult5 from "./views/PICResult5";
 import PICResult6 from "./views/PICResult6";
 import PICResult7 from "./views/PICResult7";
 import Account from "./views/Account";
+import Checklist from "./views/Checklist";
 import AboutUs from "./views/AboutUs";
 import BeginScan from "./views/BeginScan";
 
@@ -45,6 +46,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/SignUp" element={<SignUp />} />
+        <Route path="/Checklist" element={<Checklist />} />
         <Route path="/PICResult1" element={<PICResult1 />} />
         <Route path="/PICResult2" element={<PICResult2 />} />
         <Route path="/PICResult3" element={<PICResult3 />} />
