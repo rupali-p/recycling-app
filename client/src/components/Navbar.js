@@ -31,9 +31,10 @@ export const Navbar = () => {
         {/* <!-- Overlay content --> */}
         <div class="overlay-content">
         <Link to="/">Home</Link>
-        <Link to="/BeginScan">Begin Scan</Link>
         <Link to="/Login">Login</Link>
         <Link to="/SignUp">Sign Up</Link>
+        <Link to="/ScanImage">Scan Image</Link>
+        <Link to="/UploadImage">Upload Image</Link>
         </div>
       </div>
 
