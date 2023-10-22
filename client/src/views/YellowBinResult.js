@@ -61,8 +61,10 @@ const YellowBinResult = () => {
                         </Grid>
 
                         <Grid item xs={4}>
-                            <img src={YellowBin} alt="yellow-bin" className="result-bin-image-container-right"></img>
-                            <div className="drop-shadow"/>
+                            <div className="result-bin-image-container-right"> 
+                                <img src={YellowBin} alt="yellow-bin" className="result-bin-image-right"></img>
+                                <div className="drop-shadow"/>
+                            </div>
                         </Grid>
 
                     </Grid>
