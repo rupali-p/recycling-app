@@ -1,6 +1,8 @@
 import React, { useLayoutEffect } from "react";
 import "../css/Common.css";
 
+import {Routes, Route, useNavigate} from 'react-router-dom';
+
 import Grid from "@mui/material/Grid";
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
@@ -15,6 +17,13 @@ const YellowBinResult = () => {
     useLayoutEffect(() => {
         document.body.style.background = "linear-gradient(90deg, #12261E, #1A4D39)"
     })
+    const navigate = useNavigate();
+
+  
+    const navigateHome = () => {
+      // 👇️ navigate to /
+      navigate('/');
+    };
 
     return (
         <div>
@@ -60,7 +69,7 @@ const YellowBinResult = () => {
                 </div>
                     
                 <div className="scan-button-container">
-                    <Button variant="contained" style={{height: "40px", width:"250px", color: "black", backgroundColor: "white"}}>Scan again</Button>
+                    <Button onClick={navigateHome} variant="contained" style={{height: "40px", width:"250px", color: "black", backgroundColor: "white"}}>Scan again</Button>
                 </div>
             </div> 
         </div> 
