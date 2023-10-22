@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./views/Home";
 import Login from "./views/Login";
 import SignUp from "./views/SignUp";
@@ -20,6 +20,18 @@ import BeginScan from "./views/BeginScan";
 // Change the directory the client folder and use the command 'npm start' to launch the front end on port 3000
 
 const App = () => {
+  const userName = localStorage.getItem("userName");
+
+  const PrivateRoute = ({ children }) => { //ternary operator to determine which route to go to
+    return userName ? (
+      // If userName is true, render the provided children
+      children
+    ) : (
+      // If userName is falsy, navigate to "/login"
+      <Navigate to="/login" />
+    );
+  };
+
   return (
     <Router>
       <Routes>
@@ -38,7 +50,15 @@ const App = () => {
         <Route path="/PICResult6" element={<PICResult6 />} />
         <Route path="/PICResult7" element={<PICResult7 />} />
         <Route path="/AboutUs" element={<AboutUs />} />
-        <Route path="/BeginScan" element={<BeginScan />} />
+
+        <Route
+          path="/beginScan"
+          element={
+            <PrivateRoute>
+              <BeginScan />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </Router>
   );

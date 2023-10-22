@@ -3,10 +3,14 @@ import "../css/Common.css";
 import moebius from "../images/moebius-loop.png";
 import Button from "@mui/material/Button";
 import { Navbar } from "../components/Navbar";
-
 import { Link } from "react-router-dom";
 
 const Home = () => {
+  function handleClick(e) {
+    console.log("button clicked");
+    console.log("username is now " + localStorage.getItem("userName"));
+  }
+
   return (
     <div>
       <div className="gradient_background">
@@ -21,7 +25,12 @@ const Home = () => {
               <br />
             </p>
             <p>
-              <Button variant="contained" color="grey" sx={{ p: 2 }}>
+              <Button
+                variant="contained"
+                color="grey"
+                sx={{ p: 2 }}
+                href={"./BeginScan"}
+              >
                 Begin Scan
               </Button>
             </p>
