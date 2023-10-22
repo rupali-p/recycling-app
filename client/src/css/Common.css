@@ -1,12 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Inter&display=swap");
 
-h {
-  font-size: 120px;
-  color: white;
-  font-family: inter;
-  font-weight: bold;
-}
-
 h1 {
   font-size: 40px;
   color: white;
@@ -14,20 +7,12 @@ h1 {
   padding-left: 75px;
 }
 
-p {
-  font-size: 20px;
-  color: white;
-  font-family: inter;
-  align-content: center;
-}
-
 hr {
   display: block;
   height: 10px;
   border: none;
-  border-top: 5px solid white;
-  max-width: 10%;
-  margin-left: 75px;
+  border-top: 5px solid black;
+  padding: 0;
 }
 
 p {
@@ -36,6 +21,13 @@ p {
   font-family: inter;
   align-content: center;
 }
+
+li {
+    font-size: 20px;
+    color: white;
+    font-family: inter;
+    text-align: center;
+  }
 
 .gradient_background {
   background: linear-gradient(90deg, #12261e, #1a4d39);

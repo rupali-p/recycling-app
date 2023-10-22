@@ -35,7 +35,8 @@ export const Navbar = () => {
         <div class="overlay-content">
           <Link to="/">Home</Link>
           {username ? <Link to="/Account">Account</Link> : null}
-          <Link to="/BeginScan">Begin Scan</Link>
+          <Link to="/ScanImage">Scan Image</Link>
+          <Link to="/UploadImage">Upload Image</Link>
           {username ? null : (
             <>
               <Link to="/Login">Login</Link>
