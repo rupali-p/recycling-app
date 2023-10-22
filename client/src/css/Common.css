@@ -284,3 +284,10 @@ p {
   transform: translate(-50%, -50%);
   padding: 10px;
 }
+
+body {
+  background: linear-gradient(90deg, #12261E, #1A4D39);
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+}
