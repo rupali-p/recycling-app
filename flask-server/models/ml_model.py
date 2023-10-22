@@ -9,11 +9,12 @@ import cv2
 import io
 import base64
 
-from const import CONFIDENCE_THRESHOLD, CLASS_LABELS, TARGET_IMAGE_SIZE, OUTPUT_IMAGE_FORMAT
+from const import CONFIDENCE_THRESHOLD, PIC_CLASS_LABELS, ARL_CLASS_LABELS, TARGET_IMAGE_SIZE, OUTPUT_IMAGE_FORMAT
 
 
 def make_prediction(
     input_image: werkzeug.datastructures.file_storage.FileStorage | io.BytesIO,
+    use_arl_model: bool = False,
     output_img_format: str = OUTPUT_IMAGE_FORMAT,
 ) -> dict:
     """
@@ -23,11 +24,17 @@ def make_prediction(
     :param output_img_format: The output file format to use e.g. PNG, JPEG
     :return: The image with its classification on it, the output file format and the classification
     """
+    if use_arl_model:
+        model_path = "ARL-ONLY.onnx"
+        class_labels = ARL_CLASS_LABELS
+    else:
+        model_path = "best.onnx"
+        class_labels = PIC_CLASS_LABELS
 
     image = _load_image_object(input_image)
     input_data = _convert_to_image_array(image)
 
-    outputs = _perform_inference(input_data, model_path="best.onnx")
+    outputs = _perform_inference(input_data, model_path=model_path)
     detections = _get_output_detections(outputs, CONFIDENCE_THRESHOLD)
 
     print("Number of Detections:", len(detections))
@@ -36,9 +43,9 @@ def make_prediction(
     # highest_detection = (
     #     [_get_highest_detection(detections)] if len(detections) > 0 else []
     # )
-    highest_detections = _get_highest_detections(detections)
+    highest_detections = _get_highest_detections(detections, class_labels)
 
-    result_image = _visualise_results(np.array(image), highest_detections, CLASS_LABELS)
+    result_image = _visualise_results(np.array(image), highest_detections, class_labels)
     encoded_image = _get_encoded_img(result_image, output_img_format)
 
     return {
@@ -151,8 +158,9 @@ def _get_output_detections(
 
     return threshold_detections
 
-def _get_highest_detections(detections: list[dict]) -> list:
-    class_detections = [None]*len(CLASS_LABELS)
+def _get_highest_detections(detections: list[dict], class_labels: list[str]) -> list:
+    """Gets highest detections of each classification type"""
+    class_detections = [None]*len(class_labels)
 
     for detection in detections:
         class_number = detection["class_label"]
@@ -162,7 +170,7 @@ def _get_highest_detections(detections: list[dict]) -> list:
 
     highest_detections = [detection for detection in class_detections if detection is not None]
     for detection in highest_detections:
-        detection["class_label"] = CLASS_LABELS[detection["class_label"]]
+        detection["class_label"] = class_labels[detection["class_label"]]
 
     return highest_detections
 

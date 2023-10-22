@@ -137,6 +137,7 @@ const UploadImage = () => {
     const [symbolName, setSymbolName] = useState();
     const [symbolDescription, setSymbolDescription] = useState();
     const [symbolBin, setSymbolBin] = useState();
+    const [usedArlModel,setUsedArlModel] = useState();
 
     const getSymbolInfo = async (articleNumber) => {
         const apiPath = `/api/view-result/${articleNumber}`
@@ -152,12 +153,19 @@ const UploadImage = () => {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e, modelType) => {
         console.log("Submitting")
         e.preventDefault();
+        setUsedArlModel(modelType == 'arl')
         await fetch("/api/upload", {
             method: "POST",
-            body: JSON.stringify(inputImage),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "image_data": inputImage,
+                "model_type": modelType
+            }),
         }).then((resp) => {
             resp.json().then((data) => {
                 setImage(data.image);
@@ -268,18 +276,19 @@ const UploadImage = () => {
                                                 variant="contained"
                                                 size="extra large"
                                                 type="submit"
-                                                onClick={handleSubmit}
-                                                sx={{
-                                                    backgroundColor: "white",
-                                                    color: "Black",
-                                                    marginRight: 2,
-                                                    "&:hover": {
-                                                        backgroundColor: "green",
-                                                        color: "white",
-                                                    },
-                                                }}
+                                                onClick={(e) => {handleSubmit(e, "pic")}}
+                                                sx={buttonStyles}
                                             >
-                                                Continue
+                                                Identify PIC
+                                            </Button>
+                                            <Button
+                                                variant="contained"
+                                                size="extra large"
+                                                type="submit"
+                                                onClick={(e) => {handleSubmit(e, "arl")}}
+                                                sx={buttonStyles}
+                                            >
+                                                Identify ARL
                                             </Button>
                                             <Button
                                                 variant="contained"
@@ -290,14 +299,7 @@ const UploadImage = () => {
                                                     document.getElementById("image").value = null
                                                     handleClose();
                                                 }}
-                                                sx={{
-                                                    backgroundColor: "white",
-                                                    color: "Black",
-                                                    "&:hover": {
-                                                        backgroundColor: "green",
-                                                        color: "white",
-                                                    },
-                                                }}
+                                                sx={buttonStyles}
                                             >
                                                 Cancel
                                             </Button>

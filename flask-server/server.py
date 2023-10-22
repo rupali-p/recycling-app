@@ -57,13 +57,18 @@ def handle_upload():
 
     :return: The image with its classification
     """
-    with open("output.txt", "w") as f:
-        print(request.data, file=f)
+    data = request.get_json()
+    image_data = data["image_data"]
 
-    decoded = base64.b64decode(request.data)
+    use_arl = data["model_type"].lower() == "arl"
+
+    with open("output.txt", "w") as f:
+        print(image_data, file=f)
+
+    decoded = base64.b64decode(image_data)
     buf = io.BytesIO(decoded)
 
-    results = make_prediction(input_image=buf, output_img_format=OUTPUT_IMAGE_FORMAT)
+    results = make_prediction(input_image=buf, output_img_format=OUTPUT_IMAGE_FORMAT, use_arl_model=use_arl)
     results_image = results.get("results_image")
     image_format = results.get("image_format")
     detections = results.get("detections")
