@@ -13,6 +13,9 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import hamlet from "../images/hamlet-only.png";
+import "../css/Common.css";
+import nature from "../images/nature.avif";
 
 const defaultTheme = createTheme();
 
@@ -66,7 +69,7 @@ const Login = () => {
     return (
       <form onSubmit={handleSubmit} action={<Link to="/"/>}>
       <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid container component="main">
         <CssBaseline />
         <Grid
           item
@@ -74,15 +77,13 @@ const Login = () => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            backgroundImage: `url(${nature})`,
             backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item className="gradient_background" xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
@@ -92,10 +93,14 @@ const Login = () => {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
+              <img src={hamlet} alt="Hamlet" style={{
+      margin: '8px',
+      width: '40vh', // Default width for phone size
+      height: '100px',
+      backgroundColor: 'secondary.main',
+    }} className="hamlet-image" />
+            <Typography component="h1" variant="h5" style={{ color: 'white' }}>
+              Login
             </Typography>
             <Box component="form" sx={{ mt: 1 }}>
               <TextField
@@ -109,6 +114,17 @@ const Login = () => {
                 onChange={e => setEmail(e.target.value)}
                 autoComplete="email"
                 autoFocus
+                transform="none"
+                InputProps={{
+                  style: { color: 'white' }, // Set the color of the input text to white
+                  classes: {
+                    underline: 'white-underline' // Custom CSS class for the input underline
+                  }
+                }}
+                InputLabelProps={{
+                  style: { color: 'white' } // Set the color of the label text to white
+                }}
+                
               />
               <TextField
                 margin="normal"
@@ -121,11 +137,16 @@ const Login = () => {
                 onChange={e => setPassword(e.target.value)}
                 value={password}
                 autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+                InputProps={{
+                  style: { color: 'white' }, // Set the color of the input text to white
+                  classes: {
+                    underline: 'white-underline' // Custom CSS class for the input underline
+                  }
+                }}
+                InputLabelProps={{
+                  style: { color: 'white' } // Set the color of the label text to white
+                }}
+              />  
               <Button
                 type="submit"
                 fullWidth
@@ -136,13 +157,10 @@ const Login = () => {
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
+                <Grid item xs>  
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="#" variant="body2" align='center'>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
