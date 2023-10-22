@@ -15,7 +15,6 @@ import PICResult6 from "./views/PICResult6";
 import PICResult7 from "./views/PICResult7";
 import Account from "./views/Account";
 import Checklist from "./views/Checklist";
-import AboutUs from "./views/AboutUs";
 import BeginScan from "./views/BeginScan";
 
 // Change the directory the client folder and use the command 'npm start' to launch the front end on port 3000
@@ -54,7 +53,6 @@ const App = () => {
         <Route path="/PICResult5" element={<PICResult5 />} />
         <Route path="/PICResult6" element={<PICResult6 />} />
         <Route path="/PICResult7" element={<PICResult7 />} />
-        <Route path="/AboutUs" element={<AboutUs />} />
 
         <Route path="/beginScan" element={<PrivateRoute><BeginScan /></PrivateRoute>}/>
         <Route path="/Account" element={<PrivateRoute><Account /></PrivateRoute>}/>
