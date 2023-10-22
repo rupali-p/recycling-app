@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import logo from "../images/hamlet-logo.png";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -16,6 +16,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { TableVirtuoso, TableComponents } from 'react-virtuoso';
 import { styled } from '@mui/system';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
 
 import placeholder1 from "../images/dummy photos/placeholder_arl_table_1.jpg"
 import placeholder2 from "../images/dummy photos/placeholder_arl_table_2.jpg"
@@ -57,7 +59,28 @@ const tabStyle = {
   borderRadius: '10px',
 };
 
+const tabStylePhone = {
+  margin: '10px',
+  color: 'black',
+  backgroundColor: '#d9d9d9',
+  borderRadius: '10px',
+};
+
 const Account = () => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const [council, setCouncil] = React.useState('');
   const [tabValue, setTabValue] = React.useState(0);
 
@@ -204,56 +227,57 @@ const Account = () => {
     );
   }
 
-  return (
-    <div
-      style={{
-        flexDirection: 'column',
-        // Align children components to the start of the column
-        height: '100vh', // Set the height of the container to the full viewport height
-        background: 'linear-gradient(to right, #12271e, #1a4d39)',
-        padding: '20px', // Add some padding for better spacing
-        width: '100%',
-        height: '100vh'
-      }}
-    >
-      <Typography variant="h2" style={{ marginBottom: '20px', color: 'white', fontSize: '8rem' }}>
-        Hamlet.
-      </Typography>
-      <WhiteIndicatorTabs onChange={handleChange}>
-      <Tabs value={tabValue} onChange={handleChange}>
-        <Tab label="Account details" 
-          style={{
-            color: 'white',
-            minWidth: '20rem'
-          }}
-           />
-        <Tab label="Your Journey"
-          style={{
-            color: 'white',
-            minWidth: '20rem'
-          }} />
-      </Tabs>
-      </WhiteIndicatorTabs>
-      {tabValue === 0 && (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
-          <TextField label="Name" variant="outlined" style={tabStyle} InputLabelProps={{ style: { color: 'black' } }} />
-          <TextField label="Email" variant="outlined" style={tabStyle} InputLabelProps={{ style: { color: 'black' } }} />
-          <TextField label="Password" variant="outlined" style={tabStyle} InputLabelProps={{ style: { color: 'black' } }} />
-          <TextField label="Postcode" variant="outlined" style={tabStyle} InputLabelProps={{ style: { color: 'black' } }} />
-          <Button style={{
-            borderRadius: '50px',
-            textTransform: 'none',
-            padding: '10px 20px',
-            borderColor: 'blue',
-            backgroundColor: '#d9d9d9',
-            color: 'black',
-            margin: '10px',
-            minWidth: '30rem'
-          }}>Edit</Button>
-          <Button style={{ textDecoration: 'underline'}}> Sign Out </Button>
-        </div>
-      )}
-      {tabValue === 1 && (
+  if (windowWidth >= 1024) { // Laptop size
+    return (
+      <div
+        style={{
+          flexDirection: 'column',
+          // Align children components to the start of the column
+          height: '100vh', // Set the height of the container to the full viewport height
+          background: 'linear-gradient(to right, #12271e, #1a4d39)',
+          padding: '20px', // Add some padding for better spacing
+          width: '100%',
+          height: '100vh'
+        }}
+      >
+        <Typography variant="h2" style={{ marginBottom: '20px', color: 'white', fontSize: '8rem' }}>
+          Hamlet.
+        </Typography>
+        <WhiteIndicatorTabs onChange={handleChange}>
+          <Tabs value={tabValue} onChange={handleChange}>
+            <Tab label="Account details"
+              style={{
+                color: 'white',
+                minWidth: '20rem'
+              }}
+            />
+            <Tab label="Your Journey"
+              style={{
+                color: 'white',
+                minWidth: '20rem'
+              }} />
+          </Tabs>
+        </WhiteIndicatorTabs>
+        {tabValue === 0 && (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
+            <TextField label="Name" variant="outlined" style={tabStyle} InputLabelProps={{ style: { color: 'black' } }} />
+            <TextField label="Email" variant="outlined" style={tabStyle} InputLabelProps={{ style: { color: 'black' } }} />
+            <TextField label="Password" variant="outlined" style={tabStyle} InputLabelProps={{ style: { color: 'black' } }} />
+            <TextField label="Postcode" variant="outlined" style={tabStyle} InputLabelProps={{ style: { color: 'black' } }} />
+            <Button style={{
+              borderRadius: '50px',
+              textTransform: 'none',
+              padding: '10px 20px',
+              borderColor: 'blue',
+              backgroundColor: '#d9d9d9',
+              color: 'black',
+              margin: '10px',
+              minWidth: '30rem'
+            }}>Edit</Button>
+            <Button style={{ textDecoration: 'underline' }}> Sign Out </Button>
+          </div>
+        )}
+        {tabValue === 1 && (
           <div style={{ margin: '30px' }}>
             <div style={{ flexGrow: 1 }}>
               <Grid container spacing={3}>
@@ -299,9 +323,133 @@ const Account = () => {
               </Grid>
             </div>
           </div>
-      )}
-    </div>
-  )
+        )}
+      </div>
+    )
+  } else { // Phone size
+    return (
+      <Grid>
+        <Grid container component="main" sx={{ minheight: '100vh' }}>
+          <CssBaseline />
+          <Grid className="gradient_background" item xs={12} sm={8} md={5} elevation={6} square>
+            <Box
+              sx={{
+                my: 8,
+                mx: 4,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant="h2" style={{ marginBottom: '20px', color: 'white' }}>
+                Hamlet.
+              </Typography>
+              <WhiteIndicatorTabs onChange={handleChange} >
+                <Tabs value={tabValue} onChange={handleChange} sx={{ width: '100%', }}>
+                  <Tab label="Account details"
+                    style={{
+                      color: 'white',
+                    }}
+                  />
+                  <Tab label="Your Journey"
+                    style={{
+                      color: 'white',
+                    }} />
+                </Tabs>
+              </WhiteIndicatorTabs>
+              {tabValue === 0 && (
+                <Box component="form" sx={{ mt: 1 }}>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Name"
+                    style={tabStylePhone}
+                    autoFocus
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Email"
+                    style={tabStylePhone}
+                    autoFocus
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Password"
+                    style={tabStylePhone}
+                    autoFocus
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Postcode"
+                    style={tabStylePhone}
+                    autoFocus
+                  />
+                  <div style={{ display: 'flex', justifyContent: 'center', margin: '10px 0', flexDirection: 'column' }}>
+                    <Button style={{
+                      borderRadius: '50px',
+                      textTransform: 'none',
+                      padding: '10px 20px',
+                      borderColor: 'blue',
+                      backgroundColor: '#d9d9d9',
+                      color: 'black',
+                      margin: '10px',
+                      textAlign: 'center'
+                    }}>Edit</Button> <br />
+                    <Button style={{ textDecoration: 'underline', textAlign: 'center' }}> Sign Out </Button>
+                  </div>
+                </Box>
+              )}
+              {tabValue === 1 && (
+                <Box component="form" sx={{ mt: 1 }}>
+                <div className="section-left">
+                    <h1>
+                      You've scanned
+                    </h1>
+
+                    <p style={{ display: 'inline-block' }}>
+                      <strong className="number-of-scans">27</strong> items
+                    </p>
+
+                    <p>
+                      <strong>Did you know</strong> that’s enough plastic to make
+                    </p>
+                    <p>
+                      exactly 3.52 Kardashians?
+                    </p>
+                  </div>
+                  <div>
+                  <div className="section-right">
+                    <h1 >
+                      Scan History
+                    </h1>
+                    <div className="table-container">
+                      <Paper style={{ height: 350, width: '90%', marginBottom: '20px'}}>
+                        <TableVirtuoso
+                          data={rows}
+                          components={VirtuosoTableComponents}
+                          fixedHeaderContent={fixedHeaderContent}
+                          itemContent={rowContent}
+                        />
+                      </Paper>
+                    </div>
+                  </div>
+                  </div>
+              </Box>
+              )}
+            </Box>
+          </Grid>
+        </Grid>
+      </Grid>
+    );
+  }
 };
 
 export default Account;
+
