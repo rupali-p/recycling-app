@@ -33,17 +33,18 @@ def make_prediction(
     print("Number of Detections:", len(detections))
     print("Detections:", detections)
 
-    highest_detection = (
-        [_get_highest_detection(detections)] if len(detections) > 0 else []
-    )
+    # highest_detection = (
+    #     [_get_highest_detection(detections)] if len(detections) > 0 else []
+    # )
+    highest_detections = _get_highest_detections(detections)
 
-    result_image = _visualise_results(np.array(image), highest_detection, CLASS_LABELS)
+    result_image = _visualise_results(np.array(image), highest_detections, CLASS_LABELS)
     encoded_image = _get_encoded_img(result_image, output_img_format)
 
     return {
         "results_image": encoded_image,
         "image_format": output_img_format,
-        "classification": highest_detection
+        "detections": highest_detections
     }
 
 def _load_image_object(
@@ -150,6 +151,20 @@ def _get_output_detections(
 
     return threshold_detections
 
+def _get_highest_detections(detections: list[dict]) -> list:
+    class_detections = [None]*len(CLASS_LABELS)
+
+    for detection in detections:
+        class_number = detection["class_label"]
+        highest_detection = class_detections[class_number]
+        if highest_detection is None or detection["confidence"] > highest_detection["confidence"]:
+            class_detections[class_number] = detection
+
+    highest_detections = [detection for detection in class_detections if detection is not None]
+    for detection in highest_detections:
+        detection["class_label"] = CLASS_LABELS[detection["class_label"]]
+
+    return highest_detections
 
 def _get_highest_detection(detections: list[dict]) -> dict:
     """
@@ -181,7 +196,7 @@ def _visualise_results(image_array: np.ndarray, detections, class_labels) -> np.
     result_image = image_array.copy()
     for detection in detections:
         x1, y1, x2, y2 = detection["bounding_box"]
-        class_label = class_labels[detection["class_label"]]
+        class_label = detection["class_label"]
         confidence = detection["confidence"]
 
         color = (0, 255, 0)

@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 11
+names: ['HDPE', 'LDPE', 'OTHER', 'PET', 'PP', 'PS', 'PVC', 'Recyclable', 'Conditionally Recyclable', 'Not Recyclable', 'Check Locally']
+
+roboflow:
+  workspace: anthony-q0mmp
+  project: plastic_recycle_sign
+  version: 4
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/anthony-q0mmp/plastic_recycle_sign/dataset/4
