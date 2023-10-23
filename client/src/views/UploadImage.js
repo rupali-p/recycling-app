@@ -247,10 +247,9 @@ const UploadImage = () => {
         })
     }
 
-    const handleSubmit = async (e, modelType) => {
+    const handleSubmit = async (e) => {
         console.log("Submitting")
         e.preventDefault();
-        setUsedArlModel(modelType == 'arl')
         await fetch("/api/upload", {
             method: "POST",
             headers: {
@@ -258,15 +257,17 @@ const UploadImage = () => {
             },
             body: JSON.stringify({
                 "image_data": inputImage,
-                "model_type": modelType
             }),
         }).then((resp) => {
             resp.json().then((data) => {
+                const _usedArlModel = data.model_used == "arl"
+                setUsedArlModel(_usedArlModel)
                 setImage(data.image);
                 const detectionsInfo = getDetectionsInfo(data.detections)
+
                 if (detectionsInfo.length == 0) {
                     setSymbolName("No Detections")
-                } else if (modelType == 'arl') {
+                } else if (_usedArlModel) {
                     const articleNumbers = []
                     for (const detectionInfo of detectionsInfo) {
                         articleNumbers.push(detectionInfo["articleNumber"])
@@ -376,19 +377,10 @@ const UploadImage = () => {
                                                 variant="contained"
                                                 size="extra large"
                                                 type="submit"
-                                                onClick={(e) => {handleSubmit(e, "pic")}}
+                                                onClick={handleSubmit}
                                                 sx={buttonStyles}
                                             >
-                                                Identify PIC
-                                            </Button>
-                                            <Button
-                                                variant="contained"
-                                                size="extra large"
-                                                type="submit"
-                                                onClick={(e) => {handleSubmit(e, "arl")}}
-                                                sx={buttonStyles}
-                                            >
-                                                Identify ARL
+                                                Identify
                                             </Button>
                                             <Button
                                                 variant="contained"

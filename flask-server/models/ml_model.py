@@ -14,45 +14,71 @@ from const import CONFIDENCE_THRESHOLD, PIC_CLASS_LABELS, ARL_CLASS_LABELS, TARG
 
 def make_prediction(
     input_image: werkzeug.datastructures.file_storage.FileStorage | io.BytesIO,
-    use_arl_model: bool = False,
     output_img_format: str = OUTPUT_IMAGE_FORMAT,
-) -> dict:
+) -> tuple[dict, str]:
     """
-    Makes object detections of the given image
+    Makes object detections of the given image.
+
+    Also specifies whether the pic or arl model was used.
 
     :param input_image: The image to make detections on
     :param output_img_format: The output file format to use e.g. PNG, JPEG
-    :return: The image with its classification on it, the output file format and the classification
+    :return: The image with its classification on it, the output file format and the classification,
+        and whether the arl or pic model was used.
     """
-    if use_arl_model:
-        model_path = "ARL-ONLY.onnx"
-        class_labels = ARL_CLASS_LABELS
-    else:
-        model_path = "best.onnx"
-        class_labels = PIC_CLASS_LABELS
 
     image = _load_image_object(input_image)
     input_data = _convert_to_image_array(image)
 
-    outputs = _perform_inference(input_data, model_path=model_path)
-    detections = _get_output_detections(outputs, CONFIDENCE_THRESHOLD)
+    pic_detections = _make_predictions_from_model(
+        input_data=input_data,
+        model_path="best.onnx",
+        class_labels=PIC_CLASS_LABELS,
+        confidence_threshold=CONFIDENCE_THRESHOLD
+    )
+    arl_detections = _make_predictions_from_model(
+        input_data=input_data,
+        model_path="ARL-ONLY.onnx",
+        class_labels=ARL_CLASS_LABELS,
+        confidence_threshold=CONFIDENCE_THRESHOLD
+    )
+    all_detections = [*pic_detections, *arl_detections]
+    highest_detection = _get_highest_detection(all_detections) if len(all_detections) > 0 else None
+    highest_detections = []
+    class_labels = ARL_CLASS_LABELS
 
-    print("Number of Detections:", len(detections))
-    print("Detections:", detections)
-
-    # highest_detection = (
-    #     [_get_highest_detection(detections)] if len(detections) > 0 else []
-    # )
-    highest_detections = _get_highest_detections(detections, class_labels)
+    if highest_detection is not None:
+        if highest_detection["class_label"] in ARL_CLASS_LABELS:
+            highest_detections = arl_detections
+            class_labels = ARL_CLASS_LABELS
+            model_used = "arl"
+        else:
+            highest_detections = pic_detections
+            class_labels = PIC_CLASS_LABELS
+            model_used = "pic"
 
     result_image = _visualise_results(np.array(image), highest_detections, class_labels)
     encoded_image = _get_encoded_img(result_image, output_img_format)
 
-    return {
+    return ({
         "results_image": encoded_image,
         "image_format": output_img_format,
         "detections": highest_detections
-    }
+    }, model_used)
+
+
+def _make_predictions_from_model(input_data: np.ndarray, model_path: str, class_labels: list, confidence_threshold: float = 0.5) -> list[dict]:
+
+    outputs = _perform_inference(input_data, model_path=model_path)
+    detections = _get_output_detections(outputs, confidence_threshold)
+
+    print("Number of Detections:", len(detections))
+    print("Detections:", detections)
+
+    highest_detections = _get_highest_detections(detections, class_labels)
+    return highest_detections
+
+
 
 def _load_image_object(
         input_image: werkzeug.datastructures.file_storage.FileStorage | io.BytesIO
