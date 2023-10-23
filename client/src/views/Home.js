@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import moebius from "../images/moebius-loop.png";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import { Navbar } from "../components/Navbar";
 
 const Home = () => {
 
@@ -15,20 +16,9 @@ const Home = () => {
 
   return (
     <div>
-      <div>
+      <div className="gradient_background">
+      <Navbar />
         <div>
-          <Grid container columns={2} sx={{ p: 5 }}>
-            <Grid item xs={1}>
-              <h>Hamlet.</h>
-            </Grid>
-
-            <Grid item xs={1} sx={{ p: 5 }}>
-              <Box display="flex" justifyContent="flex-end">
-                <MenuIcon style={{ color: "white" }} fontSize="large" />
-              </Box>
-            </Grid>
-          </Grid>
-
           <div>
             <div className="descriptive-text">
               <p sx={{ p: 5 }}>
@@ -38,45 +28,27 @@ const Home = () => {
                 <br />
               </p>
               <p>
-              <Button variant="contained" 
-                        color="grey"  
-                        sx={{
-                        backgroundColor: "white",
-                        color: "Black",
-                        marginRight: 2,
-                          "&:hover": {
-                            backgroundColor: "grey",
-                            color: "white",
-                          },
-                        }}
-                        href={"./ScanImage"}>
-                Live Scan
-              </Button>
-              <Button variant="contained" 
-                        color="grey" 
-                        sx={{
-                          backgroundColor: "white",
-                          color: "Black",
-                          marginRight: 2,
-                          "&:hover": {
-                            backgroundColor: "grey",
-                            color: "white",
-                          },
-                        }} 
-                        href={"./UploadImage"}>
-                Upload Scan
-              </Button>
-                <Button variant="contained" color="grey" sx={{ p: 2 }}>
-                  <Link to="/Login">Login</Link>
+                <Button variant="contained" color="grey" sx={{
+              backgroundColor: "white",
+              color: "Black",
+              marginRight: 2,
+              "&:hover": {
+                backgroundColor: "grey",
+                color: "white",
+              },
+            }} href={"./ScanImage"}>
+                  Live Scan
                 </Button>
-                <Button variant="contained" color="grey" sx={{ p: 2 }}>
-                  <Link to="/SignUp">Sign Up</Link>
-                </Button>
-                <Button variant="contained" color="grey" sx={{ p: 2 }}>
-                  <Link to="/Login">Login</Link>
-                </Button>
-                <Button variant="contained" color="grey" sx={{ p: 2 }}>
-                  <Link to="/Account">Account</Link>
+                <Button variant="contained" color="grey" sx={{
+              backgroundColor: "white",
+              color: "Black",
+              marginRight: 2,
+              "&:hover": {
+                backgroundColor: "grey",
+                color: "white",
+              },
+            }} href={"./UploadImage"}>
+                  Upload Scan
                 </Button>
               </p>
             </div>
