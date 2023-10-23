@@ -19,7 +19,6 @@ const RedBinResult = () => {
     useLayoutEffect(() => {
         document.body.style.background = "linear-gradient(90deg, #12261E, #1A4D39)"
     })
-
     const navigate = useNavigate();
 
   

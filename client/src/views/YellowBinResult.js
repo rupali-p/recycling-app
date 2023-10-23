@@ -15,11 +15,10 @@ import { Rectangle } from "@mui/icons-material";
 import { Navbar } from "../components/Navbar";
 
 const YellowBinResult = () => {
-
+    
     useLayoutEffect(() => {
         document.body.style.background = "linear-gradient(90deg, #12261E, #1A4D39)"
     })
-
     const navigate = useNavigate();
 
   
@@ -53,8 +52,10 @@ const YellowBinResult = () => {
                         </Grid>
 
                         <Grid item xs={4}>
-                            <img src={YellowBin} alt="yellow-bin" className="result-bin-image-container-right"></img>
-                            <div className="drop-shadow"/>
+                            <div className="result-bin-image-container-right"> 
+                                <img src={YellowBin} alt="yellow-bin" className="result-bin-image-right"></img>
+                                <div className="drop-shadow"/>
+                            </div>
                         </Grid>
 
                     </Grid>
