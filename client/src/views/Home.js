@@ -13,6 +13,10 @@ const Home = () => {
   useLayoutEffect(() => {
     document.body.style.background = "linear-gradient(90deg, #12261E, #1A4D39)"
   })
+  function handleClick(e) {
+    console.log("button clicked");
+    console.log("username is now " + localStorage.getItem("userName"));
+  }
 
   return (
     <div>
