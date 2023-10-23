@@ -9,6 +9,11 @@ import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 
 const Home = () => {
+  function handleClick(e) {
+    console.log("button clicked");
+    console.log("username is now " + localStorage.getItem("userName"));
+  }
+
   return (
     <div>
       <div className="gradient_background">
