@@ -18,6 +18,8 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {Link, useNavigate} from "react-router-dom"
+import hamlet from "../images/hamlet-only.png";
+import nature from "../images/nature.avif";
 
 
 const defaultTheme = createTheme();
@@ -107,15 +109,13 @@ const Signup = () => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            backgroundImage: `url(${nature})`,
             backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item className="gradient_background"   xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
@@ -125,10 +125,13 @@ const Signup = () => {
               alignItems: 'center',
             }}
           >
-            <Typography component="hea1" variant="h1">
-              Hamlet.
-            </Typography>
-            <Typography component="h1" variant="h5">
+            <img src={hamlet} alt="Hamlet" style={{
+      margin: '8px',
+      width: '40vh', // Default width for phone size
+      height: '100px',
+      backgroundColor: 'secondary.main',
+    }} className="hamlet-image" />
+            <Typography component="h2" variant="h5" color="white">
               Sign up
             </Typography>
             <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit}>
@@ -142,6 +145,15 @@ const Signup = () => {
                     autoFocus
                     onChange={e => setFirstName(e.target.value)}
                     value={firstName}
+                    InputProps={{
+                        style: { color: 'white' }, // Set the color of the input text to white
+                        classes: {
+                          underline: 'white-underline' // Custom CSS class for the input underline
+                        }
+                      }}
+                      InputLabelProps={{
+                        style: { color: 'white' } // Set the color of the label text to white
+                      }}
                 />
                 <TextField
                     margin="normal"
@@ -153,6 +165,15 @@ const Signup = () => {
                     autoFocus
                     onChange={e => setLastName(e.target.value)}
                     value={lastName}
+                    InputProps={{
+                        style: { color: 'white' }, // Set the color of the input text to white
+                        classes: {
+                          underline: 'white-underline' // Custom CSS class for the input underline
+                        }
+                      }}
+                      InputLabelProps={{
+                        style: { color: 'white' } // Set the color of the label text to white
+                      }}
                 />
               <TextField
                 margin="normal"
@@ -167,10 +188,22 @@ const Signup = () => {
                 onBlur={e => validateEmail()}
                 error={emailError !== ''}
                 value={email}
-                helperText={emailError}
+                helperText={<span style={{ color: 'white' }}>{emailError}</span>}
+                InputProps={{
+                    style: { color: 'white' }, // Set the color of the input text to white
+                    classes: {
+                      underline: 'white-underline' // Custom CSS class for the input underline
+                    }
+                  }}
+                  InputLabelProps={{
+                    style: { color: 'white' } // Set the color of the label text to white
+                  }}
               />
                 <FormControl variant="outlined" fullWidth margin={"normal"} required>
-                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                    <InputLabel 
+                    htmlFor="outlined-adornment-password"
+                    style={{ color: 'white' }}>
+                        Password</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
                         type={showPassword ? 'text' : 'password'}
@@ -191,8 +224,11 @@ const Signup = () => {
                         onBlur={e => validatePassword(e.target.value)}
                         value={password}
                         error={passwordError != ""}
+                        inputProps={{
+                            style: { color: 'white' }, // Set the color of the input text to white
+                          }}
                     />
-                    <FormHelperText>{passwordError}</FormHelperText>
+                    <FormHelperText style={{ color: 'white' }}>{passwordError}</FormHelperText>
                 </FormControl>
                 <Button
                     margin="normal"
@@ -211,7 +247,7 @@ const Signup = () => {
                 {registerResult != "" ? (
                     <Alert severity={registerResultSeverity}>{registerResult}</Alert>
                 ) : <div></div>}
-                <Typography variant="subtitle1">Already have an account? <Link to="/Login">Login
+                <Typography variant="subtitle1" color="white">Already have an account? <Link to="/Login">Login
                     Here</Link></Typography>
             </Box>
           </Box>
