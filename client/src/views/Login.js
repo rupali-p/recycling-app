@@ -30,15 +30,23 @@ const Login = () => {
   const [loginResultSeverity, setLoginResultSeverity] = useState("");
 
   const navigate = useNavigate();
+  const [redirectionDestination, setRedirectionDestination] = useState("/Account");
+
+  let destinationPath;
+  if (localStorage.getItem("selectedRoute") !== null) {
+    destinationPath = "/" + localStorage.getItem("selectedRoute").substring(1);
+  } else {
+    // Handle the case when selectedRoute is null, maybe set a default path
+    destinationPath = "/Account";
+  }
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
     setSnackbarOpen(false);
   };
-
+    
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -66,9 +74,13 @@ const Login = () => {
       result.json().then((data) => {
         if (result.status === 200) {
           setLoginResultSeverity("success");
-          setLoginResult(`${data.result} Redirecting to Home page...`);
+          localStorage.setItem("userName", email);
+          localStorage.removeItem("selectedRoute");
+          console.log("username is " + localStorage.getItem("userName"));
+          console.log("destination is " + destinationPath);
+          setLoginResult(`${data.result} Redirecting...`);
           setTimeout(() => {
-            navigate("/"); //Placeholder, need to change the redirection to something suitable.
+            navigate(destinationPath); 
           }, 2000);
         } else if (result.status === 401) {
           setLoginResultSeverity("Login error");
