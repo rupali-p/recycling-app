@@ -19,7 +19,6 @@ import MuiAlert from "@mui/material/Alert";
 
 const defaultTheme = createTheme();
 
-
 const Login = () => {
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
