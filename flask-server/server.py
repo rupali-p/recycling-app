@@ -10,7 +10,7 @@ from flask import Flask, request, jsonify
 
 from models.ml_model import make_prediction
 from register_user import register_user, USER_ADDED, EMAIL_EXISTS
-from get_scan_results import get_recycling_result
+from get_scan_results import get_recycling_result, get_recycling_results
 from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
 import json
 import numpy as np
@@ -115,6 +115,23 @@ def view_result(articleNum):
         return result, 200
     else:
         return result, 500
+
+@app.route("/api/view-results", methods=["POST"])
+def view_results():
+    data = request.get_json()
+    article_numbers = data["article_numbers"]
+    print(article_numbers)
+    arl_results = get_recycling_results(article_numbers)
+    print(arl_results)
+    return jsonify(
+        {
+            "success": True,
+            "arl_results": json.dumps(arl_results)
+        }
+    )
+
+
+
 
 # Runs on localhost:5000 as default
 # Change the directory to 'flask-server' and run command 'py server.py' to get started

@@ -213,8 +213,8 @@ def _visualise_results(image_array: np.ndarray, detections, class_labels) -> np.
 
         label = f"{class_label} ({confidence:.2f})"
         font = cv2.FONT_HERSHEY_SIMPLEX
-        font_scale = 0.5
-        font_thickness = 1
+        font_scale = 0.6
+        font_thickness = 2
 
         text_size, _ = cv2.getTextSize(label, font, font_scale, font_thickness)
         text_x = x1
