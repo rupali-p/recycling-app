@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useLayoutEffect } from "react";
 import "../css/Common.css";
 
 import {Routes, Route, useNavigate} from 'react-router-dom';
@@ -12,7 +12,14 @@ import Box from "@mui/material/Box";
 import YellowBin from "../images/yellow_bin.png";
 import { Rectangle } from "@mui/icons-material";
 
+import { Navbar } from "../components/Navbar";
+
 const YellowBinResult = () => {
+
+    useLayoutEffect(() => {
+        document.body.style.background = "linear-gradient(90deg, #12261E, #1A4D39)"
+    })
+
     const navigate = useNavigate();
 
   
@@ -23,20 +30,9 @@ const YellowBinResult = () => {
 
     return (
         <div>
-            <div className="gradient_background">
-                <div>
-                    <Grid container columns={2} sx={{ p: 5 }}>
-                    <Grid item xs={1}>
-                    <h>Hamlet.</h>
-                    </Grid>
+            <div>
+                <Navbar />
 
-                    <Grid item xs={1} sx={{ p: 5 }}>
-                    <Box display="flex" justifyContent="flex-end">
-                        <MenuIcon style={{ color: "white" }} fontSize="large" />
-                    </Box>
-                    </Grid>
-                </Grid>
-                </div>
                 <div>
                     <Grid container>
                         <Grid item xs={4}>
@@ -44,7 +40,7 @@ const YellowBinResult = () => {
                             Result
                         </h2>
 
-                        <hr/>
+                        <hr className="results-hr-line" />
 
                         <p className="text-result-left-larger">
                             This item is: <b>Recyclable</b>
