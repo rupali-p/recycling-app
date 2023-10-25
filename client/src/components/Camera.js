@@ -179,7 +179,10 @@ const Camera = ({handleTakePhoto}) => {
     return (
         <div>
             {isMobileDevice ? (
-                <Button component={"label"} sx={buttonStyles}>
+                <Button
+                    component={"label"}
+                    sx={buttonStyles}
+                >
                     <CameraAltIcon/> Open Camera
                     <input
                         accept="image/*"
@@ -191,7 +194,10 @@ const Camera = ({handleTakePhoto}) => {
                     />
                 </Button>
             ) : (
-                <Button onClick={handleOpen} xs={buttonStyles}> <CameraAltIcon/> Open Camera</Button>
+                <>
+                            <Button onClick={handleOpen} sx={buttonStyles}> <CameraAltIcon/> Open Camera</Button>
+
+                </>
             )}
             <Modal
                 open={open}
