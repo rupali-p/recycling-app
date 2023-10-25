@@ -11,10 +11,16 @@ import {
     Box,
     Modal,
     Typography,
+    Divider,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemAvatar,
+    Avatar
 } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import TopNav from "../components/TopNav";
-import {PIC_MAPPING} from "../const";
+import {CLASS_ARTICLE_MAPPING, ARL_CLASS_LABELS_MAPPING} from "../const";
 import {Link} from "react-router-dom";
 
 
@@ -27,7 +33,10 @@ export const getDetectionsInfo = (detections) => {
     const detectionsArray = JSON.parse(detections)
     const info = []
     detectionsArray.forEach((detection) => {
-        info.push(PIC_MAPPING[detection.class_label])
+        info.push({
+            "label": detection.class_label,
+            "articleNumber":CLASS_ARTICLE_MAPPING[detection.class_label]
+        })
     })
     return info
 }
@@ -54,21 +63,95 @@ export const ScanAgainButton = () => {
     )
 }
 
+
+/**
+ * Component that displays the given ARL information in a list format
+ * @param symbolResults {Array} The list of arl information to display
+ * @param AgainButton {JSX.Element} The button that redirects to scan/upload again
+ * @returns {JSX.Element} Component that shows the ARL information in a list format
+ */
+export const ArlInfo = ({symbolResults, AgainButton}) => {
+    return (
+        <>
+            <Typography variant={"h3"} style={{color: 'white'}}>Results</Typography>
+            <Grid item xs={8} md={5} mt={1}>
+                <Divider component="li" sx={{
+                    listStyleType: "none",
+                    borderColor: 'white',
+                    borderBottomWidth: 4
+                }}/>
+            </Grid>
+            <Grid item xs={12} mt={5}>
+                <List sx={{ width: '100%', maxWidth: 360, }}>
+                {symbolResults.map((info) => {
+                    return(
+                        <>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                  <Avatar alt={`${info["Name"]}Symbol`} src={info["SymbolImage"]} />
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={
+                                        <Typography color={"white"} variant={"h4"}>{info["Abbreviation"]}</Typography>
+                                    }
+                                    secondary={
+                                        <React.Fragment>
+                                            <Typography
+                                                sx={{ display: 'inline' }}
+                                                component="span"
+                                                variant="h5"
+                                                color="white"
+                                            >
+                                                {info["Name"]}
+                                            </Typography>
+                                            <Typography color={"white"}>
+                                                {info["Symbol"]}
+                                            </Typography>
+                                        </React.Fragment>
+                                    }
+                                />
+                            </ListItem>
+                        </>
+
+                        )
+
+                })}
+                </List>
+            </Grid>
+            <Grid container xs={12} md={8} mt={10}>
+                <Grid item xs={6}>
+                    <AgainButton/>
+                </Grid>
+                <Grid item xs={6}>
+                    <Button sx={buttonStyles}>
+                        <Link to="/PICResult1" style={{textDecoration: 'none', color: 'black'}}>Go to Recycling
+                            Checklist</Link>
+                    </Button>
+                </Grid>
+            </Grid>
+        </>
+    )
+}
+
 /**
  * Component that displays the detected symbol's information
- * @param symbolName: Name of the symbol
- * @param symbolDescription: Symbol's description
- * @param symbolBin: Bin to use
- * @param symbolApplications: Where the symbol/material is used
- * @param AgainButton: Scan/Upload again button
+ * @param symbolName {string} Name of the symbol
+ * @param symbolDescription {string} Symbol's description
+ * @param symbolBin {string} Bin to use
+ * @param symbolApplications {string} Where the symbol/material is used
+ * @param AgainButton {JSX.Element} The button that redirects to scan/upload again
  * @returns {JSX.Element} Component that shows the symbol's information
  */
 export const SymbolInfo = ({symbolName, symbolDescription, symbolBin, symbolApplications, AgainButton}) => {
     return (
         <>
             <Typography variant={"h3"} style={{color: 'white'}}>Results</Typography>
-            <Grid item xs={8} md={6}>
-                <hr style={{backgroundColor: 'white', color: 'white', borderColor: 'white', height: 0.5}}/>
+            <Grid item xs={8} md={5} mt={1}>
+                <Divider component="li" sx={{
+                    listStyleType: "none",
+                    borderColor: 'white',
+                    borderBottomWidth: 4
+                }}/>
             </Grid>
             <Grid item xs={12} mt={10}>
                 <Typography variant={"h4"} style={{color: 'white', fontWeight: 'bold'}}>
@@ -137,6 +220,8 @@ const UploadImage = () => {
     const [symbolName, setSymbolName] = useState();
     const [symbolDescription, setSymbolDescription] = useState();
     const [symbolBin, setSymbolBin] = useState();
+    const [usedArlModel,setUsedArlModel] = useState();
+    const [arlResults, setArlResults] = useState([]);
 
     const getSymbolInfo = async (articleNumber) => {
         const apiPath = `/api/view-result/${articleNumber}`
@@ -152,21 +237,60 @@ const UploadImage = () => {
         });
     };
 
+    const getArlInfo = async(articleNumbers) => {
+        await fetch("/api/view-results", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "article_numbers": articleNumbers
+            })
+            }
+        ).then((res) => {
+            res.json().then((data) => {
+                const arl_results = JSON.parse(data.arl_results)
+                const arl_info = []
+                arl_results.forEach((arl_res) => {
+                    arl_res.Abbreviation = ARL_CLASS_LABELS_MAPPING[arl_res.Name]["abbr"]
+                    arl_res.SymbolImage = ARL_CLASS_LABELS_MAPPING[arl_res.Name]["symbolImage"]
+                    arl_info.push(arl_res)
+                })
+
+                setArlResults(arl_info)
+            })
+        })
+    }
+
     const handleSubmit = async (e) => {
         console.log("Submitting")
         e.preventDefault();
         await fetch("/api/upload", {
             method: "POST",
-            body: JSON.stringify(inputImage),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "image_data": inputImage,
+            }),
         }).then((resp) => {
             resp.json().then((data) => {
+                const _usedArlModel = data.model_used == "arl"
+                setUsedArlModel(_usedArlModel)
                 setImage(data.image);
                 const detectionsInfo = getDetectionsInfo(data.detections)
-                detectionsInfo.length == 0 ? (
+
+                if (detectionsInfo.length == 0) {
                     setSymbolName("No Detections")
-                ) : (
-                    getSymbolInfo(detectionsInfo[0])
-                )
+                } else if (_usedArlModel) {
+                    const articleNumbers = []
+                    for (const detectionInfo of detectionsInfo) {
+                        articleNumbers.push(detectionInfo["articleNumber"])
+                    }
+                    getArlInfo(articleNumbers)
+                } else {
+                    getSymbolInfo(detectionsInfo[0]["articleNumber"])
+                }
 
             });
         });
@@ -269,17 +393,9 @@ const UploadImage = () => {
                                                 size="extra large"
                                                 type="submit"
                                                 onClick={handleSubmit}
-                                                sx={{
-                                                    backgroundColor: "white",
-                                                    color: "Black",
-                                                    marginRight: 2,
-                                                    "&:hover": {
-                                                        backgroundColor: "green",
-                                                        color: "white",
-                                                    },
-                                                }}
+                                                sx={buttonStyles}
                                             >
-                                                Continue
+                                                Identify
                                             </Button>
                                             <Button
                                                 variant="contained"
@@ -290,14 +406,7 @@ const UploadImage = () => {
                                                     document.getElementById("image").value = null
                                                     handleClose();
                                                 }}
-                                                sx={{
-                                                    backgroundColor: "white",
-                                                    color: "Black",
-                                                    "&:hover": {
-                                                        backgroundColor: "green",
-                                                        color: "white",
-                                                    },
-                                                }}
+                                                sx={buttonStyles}
                                             >
                                                 Cancel
                                             </Button>
@@ -310,7 +419,6 @@ const UploadImage = () => {
 
                     ) : (<></>)
                 }
-                {/*Results*/}
                 {image ? (
                     <>
                         <Grid item xs={12} md={6} align={"center"}>
@@ -319,19 +427,33 @@ const UploadImage = () => {
                             </Grid>
                         </Grid>
                         <Grid item xs={12} md={6} sx={{marginLeft: {xs: 3, md: 0}}}>
-                            {(symbolName && symbolName != 'No Detections') ? (
-                                <SymbolInfo
-                                    symbolName={symbolName}
-                                    symbolDescription={symbolDescription}
-                                    symbolApplications={symbolApplications}
-                                    symbolBin={symbolBin}
-                                    AgainButton={ScanAgainButton}
-                                />
-                            ) : <></>
+                            {(symbolName != 'No Detections' && (symbolName || arlResults.length > 0)) ? (
+                                usedArlModel ? (
+                                    <>
+                                        <ArlInfo
+                                            symbolResults={arlResults}
+                                            AgainButton={ScanAgainButton}
+                                        />
+                                    </>
+                                ) : (
+                                    <SymbolInfo
+                                        symbolName={symbolName}
+                                        symbolDescription={symbolDescription}
+                                        symbolApplications={symbolApplications}
+                                        symbolBin={symbolBin}
+                                        AgainButton={ScanAgainButton}
+                                    />
+
+                                )
+
+                            ) : (
+                                <></>
+                            )
+
                             }
                             {symbolName == 'No Detections' ? (
                                 <>
-                                    <Typography>No Detections</Typography>
+                                    <Typography variant={"h3"} style={{color: 'white'}} mb={5}>No Detections</Typography>
                                     <ScanAgainButton/>
                                 </>
                             ) : (

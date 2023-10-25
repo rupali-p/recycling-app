@@ -7,8 +7,9 @@ import {
     Typography
 } from "@mui/material";
 import Camera, {displaySquareImage} from "../components/Camera";
-import {SymbolInfo, getDetectionsInfo, ScanAgainButton} from "./UploadImage";
+import {ArlInfo, SymbolInfo, getDetectionsInfo, ScanAgainButton} from "./UploadImage";
 import TopNav from "../components/TopNav";
+import {ARL_CLASS_LABELS_MAPPING} from "../const";
 
 
 const ScanImage = () => {
@@ -19,6 +20,8 @@ const ScanImage = () => {
     const [symbolName, setSymbolName] = useState();
     const [symbolDescription, setSymbolDescription] = useState();
     const [symbolBin, setSymbolBin] = useState();
+    const [usedArlModel,setUsedArlModel] = useState();
+    const [arlResults, setArlResults] = useState([]);
 
     const getSymbolInfo = async (articleNumber) => {
         const apiPath = `/api/view-result/${articleNumber}`
@@ -35,56 +38,64 @@ const ScanImage = () => {
         });
     };
 
-    useLayoutEffect(() => {
-        document.body.style.background = "linear-gradient(90deg, #12261E, #1A4D39)"
-    })
+    const getArlInfo = async(articleNumbers) => {
+        await fetch("/api/view-results", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    "article_numbers": articleNumbers
+                })
+            }
+        ).then((res) => {
+            res.json().then((data) => {
+                const arl_results = JSON.parse(data.arl_results)
+                const arl_info = []
+                arl_results.forEach((arl_res) => {
+                    arl_res.Abbreviation = ARL_CLASS_LABELS_MAPPING[arl_res.Name]["abbr"]
+                    arl_res.SymbolImage = ARL_CLASS_LABELS_MAPPING[arl_res.Name]["symbolImage"]
+                    arl_info.push(arl_res)
+                })
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        await fetch("/api/upload", {
-            method: "POST", body: JSON.stringify(inputImage)
-        }).then(resp => {
-            resp.json().then(data => {
-                setImage(data.image)
-                const detectionsInfo = getDetectionsInfo(data.detections)
-                detectionsInfo.length == 0 ? (
-                    setSymbolName("No Detections")
-                ) : (
-                    getSymbolInfo(detectionsInfo[0])
-                )
+                setArlResults(arl_info)
             })
         })
     }
 
-    const handleUploadFile = async (event) => {
+    useLayoutEffect(() => {
+        document.body.style.background = "linear-gradient(90deg, #12261E, #1A4D39)"
+    })
 
-        const reader = new FileReader()
-        reader.onloadend = () => {
-            const imageFile = new Image();
-            imageFile.src = reader.result
-            imageFile.onload = () => {
-                const canvas = displaySquareImage(imageFile, imageFile.width, imageFile.height, "image-preview")
-                setInputImage(canvas.toDataURL().split(';base64,')[1])
-
-            }
-
-        }
-        reader.readAsDataURL(event.target.files[0])
-    }
 
     const handleTakePhoto = async (imageDataUrl) => {
         setInputImage(imageDataUrl)
         await fetch("/api/upload", {
-            method: "POST", body: JSON.stringify(imageDataUrl)
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "image_data": imageDataUrl
+            })
         }).then(resp => {
             resp.json().then(data => {
-                setImage(data.image)
+                const _usedArlModel = data.model_used == "arl"
+                setUsedArlModel(_usedArlModel)
+                setImage(data.image);
                 const detectionsInfo = getDetectionsInfo(data.detections)
-                detectionsInfo.length == 0 ? (
+
+                if (detectionsInfo.length == 0) {
                     setSymbolName("No Detections")
-                ) : (
-                    getSymbolInfo(detectionsInfo[0])
-                )
+                } else if (_usedArlModel) {
+                    const articleNumbers = []
+                    for (const detectionInfo of detectionsInfo) {
+                        articleNumbers.push(detectionInfo["articleNumber"])
+                    }
+                    getArlInfo(articleNumbers)
+                } else {
+                    getSymbolInfo(detectionsInfo[0]["articleNumber"])
+                }
             })
         })
 
@@ -97,24 +108,6 @@ const ScanImage = () => {
                     Hamlet
                 </Typography>
             </Grid>
-            <Grid item xs={12} align={"center"}>
-                <form onSubmit={handleSubmit} className="container mt-5 pt-5 pb-5" encType="multipart/form-data">
-                    <div className="form-inline justify-content-center mt-5">
-                        <div className="input-group">
-                            <input
-                                type="file"
-                                id="image"
-                                name="file"
-                                accept="image/*"
-                                className="file-custom"
-                                hidden="true"
-                                onChange={handleUploadFile}
-                            />
-                        </div>
-                    </div>
-                </form>
-
-            </Grid>
             {image ? (
                 <>
                     <Grid item xs={12} md={6} align={"center"}>
@@ -123,15 +116,29 @@ const ScanImage = () => {
                         </Grid>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{marginLeft: {xs: 3, md: 0}}}>
-                        {(symbolName && symbolName != 'No Detections') ? (
-                            <SymbolInfo
-                                symbolName={symbolName}
-                                symbolDescription={symbolDescription}
-                                symbolApplications={symbolApplications}
-                                symbolBin={symbolBin}
-                                AgainButton={ScanAgainButton}
-                            />
-                        ) : <></>
+                        {(symbolName != 'No Detections' && (symbolName || arlResults.length > 0)) ? (
+                            usedArlModel ? (
+                                <>
+                                    <ArlInfo
+                                        symbolResults={arlResults}
+                                        AgainButton={ScanAgainButton}
+                                    />
+                                </>
+                            ) : (
+                                <SymbolInfo
+                                    symbolName={symbolName}
+                                    symbolDescription={symbolDescription}
+                                    symbolApplications={symbolApplications}
+                                    symbolBin={symbolBin}
+                                    AgainButton={ScanAgainButton}
+                                />
+
+                            )
+
+                        ) : (
+                            <></>
+                        )
+
                         }
                         {symbolName == 'No Detections' ? (
                             <>
@@ -143,6 +150,7 @@ const ScanImage = () => {
                         )
                         }
                     </Grid>
+
                 </>
             ) : (
                 <Grid item xs={12} md={6} align={"center"}>

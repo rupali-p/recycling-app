@@ -9,46 +9,101 @@ import cv2
 import io
 import base64
 
-from const import CONFIDENCE_THRESHOLD, CLASS_LABELS, TARGET_IMAGE_SIZE, OUTPUT_IMAGE_FORMAT
+from const import (
+    CONFIDENCE_THRESHOLD,
+    PIC_CLASS_LABELS,
+    ARL_CLASS_LABELS,
+    TARGET_IMAGE_SIZE,
+    OUTPUT_IMAGE_FORMAT,
+)
 
 
 def make_prediction(
     input_image: werkzeug.datastructures.file_storage.FileStorage | io.BytesIO,
     output_img_format: str = OUTPUT_IMAGE_FORMAT,
-) -> dict:
+) -> tuple[dict, str]:
     """
-    Makes object detections of the given image
+    Makes object detections of the given image.
+
+    Also specifies whether the pic or arl model was used.
 
     :param input_image: The image to make detections on
     :param output_img_format: The output file format to use e.g. PNG, JPEG
-    :return: The image with its classification on it, the output file format and the classification
+    :return: The image with its classification on it, the output file format and the classification,
+        and whether the arl or pic model was used.
     """
 
     image = _load_image_object(input_image)
     input_data = _convert_to_image_array(image)
 
-    outputs = _perform_inference(input_data, model_path="best.onnx")
-    detections = _get_output_detections(outputs, CONFIDENCE_THRESHOLD)
+    pic_detections = _make_predictions_from_model(
+        input_data=input_data,
+        model_path="best.onnx",
+        confidence_threshold=CONFIDENCE_THRESHOLD,
+    )
+    # Assumption that there will only be one PIC in the photo
+    pic_detections = _get_highest_detections(pic_detections, PIC_CLASS_LABELS)
+
+    arl_detections = _make_predictions_from_model(
+        input_data=input_data,
+        model_path="ARL-ONLY.onnx",
+        confidence_threshold=CONFIDENCE_THRESHOLD,
+    )
+    arl_detections = _remove_similar_bounding_boxes(arl_detections)
+    arl_detections = _apply_class_labels(
+        detections=arl_detections, class_labels=ARL_CLASS_LABELS
+    )
+
+    all_detections = [*pic_detections, *arl_detections]
+    highest_detection = (
+        _get_highest_detection(all_detections) if len(all_detections) > 0 else None
+    )
+
+    highest_detections = []
+    class_labels = ARL_CLASS_LABELS
+    model_used = None
+
+    if highest_detection is not None:
+        if highest_detection["class_label"] in ARL_CLASS_LABELS:
+            highest_detections = arl_detections
+            class_labels = ARL_CLASS_LABELS
+            model_used = "arl"
+        else:
+            highest_detections = pic_detections
+            class_labels = PIC_CLASS_LABELS
+            model_used = "pic"
+
+    result_image = _visualise_results(np.array(image), highest_detections, class_labels)
+    encoded_image = _get_encoded_img(result_image, output_img_format)
+
+    return (
+        {
+            "results_image": encoded_image,
+            "image_format": output_img_format,
+            "detections": highest_detections,
+        },
+        model_used,
+    )
+
+
+def _make_predictions_from_model(
+    input_data: np.ndarray, model_path: str, confidence_threshold: float = 0.5
+) -> list[dict]:
+    """
+    Makes predictions on the input data using the specified model.
+    """
+
+    outputs = _perform_inference(input_data, model_path=model_path)
+    detections = _get_output_detections(outputs, confidence_threshold)
 
     print("Number of Detections:", len(detections))
     print("Detections:", detections)
 
-    # highest_detection = (
-    #     [_get_highest_detection(detections)] if len(detections) > 0 else []
-    # )
-    highest_detections = _get_highest_detections(detections)
+    return detections
 
-    result_image = _visualise_results(np.array(image), highest_detections, CLASS_LABELS)
-    encoded_image = _get_encoded_img(result_image, output_img_format)
-
-    return {
-        "results_image": encoded_image,
-        "image_format": output_img_format,
-        "detections": highest_detections
-    }
 
 def _load_image_object(
-        input_image: werkzeug.datastructures.file_storage.FileStorage | io.BytesIO
+    input_image: werkzeug.datastructures.file_storage.FileStorage | io.BytesIO,
 ) -> Image:
     """
     Loads the input image as an Image object with the target size and dimensions.
@@ -62,10 +117,8 @@ def _load_image_object(
 
     return image
 
-def _perform_inference(
-    input_data: np.ndarray,
-    model_path: str
-) -> list:
+
+def _perform_inference(input_data: np.ndarray, model_path: str) -> list:
     """
     Performs inference on the given input data using the onnx model.
 
@@ -151,20 +204,75 @@ def _get_output_detections(
 
     return threshold_detections
 
-def _get_highest_detections(detections: list[dict]) -> list:
-    class_detections = [None]*len(CLASS_LABELS)
+
+def _get_highest_detections(detections: list[dict], class_labels: list[str]) -> list:
+    """Gets highest detections of each classification type"""
+    class_detections = [None] * len(class_labels)
 
     for detection in detections:
         class_number = detection["class_label"]
         highest_detection = class_detections[class_number]
-        if highest_detection is None or detection["confidence"] > highest_detection["confidence"]:
+        if (
+            highest_detection is None
+            or detection["confidence"] > highest_detection["confidence"]
+        ):
             class_detections[class_number] = detection
 
-    highest_detections = [detection for detection in class_detections if detection is not None]
-    for detection in highest_detections:
-        detection["class_label"] = CLASS_LABELS[detection["class_label"]]
+    highest_detections = [
+        detection for detection in class_detections if detection is not None
+    ]
+    highest_detections = _apply_class_labels(highest_detections, class_labels)
 
     return highest_detections
+
+def _remove_similar_bounding_boxes(detections: list[dict]) -> list[dict]:
+    """
+    Removes detections that have similar bounding boxes and keeps the detections with
+    the highest confidence scores.
+    """
+    unique_detections = []
+    sorted_detections = sorted(
+        detections, key=lambda detection: detection["bounding_box"]
+    )
+
+    for detection in sorted_detections:
+        if len(unique_detections) > 0:
+            bounding_box = detection["bounding_box"]
+            previous_detection = unique_detections[-1]
+            previous_bounding_box = previous_detection["bounding_box"]
+
+            if _similar_bounding_boxes(bounding_box, previous_bounding_box):
+                if detection["confidence"] > previous_detection["confidence"]:
+                    unique_detections[-1] = detection
+            else:
+                unique_detections.append(detection)
+
+        else:
+            unique_detections.append(detection)
+
+    return unique_detections
+
+
+def _similar_bounding_boxes(
+        box_a: tuple[int], box_b: tuple[int], similar_pixel_distance=5
+) -> bool:
+    """
+    Determines if two bounding boxes are similar.
+    """
+    similar_count = 0
+    for i in range(4):
+        if abs(box_a[i] - box_b[i]) <= similar_pixel_distance:
+            similar_count += 1
+    return similar_count >= 3
+
+
+
+def _apply_class_labels(detections, class_labels):
+    labelled_detections = detections
+    for detection in labelled_detections:
+        detection["class_label"] = class_labels[detection["class_label"]]
+    return labelled_detections
+
 
 def _get_highest_detection(detections: list[dict]) -> dict:
     """
@@ -205,8 +313,8 @@ def _visualise_results(image_array: np.ndarray, detections, class_labels) -> np.
 
         label = f"{class_label} ({confidence:.2f})"
         font = cv2.FONT_HERSHEY_SIMPLEX
-        font_scale = 0.5
-        font_thickness = 1
+        font_scale = 0.6
+        font_thickness = 2
 
         text_size, _ = cv2.getTextSize(label, font, font_scale, font_thickness)
         text_x = x1
