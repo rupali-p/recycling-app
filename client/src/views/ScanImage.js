@@ -9,6 +9,7 @@ import {
 import Camera, {displaySquareImage} from "../components/Camera";
 import {ArlInfo, SymbolInfo, getDetectionsInfo, ScanAgainButton} from "./UploadImage";
 import TopNav from "../components/TopNav";
+import {Navbar} from "../components/Navbar";
 import {ARL_CLASS_LABELS_MAPPING} from "../const";
 
 
@@ -101,12 +102,11 @@ const ScanImage = () => {
 
     }
 
-    return (<>
+    return (
+        <>
+            <Navbar/>
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography variant={"h1"} style={{color: "white"}}>
-                    Hamlet
-                </Typography>
             </Grid>
             {image ? (
                 <>
@@ -153,7 +153,7 @@ const ScanImage = () => {
 
                 </>
             ) : (
-                <Grid item xs={12} md={6} align={"center"}>
+                <Grid item xs={12} align={"center"}>
                     <Camera handleTakePhoto={handleTakePhoto}/>
                 </Grid>
             )
