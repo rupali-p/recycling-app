@@ -12,6 +12,7 @@ from models.ml_model import make_prediction
 from register_user import register_user, USER_ADDED, EMAIL_EXISTS
 from get_scan_results import get_recycling_result, get_recycling_results
 from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
+from account_details import get_all_account_details
 import json
 import numpy as np
 
@@ -99,7 +100,10 @@ def handle_login():
     elif login_result == LOGIN_FAILED:
         return result, 401
 
-
+@app.route("/api/get-accountdetails/<email>")
+def get_account_details(email):
+    account_details = get_all_account_details(email)
+    print(account_details)
 
 
 
