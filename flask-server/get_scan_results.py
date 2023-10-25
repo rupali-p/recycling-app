@@ -10,6 +10,9 @@ def get_recycling_result(articleNum):
     db = client["Hamlet-DB"]
     pics = db.PICs
 
+    print("Article number")
+    print(articleNum)
+
     articleNum = int(articleNum)
 
     # Search the documents for the number being requested

@@ -12,6 +12,11 @@ import {
     Modal,
     Typography,
     Divider,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemAvatar,
+    Avatar
 } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import TopNav from "../components/TopNav";
@@ -58,16 +63,13 @@ export const ScanAgainButton = () => {
     )
 }
 
-/**
- * Component that displays the detected symbol's information
- * @param symbolName: Name of the symbol
- * @param symbolDescription: Symbol's description
- * @param symbolBin: Bin to use
- * @param symbolApplications: Where the symbol/material is used
- * @param AgainButton: Scan/Upload again button
- * @returns {JSX.Element} Component that shows the symbol's information
- */
 
+/**
+ * Component that displays the given ARL information in a list format
+ * @param symbolResults {Array} The list of arl information to display
+ * @param AgainButton {JSX.Element} The button that redirects to scan/upload again
+ * @returns {JSX.Element} Component that shows the ARL information in a list format
+ */
 export const ArlInfo = ({symbolResults, AgainButton}) => {
     return (
         <>
@@ -79,21 +81,42 @@ export const ArlInfo = ({symbolResults, AgainButton}) => {
                     borderBottomWidth: 4
                 }}/>
             </Grid>
-            <Grid item xs={12} mt={10}>
+            <Grid item xs={12} mt={5}>
+                <List sx={{ width: '100%', maxWidth: 360, }}>
                 {symbolResults.map((info) => {
                     return(
                         <>
-                            <Typography mt={1} variant={"h6"} style={{color: 'white'}}>
-                                {info["Name"]} - {info["Abbreviation"]}
-                            </Typography>
-                            <Typography mt={1} variant={"h6"} style={{color: 'white'}}>
-                                {info["Symbol"]}
-                            </Typography>
+                            <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                  <Avatar alt={`${info["Name"]}Symbol`} src={info["SymbolImage"]} />
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={
+                                        <Typography color={"white"} variant={"h4"}>{info["Abbreviation"]}</Typography>
+                                    }
+                                    secondary={
+                                        <React.Fragment>
+                                            <Typography
+                                                sx={{ display: 'inline' }}
+                                                component="span"
+                                                variant="h5"
+                                                color="white"
+                                            >
+                                                {info["Name"]}
+                                            </Typography>
+                                            <Typography color={"white"}>
+                                                {info["Symbol"]}
+                                            </Typography>
+                                        </React.Fragment>
+                                    }
+                                />
+                            </ListItem>
                         </>
 
                         )
 
                 })}
+                </List>
             </Grid>
             <Grid container xs={12} md={8} mt={10}>
                 <Grid item xs={6}>
@@ -110,6 +133,15 @@ export const ArlInfo = ({symbolResults, AgainButton}) => {
     )
 }
 
+/**
+ * Component that displays the detected symbol's information
+ * @param symbolName {string} Name of the symbol
+ * @param symbolDescription {string} Symbol's description
+ * @param symbolBin {string} Bin to use
+ * @param symbolApplications {string} Where the symbol/material is used
+ * @param AgainButton {JSX.Element} The button that redirects to scan/upload again
+ * @returns {JSX.Element} Component that shows the symbol's information
+ */
 export const SymbolInfo = ({symbolName, symbolDescription, symbolBin, symbolApplications, AgainButton}) => {
     return (
         <>
@@ -191,24 +223,6 @@ const UploadImage = () => {
     const [usedArlModel,setUsedArlModel] = useState();
     const [arlResults, setArlResults] = useState([]);
 
-
-    const getInfo = async (articleNumber, usedArlModel, abbr=null) => {
-        const apiPath = `/api/view-result/${articleNumber}`
-        await fetch(apiPath, {
-            method: "GET",
-        }).then((resp) => {
-            resp.json().then((data) => {
-                return (
-                    {
-                        "Name": data["ARL Name"],
-                        "Symbol Description": data["Symbol"],
-                        "Abbreviation": abbr
-                    }
-
-                )
-            });
-        });
-    };
     const getSymbolInfo = async (articleNumber) => {
         const apiPath = `/api/view-result/${articleNumber}`
         await fetch(apiPath, {
@@ -223,7 +237,7 @@ const UploadImage = () => {
         });
     };
 
-    const getArlInfo = async(articleNumbers, abbreviations) => {
+    const getArlInfo = async(articleNumbers) => {
         await fetch("/api/view-results", {
             method: "POST",
             headers: {
@@ -238,7 +252,8 @@ const UploadImage = () => {
                 const arl_results = JSON.parse(data.arl_results)
                 const arl_info = []
                 arl_results.forEach((arl_res) => {
-                    arl_res.Abbreviation = ARL_CLASS_LABELS_MAPPING[arl_res.Name]
+                    arl_res.Abbreviation = ARL_CLASS_LABELS_MAPPING[arl_res.Name]["abbr"]
+                    arl_res.SymbolImage = ARL_CLASS_LABELS_MAPPING[arl_res.Name]["symbolImage"]
                     arl_info.push(arl_res)
                 })
 
@@ -404,7 +419,6 @@ const UploadImage = () => {
 
                     ) : (<></>)
                 }
-                {/*Results*/}
                 {image ? (
                     <>
                         <Grid item xs={12} md={6} align={"center"}>
