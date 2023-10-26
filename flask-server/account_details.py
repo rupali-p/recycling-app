@@ -34,14 +34,43 @@ def get_all_account_details(email):
         json_data = "Error, this user doesn't exists"
     return json_data
 
+def get_account_name(email):
+    # Connect to the database,
+    user_account = get_connection(email)
+    if(user_account != "NoneType"):
+      #Now get the account details
+      #Name
+      first_name = user_account.get("firstName")
+      last_name = user_account.get("lastName")
+      name = first_name + " " + last_name
+      details = {"Name": name}
+      #decode the data into a json format
+      json_data = decodeValues(details)
+    else:
+        json_data = "Error, this user doesn't exists"
+    return json_data
+
+
+
+
+
+
+
+
+
+
+
+
+
 # def get_account_name(email):
 #     user_account = get_connection(email)
 #     #Now get the account details
 #     #Name
 #     first_name = user_account.get("firstName")
-#     last_name = user_account.get("lastName")
-#     name = first_name + " " + last_name
-#     account_name =  {"Name": name}
+#     print(first_name)
+#     # last_name = user_account.get("lastName")
+#     # name = first_name + " " + last_name
+#     account_name =  {"Name": first_name}
 #     json_account_name = decodeValues(account_name)
 #     return json_account_name
 
@@ -69,8 +98,7 @@ def get_all_account_details(email):
 def decodeValues(details):
     for key, value in details.items():
         if isinstance(value, bytes):
-            details[key] = value.decode('utf-8')  # Decode bytes to UTF-8 string
-
+            details[key] = value.decode('utf-8')  # Decode bytes to UTF-8
     # Now you can serialize the entire data structure to JSON
     json_data = json.dumps(details)
     return json_data
