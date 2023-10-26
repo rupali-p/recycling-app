@@ -12,7 +12,10 @@ from models.ml_model import make_prediction
 from register_user import register_user, USER_ADDED, EMAIL_EXISTS
 from get_scan_results import get_recycling_result, get_recycling_results
 from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
+<<<<<<< HEAD
 from account_details import get_all_account_details, get_account_name, get_account_email, get_account_password, get_account_postcode
+=======
+>>>>>>> parent of 1a445b9 (Addition of backend endpoint to test code)
 import json
 import numpy as np
 
@@ -100,10 +103,14 @@ def handle_login():
     elif login_result == LOGIN_FAILED:
         return result, 401
 
+<<<<<<< HEAD
 @app.route("/api/get-all-accountdetails/<email>")
 def get_all_account_details(email):
     account_details = get_all_account_details(email)
     return account_details, 200
+=======
+
+>>>>>>> parent of 1a445b9 (Addition of backend endpoint to test code)
 
 @app.route("/api/get-accountdetails-name/<email>")
 def get_account_email(email):
