@@ -1,5 +1,6 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+import json
 
 def get_connection(email):
     print("Setting up DB connection")
@@ -14,43 +15,63 @@ def get_connection(email):
 def get_all_account_details(email):
     # Connect to the database,
     user_account = get_connection(email)
+    if(user_account != "NoneType"):
+      #Now get the account details
+      #Name
+      first_name = user_account.get("firstName")
+      last_name = user_account.get("lastName")
+      name = first_name + " " + last_name
+      #Email
+      email = user_account.get("email")
+      #Password
+      password = user_account.get("password")
+      #Postcode
+      postcode = user_account.get("postcode")
+      details = {"Name": name, "Email": email, "password": password, "postcode": postcode}
+      #decode the data into a json format
+      json_data = decodeValues(details)
+    else:
+        json_data = "Error, this user doesn't exists"
+    return json_data
+
+def get_account_name(email):
+    user_account = get_connection(email)
     #Now get the account details
     #Name
     first_name = user_account.get("firstName")
     last_name = user_account.get("lastName")
     name = first_name + " " + last_name
-    #Email
-    email = user_account.get("email")
-    #Password
-    password = user_account.get("password")
-    #Postcode
-    postcode = user_account.get("postcode")
-    return {"Name": name, "Email": email, "password": password, "postcode": postcode}
+    account_name =  {"Name": name}
+    json_account_name = decodeValues(account_name)
+    return json_account_name
 
-def get_name(email):
-    user_account = get_connection(email)
-
-    #Now get the account details
-    #Name
-    first_name = user_account.get("firstName")
-    last_name = user_account.get("lastName")
-    name = first_name + " " + last_name
-    return {"Name": name}
-
-def get_email(email):
+def get_account_email(email):
     user_account = get_connection(email)
     email = user_account.get("email")
-    return {"email": email}
+    account_email =  {"email": email}
+    json_email_name = decodeValues(account_email)
+    return json_email_name
 
-def get_postcode(email):
+def get_account_postcode(email):
     user_account = get_connection(email)
     postcode = user_account.get("postcode")
-    return {"postcode": postcode}
+    account_postcode = {"postcode": postcode}
+    json_postcode = decodeValues(account_postcode)
+    return json_postcode
 
-def get_password(email):
+def get_account_password(email):
     user_account = get_connection(email)
     password = user_account.get("password")
-    return {"Password": password}
+    account_password = {"Password": password}
+    json_password = decodeValues(account_password)
+    return json_password
 
+def decodeValues(details):
+    for key, value in details.items():
+        if isinstance(value, bytes):
+            details[key] = value.decode('utf-8')  # Decode bytes to UTF-8 string
 
+    # Now you can serialize the entire data structure to JSON
+    json_data = json.dumps(details)
+    return json_data
  
