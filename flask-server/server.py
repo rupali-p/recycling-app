@@ -12,7 +12,7 @@ from models.ml_model import make_prediction
 from register_user import register_user, USER_ADDED, EMAIL_EXISTS
 from get_scan_results import get_recycling_result, get_recycling_results
 from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
-from account_details import get_all_account_details, get_account_name
+from account_details import get_all_account_details, get_account_name_details, get_account_password_details, get_account_postcode_details
 import json
 import numpy as np
 
@@ -108,18 +108,18 @@ def get_account_email(email):
 
 @app.route("/api/get-accountdetails-name/<email>")
 def get_account_name(email):
-    account_name = get_account_name(email)
+    account_name = get_account_name_details(email)
     return account_name, 200
 
-# @app.route("/api/get-accountdetails-postcode/<email>")
-# def get_account_postcode(email):
-#     account_postcode = get_account_postcode(email)
-#     return account_postcode
+@app.route("/api/get-accountdetails-postcode/<email>")
+def get_account_postcode(email):
+    account_postcode = get_account_postcode_details(email)
+    return account_postcode
 
-# @app.route("/api/get-accountdetails-password/<email>")
-# def get_account_password(email):
-#     account_password = get_account_password(email)
-#     return account_password
+@app.route("/api/get-accountdetails-password/<email>")
+def get_account_password(email):
+    account_password = get_account_password_details(email)
+    return account_password
 
 
 @app.route("/members")
