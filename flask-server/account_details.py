@@ -34,7 +34,7 @@ def get_all_account_details(email):
         json_data = "Error, this user doesn't exists"
     return json_data
 
-def get_account_name(email):
+def get_account_name_details(email):
     # Connect to the database,
     user_account = get_connection(email)
     if(user_account != "NoneType"):
@@ -50,9 +50,33 @@ def get_account_name(email):
         json_data = "Error, this user doesn't exists"
     return json_data
 
+def get_account_password_details(email):
+    # Connect to the database,
+    user_account = get_connection(email)
+    if(user_account != "NoneType"):
+      #Now get the account details
+      #Password
+      password = user_account.get("password")
+      details = {"Password": password}
+      #decode the data into a json format
+      json_data = decodeValues(details)
+    else:
+        json_data = "Error, this user doesn't exists"
+    return json_data
 
-
-
+def get_account_postcode_details(email):
+    # Connect to the database,
+    user_account = get_connection(email)
+    if(user_account != "NoneType"):
+      #Now get the account details
+      #Postcode
+      postcode = user_account.get("postcode")
+      details = {"Postcode": postcode}
+      #decode the data into a json format
+      json_data = decodeValues(details)
+    else:
+        json_data = "Error, this user doesn't exists"
+    return json_data
 
 
 
