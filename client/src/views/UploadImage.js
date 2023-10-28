@@ -325,6 +325,20 @@ const UploadImage = () => {
         <>
             <Navbar/>
             <Grid container spacing={2}>
+<<<<<<< HEAD
+                <Grid item xs={1} m={5}>
+                    <h>Hamlet.</h>
+                </Grid>
+
+                <Grid item xs={9} m={5}>
+                    <Box display="flex" justifyContent="flex-end">
+                        <MenuIcon style={{ color: "white" }} fontSize="large" />
+                    </Box>
+                </Grid>
+                
+                {/* <TopNav /> */}
+=======
+>>>>>>> main
                 {
                     !image ? (
                         <Grid item xs={12}>
