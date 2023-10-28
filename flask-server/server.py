@@ -12,7 +12,7 @@ from models.ml_model import make_prediction
 from register_user import register_user, USER_ADDED, EMAIL_EXISTS
 from get_scan_results import get_recycling_result, get_recycling_results
 from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
-from account_details import get_all_account_details, get_account_name_details, get_account_password_details, get_account_postcode_details
+from account_details import get_all_account_details, get_account_name_details, get_account_password_details, get_account_postcode_details, get_account_scancount_details
 import json
 import numpy as np
 
@@ -101,7 +101,7 @@ def handle_login():
         return result, 401
 
 
-@app.route("/api/get-accountdetails/<email>")
+@app.route("/api/get-accountdetails/<email>", methods=["POST"])
 def get_account_email(email):
     account_details = get_all_account_details(email)
     return account_details, 200
@@ -121,6 +121,10 @@ def get_account_password(email):
     account_password = get_account_password_details(email)
     return account_password
 
+@app.route("/api/get-accountdetails-scancount/<email>")
+def get_account_scancount(email):
+    account_scancount = get_account_scancount_details(email)
+    return account_scancount
 
 @app.route("/members")
 def members():

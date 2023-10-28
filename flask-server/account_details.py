@@ -78,6 +78,19 @@ def get_account_postcode_details(email):
         json_data = "Error, this user doesn't exists"
     return json_data
 
+def get_account_scancount_details(email):
+    # Connect to the database,
+    user_account = get_connection(email)
+    if(user_account != "NoneType"):
+      #Now get the account details
+      #Postcode
+      scanCount = user_account.get("scan count")
+      details = {"Scan Count": scanCount}
+      #decode the data into a json format
+      json_data = decodeValues(details)
+    else:
+        json_data = "Error, this user doesn't exists"
+    return json_data
 
 
 
