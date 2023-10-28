@@ -10,7 +10,7 @@ from flask import Flask, request, jsonify
 
 from models.ml_model import make_prediction
 from register_user import register_user, USER_ADDED, EMAIL_EXISTS
-from get_scan_results import get_recycling_result
+from get_scan_results import get_recycling_result, get_recycling_results
 from login import login_user, LOGIN_FAILED, LOGIN_SUCCCESS
 import json
 import numpy as np
@@ -57,13 +57,16 @@ def handle_upload():
 
     :return: The image with its classification
     """
-    with open("output.txt", "w") as f:
-        print(request.data, file=f)
+    data = request.get_json()
+    image_data = data["image_data"]
 
-    decoded = base64.b64decode(request.data)
+    with open("output.txt", "w") as f:
+        print(image_data, file=f)
+
+    decoded = base64.b64decode(image_data)
     buf = io.BytesIO(decoded)
 
-    results = make_prediction(input_image=buf, output_img_format=OUTPUT_IMAGE_FORMAT)
+    results, model_used = make_prediction(input_image=buf, output_img_format=OUTPUT_IMAGE_FORMAT)
     results_image = results.get("results_image")
     image_format = results.get("image_format")
     detections = results.get("detections")
@@ -75,6 +78,7 @@ def handle_upload():
             "image": results_image,
             "encoding": image_format.lower(),
             "detections": json.dumps(detections, default=np_encoder),
+            "model_used": model_used
         }
     )
 
@@ -110,6 +114,23 @@ def view_result(articleNum):
         return result, 200
     else:
         return result, 500
+
+@app.route("/api/view-results", methods=["POST"])
+def view_results():
+    data = request.get_json()
+    article_numbers = data["article_numbers"]
+    print(article_numbers)
+    arl_results = get_recycling_results(article_numbers)
+    print(arl_results)
+    return jsonify(
+        {
+            "success": True,
+            "arl_results": json.dumps(arl_results)
+        }
+    )
+
+
+
 
 # Runs on localhost:5000 as default
 # Change the directory to 'flask-server' and run command 'py server.py' to get started
