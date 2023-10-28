@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import logo from "../images/hamlet-logo.png";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -331,6 +331,10 @@ const Account = () => {
       </React.Fragment>
     );
   }
+
+  useLayoutEffect(() => {
+    document.body.style.background = "linear-gradient(90deg, #12261E, #1A4D39)"
+  })
 
   return (
     <div

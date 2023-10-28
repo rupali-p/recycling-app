@@ -22,6 +22,7 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import TopNav from "../components/TopNav";
 import {CLASS_ARTICLE_MAPPING, ARL_CLASS_LABELS_MAPPING} from "../const";
 import {Link} from "react-router-dom";
+import { Navbar } from "../components/Navbar";
 
 
 /**
@@ -322,11 +323,22 @@ const UploadImage = () => {
 
     return (
         <>
+            <Navbar/>
             <Grid container spacing={2}>
-                <Grid item xs={12} m={5}>
+<<<<<<< HEAD
+                <Grid item xs={1} m={5}>
                     <h>Hamlet.</h>
                 </Grid>
+
+                <Grid item xs={9} m={5}>
+                    <Box display="flex" justifyContent="flex-end">
+                        <MenuIcon style={{ color: "white" }} fontSize="large" />
+                    </Box>
+                </Grid>
+                
                 {/* <TopNav /> */}
+=======
+>>>>>>> main
                 {
                     !image ? (
                         <Grid item xs={12}>
