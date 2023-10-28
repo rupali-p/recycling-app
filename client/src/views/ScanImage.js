@@ -10,7 +10,7 @@ import Camera, {displaySquareImage} from "../components/Camera";
 import {ArlInfo, SymbolInfo, getDetectionsInfo, ScanAgainButton} from "./UploadImage";
 import TopNav from "../components/TopNav";
 import {Navbar} from "../components/Navbar";
-import {ARL_CLASS_LABELS_MAPPING} from "../const";
+import {ARL_CLASS_LABELS_MAPPING, RESULTS_MAPPING} from "../const";
 
 
 const ScanImage = () => {
@@ -21,6 +21,9 @@ const ScanImage = () => {
     const [symbolName, setSymbolName] = useState();
     const [symbolDescription, setSymbolDescription] = useState();
     const [symbolBin, setSymbolBin] = useState();
+    const [resultLink, setResultLink] = useState();
+    const [resultLinkText, setResultLinkText] = useState();
+
     const [usedArlModel,setUsedArlModel] = useState();
     const [arlResults, setArlResults] = useState([]);
 
@@ -35,6 +38,8 @@ const ScanImage = () => {
                 setSymbolName(data["Pic Name"])
                 setSymbolDescription(data["Short Description"])
                 setSymbolBin(data["Bin to use"])
+                setResultLink(RESULTS_MAPPING[data["Bin to use"]]["resultLink"])
+                setResultLinkText(RESULTS_MAPPING[data["Bin to use"]]["resultLinkText"])
             });
         });
     };
@@ -56,6 +61,8 @@ const ScanImage = () => {
                 arl_results.forEach((arl_res) => {
                     arl_res.Abbreviation = ARL_CLASS_LABELS_MAPPING[arl_res.Name]["abbr"]
                     arl_res.SymbolImage = ARL_CLASS_LABELS_MAPPING[arl_res.Name]["symbolImage"]
+                    arl_res.ResultLink = RESULTS_MAPPING[arl_res["Result"]]["resultLink"]
+                    arl_res.ResultLinkText = RESULTS_MAPPING[arl_res["Result"]]["resultLinkText"]
                     arl_info.push(arl_res)
                 })
 
@@ -130,6 +137,8 @@ const ScanImage = () => {
                                     symbolDescription={symbolDescription}
                                     symbolApplications={symbolApplications}
                                     symbolBin={symbolBin}
+                                    resultLink={resultLink}
+                                    resultLinkText={resultLinkText}
                                     AgainButton={ScanAgainButton}
                                 />
 
