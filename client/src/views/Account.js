@@ -413,7 +413,7 @@ const Account = () => {
                     />
                 </Tabs>
             </WhiteIndicatorTabs>
-            {tabValue === 0 && (
+            {tabValue === 0 && email && (
                 <div
                     style={{
                         display: "flex",
@@ -424,20 +424,20 @@ const Account = () => {
                 >
 
                     <TextField
-                        value={`Name: ${name}`}
+                        value={name}
                         variant="outlined"
                         style={tabStyle}
                         InputLabelProps={{style: {color: "black"}}}
                     />
                     <TextField
-                        value={`Email: ${email}`}
+                        value={email}
                         variant="outlined"
                         style={tabStyle}
                         InputLabelProps={{style: {color: "black"}}}
                     />
                     <TextField
                         variant="outlined"
-                        value={`Postcode: ${postCode}`}
+                        value={postCode}
                         autoFocus
                         style={tabStyle}
                         InputLabelProps={{style: {color: "black"}}}
