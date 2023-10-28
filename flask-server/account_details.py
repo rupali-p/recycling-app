@@ -27,7 +27,8 @@ def get_all_account_details(email):
       password = user_account.get("password")
       #Postcode
       postcode = user_account.get("postcode")
-      details = {"Name": name, "Email": email, "password": password, "postcode": postcode}
+      scan_count = user_account.get("scan count")
+      details = {"Name": name, "Email": email, "password": password, "postcode": postcode, "scan count": scan_count}
       #decode the data into a json format
       json_data = decodeValues(details)
     else:
