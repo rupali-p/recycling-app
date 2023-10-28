@@ -74,6 +74,7 @@ const Account = () => {
                 setEmail(data["Email"]);
                 setName(data["Name"]);
                 setPostCode(data["postcode"]);
+                setScanCount(data["scan_count"])
             })
         })
     }
@@ -477,7 +478,7 @@ const Account = () => {
                     </Button>
                 </div>
             )}
-            {tabValue === 1 && (
+            {tabValue === 1 && scanCount && (
                 <div style={{margin: "30px"}}>
                     <div style={{flexGrow: 1}}>
                         <Grid container spacing={3}>
@@ -488,7 +489,7 @@ const Account = () => {
                                     <br/>
 
                                     <p style={{display: "inline-block"}}>
-                                        <strong className="number-of-scans">27</strong> items
+                                        <strong className="number-of-scans">{scanCount}</strong> items
                                     </p>
 
                                     <br/>
