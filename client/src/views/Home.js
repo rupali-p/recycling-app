@@ -53,7 +53,7 @@ const Home = () => {
                 color: "white",
               },
             }} href={"./UploadImage"}>
-                  Upload Scan
+                  Upload Image
                 </Button>
               </p>
             </div>
