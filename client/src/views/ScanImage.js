@@ -153,7 +153,7 @@ const ScanImage = () => {
                                         symbolBin={symbolBin}
                                         AgainButton={ScanAgainButton}
                                     />
-                                </>
+                                )
                             ) : (
                                 <SymbolInfo
                                     symbolName={symbolName}
@@ -167,11 +167,11 @@ const ScanImage = () => {
 
                                 )
 
-                            ) : (
+         } : (
                                 <></>
                             )
 
-                            }
+                )
                             {symbolName == 'No Detections' ? (
                                 <>
                                     <Typography variant={"h3"} style={{ color: 'white' }} mb={5}>No Detections</Typography>
