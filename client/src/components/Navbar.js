@@ -37,10 +37,10 @@ export const Navbar = () => {
                   <Typography variant={"h1"}>Hamlet.</Typography>
                 </Link>
               </Grid>
-              <Grid item xs={4} md={2}>
-                  <IconButton size="small">
+              <Grid item xs={4} md={2} mt={4}>
+                  <IconButton>
                     <MenuRoundedIcon
-                        sx={{p: 5, pr: 7, fontSize: 60, color: "White"}}
+                        sx={{fontSize: 60, color: "White"}}
                         onClick={handleOpenNav}
                     />
                   </IconButton>

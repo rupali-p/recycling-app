@@ -27,6 +27,11 @@ import placeholder7 from "../images/dummy photos/placeholder_arl_table_7.jpg";
 import placeholder8 from "../images/dummy photos/placeholder_arl_table_8.jpg";
 import placeholder9 from "../images/dummy photos/placeholder_arl_table_9.jpg";
 import placeholder10 from "../images/dummy photos/placeholder_arl_table_10.jpg";
+import {Navbar} from "../components/Navbar";
+import {createTheme, responsiveFontSizes, ThemeProvider} from '@mui/material/styles';
+
+let theme = createTheme();
+theme = responsiveFontSizes(theme);
 
 const councils = [
     {
@@ -50,9 +55,7 @@ const WhiteIndicatorTabs = styled(Tabs)({
 });
 
 const tabStyle = {
-    margin: "10px",
     color: "black",
-    minWidth: "40rem",
     backgroundColor: "#d9d9d9",
     borderRadius: "10px",
 };
@@ -363,163 +366,160 @@ const Account = () => {
         document.body.style.background = "linear-gradient(90deg, #12261E, #1A4D39)"
     })
 
-    // const AccountInfo = () => {
-    //   <>
-    //     <Grid container spacing={2}>
-    //       <Grid item xs={12}>
-    //         <Grid item xs={2}>
-    //
-    //         </Grid>
-    //       </Grid>
-    //
-    //     </Grid>
-    //   </>
-    //
-    // }
+    const AccountInfo = () => {
+        return (
+            <>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} align={"center"}>
+                        <Grid item xs={12} md={6} m={3}>
+                            <TextField
+                                value={name}
+                                variant="outlined"
+                                fullWidth
+                                style={tabStyle}
+                                InputLabelProps={{style: {color: "black"}}}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6} m={3}>
+                            <TextField
+                                value={email}
+                                variant="outlined"
+                                style={tabStyle}
+                                fullWidth
+                                InputLabelProps={{style: {color: "black"}}}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6} m={3}>
+                            <TextField
+                                variant="outlined"
+                                value={postCode}
+                                autoFocus
+                                fullWidth
+                                style={tabStyle}
+                                InputLabelProps={{style: {color: "black"}}}
+                            />
+
+                        </Grid>
+
+                        {/*<Button*/}
+                        {/*  style={{*/}
+                        {/*    borderRadius: "50px",*/}
+                        {/*    textTransform: "none",*/}
+                        {/*    padding: "10px 20px",*/}
+                        {/*    borderColor: "blue",*/}
+                        {/*    backgroundColor: "#d9d9d9",*/}
+                        {/*    color: "black",*/}
+                        {/*    margin: "10px",*/}
+                        {/*    minWidth: "30rem",*/}
+                        {/*  }}*/}
+                        {/*>*/}
+                        {/*  Edit*/}
+                        {/*</Button>*/}
+                        <Button
+                            onClick={handleClick}
+                            href="/"
+                            style={
+                                {
+                                    backgroundColor: "white",
+                                    color: "Black",
+                                    marginRight: 2,
+                                    "&:hover": {
+                                        backgroundColor: "green",
+                                        color: "white",
+                                    }
+                                }
+
+                            }
+                        >
+                            {" "}
+                            Sign Out{" "}
+                        </Button>
+                    </Grid>
+
+                </Grid>
+            </>
+
+        )
+    }
+
+    const ScanHistory = () => {
+        return (
+            <>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={6} align={"center"}>
+                        <Typography variant={"h4"} style={{color: "white"}} mt={2}>You've scanned</Typography>
+                        <Typography variant={"h1"} display={"inline"} sx={{fontSize: {xs: "5em", md: "10em"}}}>
+                            <strong>{scanCount}</strong>
+                        </Typography>
+                        <Typography display={"inline"}> items</Typography>
+                        <Grid item xs={12} align={"center"} mt={3}>
+                            <Typography variant={"h5"} style={{color: "white"}}>
+                                <strong>Did you know</strong> that’s enough plastic to make
+                            </Typography>
+                            <Typography variant={"h6"} style={{color: "white"}}>exactly 3.52 Kardashians?</Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} md={6} align={"center"}>
+                        <Grid item xs={12} mb={2} mt={2}>
+                            <Typography variant={"h4"} style={{color: "white"}}><strong>
+                                Scan
+                                History</strong></Typography>
+                        </Grid>
+                        <Paper style={{height: 320, width: "90%"}}>
+                            <TableVirtuoso
+                                data={rows}
+                                components={VirtuosoTableComponents}
+                                fixedHeaderContent={fixedHeaderContent}
+                                itemContent={rowContent}
+                            />
+                        </Paper>
+                    </Grid>
+                </Grid>
+            </>
+        )
+    }
 
     return (
-        <div
-            style={{
-                flexDirection: "column",
-                // Align children components to the start of the column
-                height: "100vh", // Set the height of the container to the full viewport height
-                background: "linear-gradient(to right, #12271e, #1a4d39)",
-                padding: "20px", // Add some padding for better spacing
-                width: "100%",
-            }}
-        >
-            <Typography
-                variant="h2"
-                style={{marginBottom: "20px", color: "white", fontSize: "8rem"}}
-            >
-                Hamlet.
-            </Typography>
-            <WhiteIndicatorTabs onChange={handleChange} value={tabValue}>
-                <Tabs value={tabValue} onChange={handleChange}>
-                    <Tab
-                        label="Account details"
-                        value={0}
-                        style={{
-                            color: "white",
-                            minWidth: "20rem",
-                        }}
-                    />
-                    <Tab
-                        label="Your Journey"
-                        value={1}
-                        style={{
-                            color: "white",
-                            minWidth: "20rem",
-                        }}
-                    />
-                </Tabs>
-            </WhiteIndicatorTabs>
-            {tabValue === 0 && email && (
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        marginTop: "50px",
-                    }}
-                >
-
-                    <TextField
-                        value={name}
-                        variant="outlined"
-                        style={tabStyle}
-                        InputLabelProps={{style: {color: "black"}}}
-                    />
-                    <TextField
-                        value={email}
-                        variant="outlined"
-                        style={tabStyle}
-                        InputLabelProps={{style: {color: "black"}}}
-                    />
-                    <TextField
-                        variant="outlined"
-                        value={postCode}
-                        autoFocus
-                        style={tabStyle}
-                        InputLabelProps={{style: {color: "black"}}}
-                    />
-                    {/*<Button*/}
-                    {/*  style={{*/}
-                    {/*    borderRadius: "50px",*/}
-                    {/*    textTransform: "none",*/}
-                    {/*    padding: "10px 20px",*/}
-                    {/*    borderColor: "blue",*/}
-                    {/*    backgroundColor: "#d9d9d9",*/}
-                    {/*    color: "black",*/}
-                    {/*    margin: "10px",*/}
-                    {/*    minWidth: "30rem",*/}
-                    {/*  }}*/}
-                    {/*>*/}
-                    {/*  Edit*/}
-                    {/*</Button>*/}
-                    <Button
-                        onClick={handleClick}
-                        href="/"
-                        style={
-                            {
-                                backgroundColor: "white",
-                                color: "Black",
-                                marginRight: 2,
-                                "&:hover": {
-                                    backgroundColor: "green",
+        <ThemeProvider theme={theme}>
+            <Navbar/>
+            <Grid container spacing={2}>
+                <Grid item xs={12} align={"center"}>
+                    <WhiteIndicatorTabs onChange={handleChange} value={tabValue}>
+                        <Tabs value={tabValue} onChange={handleChange}>
+                            <Tab
+                                label="Account details"
+                                value={0}
+                                style={{
                                     color: "white",
-                                }
-                            }
+                                }}
+                                sx={{
+                                    minWidth: {xs: "10rem", md: "20rem"},
+                                }}
+                            />
+                            <Tab
+                                label="Your Journey"
+                                value={1}
+                                style={{
+                                    color: "white",
+                                }}
+                                sx={{
+                                    minWidth: {xs: "10rem", md: "20rem"},
+                                }}
+                            />
+                        </Tabs>
 
-                        }
-                    >
-                        {" "}
-                        Sign Out{" "}
-                    </Button>
-                </div>
-            )}
-            {tabValue === 1 && scanCount && (
-                <div style={{margin: "30px"}}>
-                    <div style={{flexGrow: 1}}>
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} md={6}>
-                                <div className="section-left">
-                                    <h1>You've scanned</h1>
+                    </WhiteIndicatorTabs>
 
-                                    <br/>
+                </Grid>
+                {tabValue === 0 && email && (
+                    <AccountInfo/>
+                )}
+                {tabValue === 1 && scanCount && (
+                    <ScanHistory/>
+                )}
 
-                                    <p style={{display: "inline-block"}}>
-                                        <strong className="number-of-scans">{scanCount}</strong> items
-                                    </p>
-
-                                    <br/>
-
-                                    <p>
-                                        <strong>Did you know</strong> that’s enough plastic to make
-                                    </p>
-                                    <p>exactly 3.52 Kardashians?</p>
-                                </div>
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <div className="section-right">
-                                    <h1>Scan History</h1>
-                                    <div className="table-container">
-                                        <Paper style={{height: 350, width: "90%"}}>
-                                            <TableVirtuoso
-                                                data={rows}
-                                                components={VirtuosoTableComponents}
-                                                fixedHeaderContent={fixedHeaderContent}
-                                                itemContent={rowContent}
-                                            />
-                                        </Paper>
-                                    </div>
-                                </div>
-                            </Grid>
-                        </Grid>
-                    </div>
-                </div>
-            )}
-        </div>
+            </Grid>
+        </ThemeProvider>
     );
 };
 
