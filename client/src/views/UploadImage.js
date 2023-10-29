@@ -362,15 +362,16 @@ const UploadImage = () => {
                     <div className="center" id="Upload Image Box">
                       <Box
                         component="span"
-                        p={{ xs: 10, md: 25 }}
+                        p={{ xs: 5, md: 15 }} // Adjust the padding to make the box wider
                         sx={{
                           border: "10px dashed white",
                           backgroundColor: "grey",
                           opacity: [0.7, 0.6, 0.4],
                           borderRadius: "16px",
-                          display: "flex", // Add display: "flex" to the container
-                          flexDirection: "column", // Set flexDirection to "column" for vertical alignment
-                          alignItems: "center", // Align items (children) at the center vertically
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          width: "300px", // Set a fixed width to make the box wider
                           "&:hover": {
                             opacity: [0.9, 0.8, 0.7],
                           },
@@ -378,12 +379,11 @@ const UploadImage = () => {
                       >
                         <UploadFileIcon
                           sx={{
-                            fontSize: 180,
+                            fontSize: 120,
                             color: "White",
                             marginBottom: 2,
                           }}
                         />{" "}
-                        {/* Add marginBottom */}
                         <Button
                           component="label"
                           variant="text"
