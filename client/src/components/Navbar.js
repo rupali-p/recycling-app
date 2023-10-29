@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography"
 import "../css/Navbar.css";
 import { Link, NavLink } from "react-router-dom";
 import {createTheme, responsiveFontSizes, ThemeProvider} from '@mui/material/styles';
+import hamlet from "../images/hamlet-logo-white.png";
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -30,11 +31,13 @@ export const Navbar = () => {
 
   return (
       <ThemeProvider theme={theme}>
-        <nav>
+        <nav sx={{padding: '2%'}}>
         <Grid container spacing={2}>
               <Grid item xs={8} md={10}>
                 <Link to="/" className="title">
-                  <Typography variant={"h1"}>Hamlet.</Typography>
+                  <img src={hamlet} alt={"Hamlet"} sx={{
+                    width: '10%', 
+                    height: "3%" }}/>
                 </Link>
               </Grid>
               <Grid item xs={4} md={2} mt={4}>
