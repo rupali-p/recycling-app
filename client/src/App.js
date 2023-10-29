@@ -56,10 +56,9 @@ const App = () => {
         <Route path="/PICResult7" element={<PICResult7 />} />
         <Route path="/YellowBinResult" element={<YellowBinResult />} />
         <Route path="/RedBinResult" element={<RedBinResult />} />
-        <Route path="/ScanImage" element={<ScanImage />} />
 
         <Route path="/Account" element={<PrivateRoute><Account /></PrivateRoute>}/>
-        {/* <Route path="/ScanImage" element={<PrivateRoute><ScanImage /></PrivateRoute>}/> */}
+        <Route path="/ScanImage" element={<PrivateRoute><ScanImage /></PrivateRoute>}/>
         <Route path="/UploadImage" element={<PrivateRoute><UploadImage /></PrivateRoute>}/>
 
       </Routes>
