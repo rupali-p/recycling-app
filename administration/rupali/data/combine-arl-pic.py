@@ -3,8 +3,8 @@ import random
 import shutil
 
 # Define paths for arl and pic datasets
-arl_path = 'administration/rupali/data/arl-done/arl-131'
-pic_path = 'administration/rupali/data/pic'  
+arl_path = 'administration/rupali/data/new-arl-images-done'
+pic_path = 'administration/rupali/data/pic'
 
 # arl_labels_train = os.listdir('administration/rupali/data/arl-done/arl-131/train/labels')
 # arl_labels_valid = os.listdir('administration/rupali/data/arl-done/arl-131/valid/labels')
@@ -22,7 +22,7 @@ pic_path = 'administration/rupali/data/pic'
 
 
 # Define paths for the combined dataset
-combined_path = 'administration/rupali/data/combined'
+combined_path = 'administration/rupali/data/combined-new'
 
 # Copy 'train', 'valid', and 'test' data from arl dataset
 for split in ['train', 'valid', 'test']:
