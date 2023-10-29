@@ -133,7 +133,7 @@ const Signup = () => {
                             height: '100px',
                             backgroundColor: 'secondary.main',
                         }} className="hamlet-image" />
-                        <Typography component="h2" variant="h5" color="white">
+                        <Typography component="h3" variant="h5" color="white">
                             Sign up
                         </Typography>
                         <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit}>

@@ -146,7 +146,7 @@ const Login = () => {
       height: '100px',
       backgroundColor: 'secondary.main',
     }} className="hamlet-image" />
-            <Typography component="h2" variant="h5" style={{ color: 'white' }}>
+            <Typography component="h3" variant="h5" style={{ color: 'white' }}>
               Login
             </Typography>
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -200,7 +200,7 @@ const Login = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Login
               </Button>
               <Grid container>
                 <Grid item xs>  
