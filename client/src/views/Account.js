@@ -16,6 +16,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import {TableVirtuoso, TableComponents} from "react-virtuoso";
 import {styled} from "@mui/system";
+import { Navbar } from "../components/Navbar";
 
 import placeholder1 from "../images/dummy photos/placeholder_arl_table_1.jpg";
 import placeholder2 from "../images/dummy photos/placeholder_arl_table_2.jpg";
