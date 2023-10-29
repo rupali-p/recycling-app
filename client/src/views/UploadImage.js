@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import TopNav from "../components/TopNav";
-import {CLASS_ARTICLE_MAPPING, ARL_CLASS_LABELS_MAPPING} from "../const";
+import {CLASS_ARTICLE_MAPPING, ARL_CLASS_LABELS_MAPPING, RESULTS_MAPPING} from "../const";
 import {Link} from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 
@@ -83,7 +83,7 @@ export const ArlInfo = ({symbolResults, AgainButton}) => {
                 }}/>
             </Grid>
             <Grid item xs={12} mt={5}>
-                <List sx={{ width: '100%', maxWidth: 360, }}>
+                <List sx={{ width: '100%' }}>
                 {symbolResults.map((info) => {
                     return(
                         <>
@@ -97,17 +97,31 @@ export const ArlInfo = ({symbolResults, AgainButton}) => {
                                     }
                                     secondary={
                                         <React.Fragment>
-                                            <Typography
-                                                sx={{ display: 'inline' }}
-                                                component="span"
-                                                variant="h5"
-                                                color="white"
-                                            >
-                                                {info["Name"]}
-                                            </Typography>
-                                            <Typography color={"white"}>
-                                                {info["Symbol"]}
-                                            </Typography>
+                                            <Grid container spacing={2}>
+                                                <Grid item xs={12} md={6}>
+                                                    <Typography
+                                                        sx={{ display: 'inline' }}
+                                                        component="span"
+                                                        variant="h5"
+                                                        color="white"
+                                                    >
+                                                        {info["Name"]}
+                                                    </Typography>
+                                                    <Typography color={"white"}>
+                                                        {info["Symbol"]}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item xs={12} md={6}>
+                                                    <Button sx={buttonStyles}>
+                                                        <Link
+                                                            to={info["ResultLink"]}
+                                                            style={{textDecoration: 'none', color: 'black'}}
+                                                        >
+                                                            {info["ResultLinkText"]}
+                                                        </Link>
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
                                         </React.Fragment>
                                     }
                                 />
@@ -123,12 +137,6 @@ export const ArlInfo = ({symbolResults, AgainButton}) => {
                 <Grid item xs={6}>
                     <AgainButton/>
                 </Grid>
-                <Grid item xs={6}>
-                    <Button sx={buttonStyles}>
-                        <Link to="/PICResult1" style={{textDecoration: 'none', color: 'black'}}>Go to Recycling
-                            Checklist</Link>
-                    </Button>
-                </Grid>
             </Grid>
         </>
     )
@@ -143,7 +151,7 @@ export const ArlInfo = ({symbolResults, AgainButton}) => {
  * @param AgainButton {JSX.Element} The button that redirects to scan/upload again
  * @returns {JSX.Element} Component that shows the symbol's information
  */
-export const SymbolInfo = ({symbolName, symbolDescription, symbolBin, symbolApplications, AgainButton}) => {
+export const SymbolInfo = ({symbolName, symbolDescription, symbolBin, symbolApplications, resultLink, resultLinkText, AgainButton}) => {
     return (
         <>
             <Typography variant={"h3"} style={{color: 'white'}}>Results</Typography>
@@ -177,8 +185,9 @@ export const SymbolInfo = ({symbolName, symbolDescription, symbolBin, symbolAppl
                 </Grid>
                 <Grid item xs={6}>
                     <Button sx={buttonStyles}>
-                        <Link to="/PICResult1" style={{textDecoration: 'none', color: 'black'}}>Go to Recycling
-                            Checklist</Link>
+                        <Link to={resultLink} style={{textDecoration: 'none', color: 'black'}}>
+                            {resultLinkText}
+                        </Link>
                     </Button>
                 </Grid>
             </Grid>
@@ -221,6 +230,9 @@ const UploadImage = () => {
     const [symbolName, setSymbolName] = useState();
     const [symbolDescription, setSymbolDescription] = useState();
     const [symbolBin, setSymbolBin] = useState();
+    const [resultLink, setResultLink] = useState();
+    const [resultLinkText, setResultLinkText] = useState();
+
     const [usedArlModel,setUsedArlModel] = useState();
     const [arlResults, setArlResults] = useState([]);
 
@@ -234,6 +246,8 @@ const UploadImage = () => {
                 setSymbolName(data["Pic Name"])
                 setSymbolDescription(data["Short Description"])
                 setSymbolBin(data["Bin to use"])
+                setResultLink(RESULTS_MAPPING[data["Bin to use"]]["resultLink"])
+                setResultLinkText(RESULTS_MAPPING[data["Bin to use"]]["resultLinkText"])
             });
         });
     };
@@ -255,6 +269,8 @@ const UploadImage = () => {
                 arl_results.forEach((arl_res) => {
                     arl_res.Abbreviation = ARL_CLASS_LABELS_MAPPING[arl_res.Name]["abbr"]
                     arl_res.SymbolImage = ARL_CLASS_LABELS_MAPPING[arl_res.Name]["symbolImage"]
+                    arl_res.ResultLink = RESULTS_MAPPING[arl_res["Result"]]["resultLink"]
+                    arl_res.ResultLinkText = RESULTS_MAPPING[arl_res["Result"]]["resultLinkText"]
                     arl_info.push(arl_res)
                 })
 
@@ -439,6 +455,8 @@ const UploadImage = () => {
                                         symbolDescription={symbolDescription}
                                         symbolApplications={symbolApplications}
                                         symbolBin={symbolBin}
+                                        resultLink={resultLink}
+                                        resultLinkText={resultLinkText}
                                         AgainButton={ScanAgainButton}
                                     />
 

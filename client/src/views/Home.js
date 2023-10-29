@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useLayoutEffect } from "react";
 import "../css/Common.css";
 import Grid from "@mui/material/Grid";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -9,6 +9,11 @@ import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 
 const Home = () => {
+
+  useLayoutEffect(() => {
+    document.body.style.background = "linear-gradient(90deg, #12261E, #1A4D39)"
+  })
+  
   function handleClick(e) {
     console.log("button clicked");
     console.log("username is now " + localStorage.getItem("userName"));
@@ -63,7 +68,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div></div>
     </div>
   );
 };

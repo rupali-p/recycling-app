@@ -27,3 +27,10 @@ export const ARL_CLASS_LABELS_MAPPING = {
     "Not Recyclable": notRecyclable,
     "Check Locally": checkLocal
 }
+
+export const RESULTS_MAPPING = {
+    "Not Recyclable": {"resultLink": "/RedBinResult", "resultLinkText": "Go to Red Bin Page"},
+    "Recyclable": {"resultLink": "/Checklist", "resultLinkText": "Go to Recycling Checklist"},
+    "Conditionally": {"resultLink": "/Checklist", "resultLinkText": "Go to Recycling Checklist"},
+    "Check Locally": {"resultLink": "/Checklist", "resultLinkText": "Go to Recycling Checklist"},
+}
