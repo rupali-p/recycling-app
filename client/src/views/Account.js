@@ -89,26 +89,6 @@ const Account = () => {
         }
     }
 
-
-
-
-
-
-
-        // await fetch(apiPath, {
-        //     method: "GET",
-        // }).then((resp) => {
-        //     console.log("This is the response sent", resp)
-        //     resp.json().then((data) => {
-        //         console.log("This is the email", data["Email"])
-        //         setEmail(data["Email"]);
-        //         setName(data["Name"]);
-        //         setPostCode(data["postcode"]);
-        //         setScanCount(data["scan_count"])
-    //         })
-    //     }), 
-    // }
-
     useEffect(() => {
             if (!email) {
                 const userName = localStorage.getItem("userName");
