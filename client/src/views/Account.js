@@ -28,7 +28,6 @@ import placeholder7 from "../images/dummy photos/placeholder_arl_table_7.jpg";
 import placeholder8 from "../images/dummy photos/placeholder_arl_table_8.jpg";
 import placeholder9 from "../images/dummy photos/placeholder_arl_table_9.jpg";
 import placeholder10 from "../images/dummy photos/placeholder_arl_table_10.jpg";
-import {Navbar} from "../components/Navbar";
 import {createTheme, responsiveFontSizes, ThemeProvider} from '@mui/material/styles';
 
 let theme = createTheme();
