@@ -50,7 +50,7 @@ def handle_register_user():
         first_name=data["firstName"],
         last_name=data["lastName"],
         email=data["email"],
-        postcode=data["postcode"],
+        postcode=data["postcode"]
     )
     res = {"result": register_result}
     print(register_result)

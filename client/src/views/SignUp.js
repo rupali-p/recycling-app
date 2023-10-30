@@ -27,7 +27,7 @@ const defaultTheme = createTheme();
 const Signup = () => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
-    const [postcode, setPostcode] = useState();
+    const [postcode, setPostcode] = useState(2000);
 
     const [email, setEmail] = useState('')
     const [emailError, setEmailError] = useState('')
