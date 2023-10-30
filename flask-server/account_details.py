@@ -31,7 +31,9 @@ def get_all_account_details(email):
 
       details = {"Name": name, "Email": email, "password": password, "postcode": postcode, "scan_count": scan_count}
       #decode the data into a json format
+      print("Details collected")
       json_data = decodeValues(details)
+      print(type(json_data))
     else:
         json_data = "Error, this user doesn't exists"
     return json_data
@@ -93,46 +95,6 @@ def get_account_scancount_details(email):
     else:
         json_data = "Error, this user doesn't exists"
     return json_data
-
-
-
-
-
-
-
-
-# def get_account_name(email):
-#     user_account = get_connection(email)
-#     #Now get the account details
-#     #Name
-#     first_name = user_account.get("firstName")
-#     print(first_name)
-#     # last_name = user_account.get("lastName")
-#     # name = first_name + " " + last_name
-#     account_name =  {"Name": first_name}
-#     json_account_name = decodeValues(account_name)
-#     return json_account_name
-
-# def get_account_email(email):
-#     user_account = get_connection(email)
-#     email = user_account.get("email")
-#     account_email =  {"email": email}
-#     json_email_name = decodeValues(account_email)
-#     return json_email_name
-
-# def get_account_postcode(email):
-#     user_account = get_connection(email)
-#     postcode = user_account.get("postcode")
-#     account_postcode = {"postcode": postcode}
-#     json_postcode = decodeValues(account_postcode)
-#     return json_postcode
-
-# def get_account_password(email):
-#     user_account = get_connection(email)
-#     password = user_account.get("password")
-#     account_password = {"Password": password}
-#     json_password = decodeValues(account_password)
-#     return json_password
 
 def decodeValues(details):
     for key, value in details.items():
