@@ -21,10 +21,18 @@ from account_details import (
 )
 import json
 import numpy as np
+from flask_cors import CORS
+
+
 
 from const import OUTPUT_IMAGE_FORMAT
 
 app = Flask(__name__)
+
+#Configure the CORS app to accept requests for /api/ from the front-end
+#CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+
 
 
 @app.route("/api/register-user", methods=["POST"])
@@ -114,6 +122,8 @@ def handle_login():
 @app.route("/api/get-accountdetails/<email>", methods=["GET"])
 def get_account_email(email):
     account_details = get_all_account_details(email)
+    print(account_details)
+    print("Sending details")
     return account_details, 200
 
 
