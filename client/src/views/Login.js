@@ -16,6 +16,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import MuiAlert from "@mui/material/Alert";
+import nature from "../images/nature.avif";
+import hamlet from "../images/hamlet-only.png"
 
 const defaultTheme = createTheme();
 
@@ -122,18 +124,13 @@ const Login = () => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              "url(https://source.unsplash.com/random?wallpapers)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundImage: `url(${nature})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item className="gradient_background" xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
@@ -143,9 +140,14 @@ const Login = () => {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
+              <img src={hamlet} alt="Hamlet" style={{
+      margin: '8px',
+      width: '40vh', // Default width for phone size
+      height: '100px',
+      backgroundColor: 'secondary.main',
+    }} className="hamlet-image" />
+            <Typography component="h3" variant="h5" style={{ color: 'white' }}>
+              Login
             </Typography>
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -159,6 +161,17 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
                 autoFocus
+                transform="none"
+                InputProps={{
+                  style: { color: 'white' }, // Set the color of the input text to white
+                  classes: {
+                    underline: 'white-underline' // Custom CSS class for the input underline
+                  }
+                }}
+                InputLabelProps={{
+                  style: { color: 'white' } // Set the color of the label text to white
+                }}
+                
               />
               <TextField
                 margin="normal"
@@ -171,25 +184,27 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+                InputProps={{
+                  style: { color: 'white' }, // Set the color of the input text to white
+                  classes: {
+                    underline: 'white-underline' // Custom CSS class for the input underline
+                  }
+                }}
+                InputLabelProps={{
+                  style: { color: 'white' } // Set the color of the label text to white
+                }}
+              />  
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Login
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
+                <Grid item xs>  
+                 </Grid>
                 <Grid item>
                   <Link href="/SignUp" variant="body2">
                     {"Don't have an account? Sign Up"}

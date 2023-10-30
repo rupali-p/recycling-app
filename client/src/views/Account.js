@@ -16,6 +16,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import {TableVirtuoso, TableComponents} from "react-virtuoso";
 import {styled} from "@mui/system";
+import { Navbar } from "../components/Navbar";
 
 import placeholder1 from "../images/dummy photos/placeholder_arl_table_1.jpg";
 import placeholder2 from "../images/dummy photos/placeholder_arl_table_2.jpg";
@@ -27,7 +28,6 @@ import placeholder7 from "../images/dummy photos/placeholder_arl_table_7.jpg";
 import placeholder8 from "../images/dummy photos/placeholder_arl_table_8.jpg";
 import placeholder9 from "../images/dummy photos/placeholder_arl_table_9.jpg";
 import placeholder10 from "../images/dummy photos/placeholder_arl_table_10.jpg";
-import {Navbar} from "../components/Navbar";
 import {createTheme, responsiveFontSizes, ThemeProvider} from '@mui/material/styles';
 
 let theme = createTheme();
@@ -324,7 +324,7 @@ const Account = () => {
         Table: (props) => (
             <Table
                 {...props}
-                sx={{borderCollapse: "separate", tableLayout: "fixed"}}
+                sx={{ tableLayout: "fixed"}}
             />
         ),
         TableHead,
@@ -343,9 +343,6 @@ const Account = () => {
                         variant="head"
                         align={column.numeric || false ? "right" : "left"}
                         style={{width: column.width}}
-                        sx={{
-                            backgroundColor: "background.paper",
-                        }}
                     >
                         {column.label}
                     </TableCell>
