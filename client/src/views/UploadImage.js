@@ -340,152 +340,168 @@ const UploadImage = () => {
     })
 
     return (
-        <>
-            <Navbar/>
-            <Grid container spacing={2}>
-                {
-                    !image ? (
-                        <Grid item xs={12}>
-                            <form onSubmit={handleSubmit} encType="multipart/form-data" id={"imageUpload"}>
-                                <div className="input-group">
-                                    <input
-                                        type="file"
-                                        id="image"
-                                        name="file"
-                                        accept="image/*"
-                                        className="file-custom"
-                                        hidden="true"
-                                        onChange={handleUploadFile}
-                                    />
-                                    <label htmlFor="image">
-                                        <div className="center" id="Upload Image Box">
-                                            <Box
-                                                component="span"
-                                                p={{xs: 10, md: 25}}
-                                                sx={{
-                                                    border: "10px dashed white",
-                                                    backgroundColor: "grey",
-                                                    opacity: [0.7, 0.6, 0.4],
-                                                    borderRadius: "16px",
-                                                    "&:hover": {
-                                                        opacity: [0.9, 0.8, 0.7],
-                                                    },
-                                                }}
-                                            >
-                                                <Button
-                                                    component="label"
-                                                    variant="text"
-                                                    size="large"
-                                                    sx={{
-                                                        color: "white",
-                                                    }}
-                                                >
-                                                    <UploadFileIcon/>
-                                                    Upload file
-                                                    <VisuallyHiddenInput type="file"/>
-                                                </Button>
-                                            </Box>
-                                        </div>
-                                    </label>
-                                </div>
+      <>
+        <Navbar />
+        <Grid container spacing={2}>
+          {!image ? (
+            <Grid item xs={12}>
+              <form
+                onSubmit={handleSubmit}
+                encType="multipart/form-data"
+                id={"imageUpload"}
+              >
+                <div className="input-group">
+                  <input
+                    type="file"
+                    id="image"
+                    name="file"
+                    accept="image/*"
+                    className="file-custom"
+                    hidden="true"
+                    onChange={handleUploadFile}
+                  />
+                  <label htmlFor="image">
+                    <div className="center" id="Upload Image Box">
+                      <Box
+                        component="span"
+                        p={{ xs: 5, md: 15 }} // Adjust the padding to make the box wider
+                        sx={{
+                          border: "10px dashed white",
+                          backgroundColor: "grey",
+                          opacity: [0.7, 0.6, 0.4],
+                          borderRadius: "16px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          width: "300px", // Set a fixed width to make the box wider
+                          "&:hover": {
+                            opacity: [0.9, 0.8, 0.7],
+                          },
+                        }}
+                      >
+                        <UploadFileIcon
+                          sx={{
+                            fontSize: 120,
+                            color: "White",
+                            marginBottom: 2,
+                          }}
+                        />{" "}
+                        <Button
+                          component="label"
+                          variant="text"
+                          size="large"
+                          sx={{
+                            color: "white",
+                          }}
+                        >
+                          Upload file
+                          <VisuallyHiddenInput type="file" />
+                        </Button>
+                      </Box>
+                    </div>
+                  </label>
+                </div>
 
-                                {/*  post image selection modal  */}
+                {/*  post image selection modal  */}
 
-                                <Modal
-                                    open={open}
-                                    onClose={handleClose}
-                                    aria-labelledby="modal-modal-title"
-                                    aria-describedby="modal-modal-description"
-                                    scrollabe={false}
-                                >
-                                    <Box sx={{Modalstyle}}>
-                                        <div className="center">
-                                            <canvas id={"image-preview"}/>
-                                        </div>
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                  scrollabe={false}
+                >
+                  <Box sx={{ Modalstyle }}>
+                    <div className="center">
+                      <canvas id={"image-preview"} />
+                    </div>
 
-                                        <div className="center-lower">
-                                            <Button
-                                                variant="contained"
-                                                size="extra large"
-                                                type="submit"
-                                                onClick={handleSubmit}
-                                                sx={buttonStyles}
-                                            >
-                                                Identify
-                                            </Button>
-                                            <Button
-                                                variant="contained"
-                                                size="extra large"
-                                                type="submit"
-                                                onClick={() => {
-                                                    setInputImage(null);
-                                                    document.getElementById("image").value = null
-                                                    handleClose();
-                                                }}
-                                                sx={buttonStyles}
-                                            >
-                                                Cancel
-                                            </Button>
-                                        </div>
-                                    </Box>
-                                </Modal>
-                            </form>
-
-                        </Grid>
-
-                    ) : (<></>)
-                }
-                {image ? (
-                    <>
-                        <Grid item xs={12} md={6} align={"center"}>
-                            <img src={`data:image/jpeg;base64,${image}`} width={416} height={416}/>
-                            <Grid item xs={12} mt={6} align={"center"}>
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12} md={6} sx={{marginLeft: {xs: 3, md: 0}}}>
-                            {(symbolName != 'No Detections' && (symbolName || arlResults.length > 0)) ? (
-                                usedArlModel ? (
-                                    <>
-                                        <ArlInfo
-                                            symbolResults={arlResults}
-                                            AgainButton={ScanAgainButton}
-                                        />
-                                    </>
-                                ) : (
-                                    <SymbolInfo
-                                        symbolName={symbolName}
-                                        symbolDescription={symbolDescription}
-                                        symbolApplications={symbolApplications}
-                                        symbolBin={symbolBin}
-                                        resultLink={resultLink}
-                                        resultLinkText={resultLinkText}
-                                        AgainButton={ScanAgainButton}
-                                    />
-
-                                )
-
-                            ) : (
-                                <></>
-                            )
-
-                            }
-                            {symbolName == 'No Detections' ? (
-                                <>
-                                    <Typography variant={"h3"} style={{color: 'white'}} mb={5}>No Detections</Typography>
-                                    <ScanAgainButton/>
-                                </>
-                            ) : (
-                                <></>
-                            )
-                            }
-                        </Grid>
-                    </>
-                ) : (
-                    <></>
-                )
-                }
+                    <div className="center-lower">
+                      <Button
+                        variant="contained"
+                        size="extra large"
+                        type="submit"
+                        onClick={handleSubmit}
+                        sx={buttonStyles}
+                      >
+                        Identify
+                      </Button>
+                      <Button
+                        variant="contained"
+                        size="extra large"
+                        type="submit"
+                        onClick={() => {
+                          setInputImage(null);
+                          document.getElementById("image").value = null;
+                          handleClose();
+                        }}
+                        sx={buttonStyles}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </Box>
+                </Modal>
+              </form>
             </Grid>
-        </>
+          ) : (
+            <></>
+          )}
+          {image ? (
+            <>
+              <Grid item xs={12} md={6} align={"center"}>
+                <img
+                  src={`data:image/jpeg;base64,${image}`}
+                  width={416}
+                  height={416}
+                />
+                <Grid item xs={12} mt={6} align={"center"}></Grid>
+              </Grid>
+              <Grid item xs={12} md={6} sx={{ marginLeft: { xs: 3, md: 0 } }}>
+                {symbolName != "No Detections" &&
+                (symbolName || arlResults.length > 0) ? (
+                  usedArlModel ? (
+                    <>
+                      <ArlInfo
+                        symbolResults={arlResults}
+                        AgainButton={ScanAgainButton}
+                      />
+                    </>
+                  ) : (
+                    <SymbolInfo
+                      symbolName={symbolName}
+                      symbolDescription={symbolDescription}
+                      symbolApplications={symbolApplications}
+                      symbolBin={symbolBin}
+                      resultLink={resultLink}
+                      resultLinkText={resultLinkText}
+                      AgainButton={ScanAgainButton}
+                    />
+                  )
+                ) : (
+                  <></>
+                )}
+                {symbolName == "No Detections" ? (
+                  <>
+                    <Typography
+                      variant={"h3"}
+                      style={{ color: "white" }}
+                      mb={5}
+                    >
+                      No Detections
+                    </Typography>
+                    <ScanAgainButton />
+                  </>
+                ) : (
+                  <></>
+                )}
+              </Grid>
+            </>
+          ) : (
+            <></>
+          )}
+        </Grid>
+      </>
     );
 };
 
