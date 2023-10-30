@@ -1,13 +1,13 @@
 /**
  * Scan Image page
  */
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, {useState, useLayoutEffect, useEffect} from "react";
 import {
     Grid,
     Typography
 } from "@mui/material";
-import Camera, { displaySquareImage } from "../components/Camera";
-import { ArlInfo, SymbolInfo, getDetectionsInfo, ScanAgainButton } from "./UploadImage";
+import Camera, {displaySquareImage} from "../components/Camera";
+import {ArlInfo, SymbolInfo, getDetectionsInfo, ScanAgainButton} from "./UploadImage";
 import TopNav from "../components/TopNav";
 import {Navbar} from "../components/Navbar";
 import {ARL_CLASS_LABELS_MAPPING, RESULTS_MAPPING} from "../const";
@@ -37,7 +37,7 @@ const ScanImage = () => {
     const [resultLink, setResultLink] = useState();
     const [resultLinkText, setResultLinkText] = useState();
 
-    const [usedArlModel,setUsedArlModel] = useState();
+    const [usedArlModel, setUsedArlModel] = useState();
     const [arlResults, setArlResults] = useState([]);
 
     const getSymbolInfo = async (articleNumber) => {
@@ -59,14 +59,14 @@ const ScanImage = () => {
 
     const getArlInfo = async (articleNumbers) => {
         await fetch("/api/view-results", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                "article_numbers": articleNumbers
-            })
-        }
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    "article_numbers": articleNumbers
+                })
+            }
         ).then((res) => {
             res.json().then((data) => {
                 const arl_results = JSON.parse(data.arl_results)
@@ -122,139 +122,135 @@ const ScanImage = () => {
 
     }
 
-        if (windowWidth >= 1024) {
-            return (
-                <>
-            <Navbar />
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                </Grid>
-                {image ? (
-                    <>
-                        <Grid item xs={12} md={6} align={"center"}>
-                            <img src={`data:image/jpeg;base64,${image}`} width={416} height={416} />
-                            <Grid item xs={12} mt={6} align={"center"}>
+    if (windowWidth >= 1024) {
+        return (
+            <>
+                <Navbar/>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                    </Grid>
+                    {image ? (
+                        <>
+                            <Grid item xs={12} md={6} align={"center"}>
+                                <img src={`data:image/jpeg;base64,${image}`} width={416} height={416}/>
+                                <Grid item xs={12} mt={6} align={"center"}>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <Grid item xs={12} md={6} sx={{ marginLeft: { xs: 3, md: 0 } }}>
-                            {(symbolName != 'No Detections' && (symbolName || arlResults.length > 0)) ? (
-                                usedArlModel ? (
-                                    <>
-                                        <ArlInfo
-                                            symbolResults={arlResults}
+                            <Grid item xs={12} md={6} sx={{marginLeft: {xs: 3, md: 0}}}>
+                                {(symbolName != 'No Detections' && (symbolName || arlResults.length > 0)) ? (
+                                    usedArlModel ? (
+                                        <>
+                                            <ArlInfo
+                                                symbolResults={arlResults}
+                                                AgainButton={ScanAgainButton}
+                                            />
+                                        </>
+                                    ) : (
+                                        <SymbolInfo
+                                            symbolName={symbolName}
+                                            symbolDescription={symbolDescription}
+                                            symbolApplications={symbolApplications}
+                                            symbolBin={symbolBin}
+                                            resultLink={resultLink}
+                                            resultLinkText={resultLinkText}
                                             AgainButton={ScanAgainButton}
                                         />
+                                    )
+                                ) : (
+                                    <></>
+                                )
+                                }
+                                {symbolName == 'No Detections' ? (
+                                    <>
+                                        <Typography variant={"h3"} style={{color: 'white'}} mb={5}>No
+                                            Detections</Typography>
+                                        <ScanAgainButton/>
                                     </>
                                 ) : (
-                                    <SymbolInfo
-                                        symbolName={symbolName}
-                                        symbolDescription={symbolDescription}
-                                        symbolApplications={symbolApplications}
-                                        symbolBin={symbolBin}
-                                        resultLink={resultLink}
-                                        resultLinkText={resultLinkText}
-                                        AgainButton={ScanAgainButton}
-                                    />
+                                    <></>
                                 )
-                            ) : (
-                                <></>
-                                )
-
-         } : (
-                                <></>
-                            )
-
-                )
-                            {symbolName == 'No Detections' ? (
-                                <>
-                                    <Typography variant={"h3"} style={{ color: 'white' }} mb={5}>No Detections</Typography>
-                                    <ScanAgainButton />
-                                </>
-                            ) : (
-                                <></>
-                            )
-                            }
-                        </Grid>
-
-                    </>
-                ) : (
-                    <Grid item xs={12} align={"center"}>
-                        <Camera handleTakePhoto={handleTakePhoto} />
-                    </Grid>
-                )
-                }
-
-            </Grid>
-
-        </>
-            )
-        }
-        else {
-            return (
-                <>
-            <Navbar />
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                </Grid>
-                {image ? (
-                    <>
-                        <Grid item xs={12} md={6} align={"center"}>
-                            <img src={`data:image/jpeg;base64,${image}`} width={'100%'} height={416} />
-                            <Grid item xs={12} mt={6} align={"center"}>
+                                }
                             </Grid>
+
+                        </>
+                    ) : (
+                        <Grid item xs={12} align={"center"}>
+                            <Camera handleTakePhoto={handleTakePhoto}/>
                         </Grid>
-                        <Grid item xs={12} md={6} sx={{ marginLeft: { xs: 3, md: 0 } }}>
-                            {(symbolName != 'No Detections' && (symbolName || arlResults.length > 0)) ? (
-                                usedArlModel ? (
-                                    <>
-                                        <ArlInfo
-                                            symbolResults={arlResults}
+                    )
+                    }
+
+                </Grid>
+
+            </>
+        )
+    } else {
+        return (
+            <>
+                <Navbar/>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                    </Grid>
+                    {image ? (
+                        <>
+                            <Grid item xs={12} md={6} align={"center"}>
+                                <img src={`data:image/jpeg;base64,${image}`} width={'100%'} height={416}/>
+                                <Grid item xs={12} mt={6} align={"center"}>
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={12} md={6} sx={{marginLeft: {xs: 3, md: 0}}}>
+                                {(symbolName != 'No Detections' && (symbolName || arlResults.length > 0)) ? (
+                                    usedArlModel ? (
+                                        <>
+                                            <ArlInfo
+                                                symbolResults={arlResults}
+                                                AgainButton={ScanAgainButton}
+                                            />
+                                        </>
+                                    ) : (
+                                        <SymbolInfo
+                                            symbolName={symbolName}
+                                            symbolDescription={symbolDescription}
+                                            symbolApplications={symbolApplications}
+                                            symbolBin={symbolBin}
+                                            resultLink={resultLink}
+                                            resultLinkText={resultLinkText}
                                             AgainButton={ScanAgainButton}
                                         />
-                                    </>
-                                ) : (
-                                    <SymbolInfo
-                                        symbolName={symbolName}
-                                        symbolDescription={symbolDescription}
-                                        symbolApplications={symbolApplications}
-                                        symbolBin={symbolBin}
-                                        resultLink={resultLink}
-                                        resultLinkText={resultLinkText}
-                                        AgainButton={ScanAgainButton}
-                                    />
 
+                                    )
+
+                                ) : (
+                                    <></>
                                 )
 
-                            ) : (
-                                <></>
-                            )
+                                }
+                                {symbolName == 'No Detections' ? (
+                                    <>
+                                        <Typography variant={"h3"} style={{color: 'white'}} mb={5}>No
+                                            Detections</Typography>
+                                        <ScanAgainButton/>
 
-                            }
-                            {symbolName == 'No Detections' ? (
-                                <>
-                                    <Typography variant={"h3"} style={{ color: 'white' }} mb={5}>No Detections</Typography>
-                                    <ScanAgainButton />
+                                    </>
+                                ) : (
+                                    <></>
+                                )
+                                }
+                            </Grid>
 
-                                </>
-                            ) : (
-                                <></>
-                            )
-                            }
+                        </>
+                    ) : (
+                        <Grid item xs={12} align={"center"}>
+                            <Camera handleTakePhoto={handleTakePhoto}/>
                         </Grid>
+                    )
+                    }
 
-                    </>
-                ) : (
-                    <Grid item xs={12} align={"center"}>
-                        <Camera handleTakePhoto={handleTakePhoto} />
-                    </Grid>
-                )
-                }
+                </Grid>
 
-            </Grid>
-
-        </>
-            )
-        }
+            </>
+        )
+    }
 
 }
 
