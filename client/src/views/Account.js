@@ -69,18 +69,45 @@ const Account = () => {
     const [scanCount, setScanCount] = useState();
 
     const setAccountDetails = async (userEmail) => {
-        const apiPath = `/api/get-accountdetails/${userEmail}`
-        await fetch(apiPath, {
-            method: "GET",
-        }).then((resp) => {
-            resp.json().then((data) => {
-                setEmail(data["Email"]);
-                setName(data["Name"]);
-                setPostCode(data["postcode"]);
-                setScanCount(data["scan_count"])
-            })
-        })
+        const apiPath = `http://127.0.0.1:5000/api/get-accountdetails/${userEmail}`
+        try {
+            const response = await fetch(apiPath, {
+                method: "GET",
+            });
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            setEmail(data["Email"]);
+            setName(data["Name"]);
+            setPostCode(data["postcode"]);
+            setScanCount(data["scan_count"]);
+        } catch (error) {
+            console.error('Error fetching or parsing data:', error);
+            // Handle errors here
+        }
     }
+
+
+
+
+
+
+
+        // await fetch(apiPath, {
+        //     method: "GET",
+        // }).then((resp) => {
+        //     console.log("This is the response sent", resp)
+        //     resp.json().then((data) => {
+        //         console.log("This is the email", data["Email"])
+        //         setEmail(data["Email"]);
+        //         setName(data["Name"]);
+        //         setPostCode(data["postcode"]);
+        //         setScanCount(data["scan_count"])
+    //         })
+    //     }), 
+    // }
 
     useEffect(() => {
             if (!email) {

@@ -114,6 +114,8 @@ def handle_login():
 @app.route("/api/get-accountdetails/<email>", methods=["GET"])
 def get_account_email(email):
     account_details = get_all_account_details(email)
+    print(account_details)
+    print("Sending details")
     return account_details, 200
 
 

@@ -31,7 +31,9 @@ def get_all_account_details(email):
 
       details = {"Name": name, "Email": email, "password": password, "postcode": postcode, "scan_count": scan_count}
       #decode the data into a json format
+      print("Details collected")
       json_data = decodeValues(details)
+      print(type(json_data))
     else:
         json_data = "Error, this user doesn't exists"
     return json_data
