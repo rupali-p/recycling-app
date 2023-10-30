@@ -39,6 +39,10 @@ hr {
   margin-left: 75px;
 }
 
+.MuiTableHead-root css-15wwp11-MuiTableHead-root{
+  z-index: 0;
+}
+
 .results-hr-line {
   display: block;
   height: 10px;

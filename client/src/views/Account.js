@@ -324,7 +324,7 @@ const Account = () => {
         Table: (props) => (
             <Table
                 {...props}
-                sx={{borderCollapse: "separate", tableLayout: "fixed"}}
+                sx={{ tableLayout: "fixed"}}
             />
         ),
         TableHead,
@@ -343,9 +343,6 @@ const Account = () => {
                         variant="head"
                         align={column.numeric || false ? "right" : "left"}
                         style={{width: column.width}}
-                        sx={{
-                            backgroundColor: "background.paper",
-                        }}
                     >
                         {column.label}
                     </TableCell>
