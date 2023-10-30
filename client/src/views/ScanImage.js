@@ -151,20 +151,13 @@ const ScanImage = () => {
                                         symbolDescription={symbolDescription}
                                         symbolApplications={symbolApplications}
                                         symbolBin={symbolBin}
+                                        resultLink={resultLink}
+                                        resultLinkText={resultLinkText}
                                         AgainButton={ScanAgainButton}
                                     />
                                 )
                             ) : (
-                                <SymbolInfo
-                                    symbolName={symbolName}
-                                    symbolDescription={symbolDescription}
-                                    symbolApplications={symbolApplications}
-                                    symbolBin={symbolBin}
-                                    resultLink={resultLink}
-                                    resultLinkText={resultLinkText}
-                                    AgainButton={ScanAgainButton}
-                                />
-
+                                <></>
                                 )
 
          } : (
@@ -225,6 +218,8 @@ const ScanImage = () => {
                                         symbolDescription={symbolDescription}
                                         symbolApplications={symbolApplications}
                                         symbolBin={symbolBin}
+                                        resultLink={resultLink}
+                                        resultLinkText={resultLinkText}
                                         AgainButton={ScanAgainButton}
                                     />
 
@@ -238,10 +233,8 @@ const ScanImage = () => {
                             {symbolName == 'No Detections' ? (
                                 <>
                                     <Typography variant={"h3"} style={{ color: 'white' }} mb={5}>No Detections</Typography>
-                                    <div sx={{ textAlign: 'center', marginLeft:'50%' }}>
                                     <ScanAgainButton />
-                                    </div>
-                                    
+
                                 </>
                             ) : (
                                 <></>

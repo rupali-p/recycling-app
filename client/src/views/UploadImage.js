@@ -55,11 +55,13 @@ export const buttonStyles = {
 
 export const ScanAgainButton = () => {
     return (
-        <Button sx={buttonStyles}
-                onClick={() => {
-                    window.location.reload()
-                }}
-        >Scan Again
+        <Button sx={buttonStyles}>
+            <Link
+                to="/"
+                style={{textDecoration: 'none', color: 'black'}}
+            >
+                Scan Again
+            </Link>
         </Button>
     )
 }
