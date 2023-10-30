@@ -81,10 +81,9 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div></div>
-      </div>
-    )
-  } else {
+    );
+  }
+  else {
     return (
       <Grid className="gradient_background">
         <Grid container component="main" sx={{ height: '100vh' }}>
