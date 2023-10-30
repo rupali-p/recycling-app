@@ -30,8 +30,8 @@ from const import OUTPUT_IMAGE_FORMAT
 app = Flask(__name__)
 
 #Configure the CORS app to accept requests for /api/ from the front-end
-CORS(app)
-# CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+#CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 
 
