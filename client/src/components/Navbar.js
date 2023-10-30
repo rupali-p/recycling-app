@@ -7,6 +7,7 @@ import "../css/Navbar.css";
 import { Link, NavLink } from "react-router-dom";
 import {createTheme, responsiveFontSizes, ThemeProvider} from '@mui/material/styles';
 import hamlet from "../images/hamlet-logo-white.png";
+import { Grid } from "@mui/material";
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
