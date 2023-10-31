@@ -52,15 +52,12 @@ export const Navbar = () => {
       <ThemeProvider theme={theme}>
         <nav sx={{ padding: "2%" }}>
           <Grid container spacing={2}>
-            <Grid item xs={8} md={10}>
+            <Grid item xs={6} md={10}>
               <Link to="/" className="title">
                 <img
                   src={hamlet}
                   alt={"Hamlet"}
-                  sx={{
-                    width: "10%",
-                    height: "3%",
-                  }}
+                  // width={"10%"}
                 />
               </Link>
             </Grid>
@@ -101,55 +98,60 @@ export const Navbar = () => {
     );
   } else {
     return (
-      <nav style={{ minWidth: "20%" }}>
-        <div id="myNav" class="overlay">
-          {/* <!-- Button to close the overlay navigation --> */}
-          <a
-            href="javascript:void(0)"
-            class="closebtn"
-            onClick={handleCloseNav}
-          >
-            &times;
-          </a>
+        <ThemeProvider theme={theme}>
+          <nav>
+            <Grid container spacing={2}>
+              <Grid item xs={8}>
+                <Link to="/" className="title">
+                  <img
+                      src={hamlet}
+                      alt={"Hamlet"}
+                      width={"100%"}
+                  />{" "}
+                </Link>
+              </Grid>
+              <Grid item xs={3} align={"right"}>
+                <IconButton size="small">
+                  <MenuRoundedIcon
+                      sx={{
+                        fontSize: 40,
+                        color: "White"
+                  }}
+                      onClick={handleOpenNav}
+                  />
+                </IconButton>
 
-          {/* <!-- Overlay content --> */}
-          <div class="overlay-content">
-            <Link to="/">Home</Link>
-            {username ? <Link to="/Account">Account</Link> : null}
-            <Link to="/ScanImage">Scan Image</Link>
-            <Link to="/UploadImage">Upload Image</Link>
-            {username ? null : (
-              <>
-                <Link to="/Login">Login</Link>
-                <Link to="/SignUp">Sign Up</Link>
-              </>
-            )}
-          </div>
-        </div>
+              </Grid>
 
-        <Link to="/" className="title">
-          <img
-            src={hamlet}
-            alt={"Hamlet"}
-            sx={{
-              width: "10%",
-              height: "3%",
-            }}
-          />{" "}
-        </Link>
-        <div className="iconContainer">
-          {/* <MenuRoundedIcon sx={{ p: 5, pr: 7, fontSize: 60 }}/> */}
-          <IconButton size="small">
-            <MenuRoundedIcon
-              sx={{ p: 5, pr: 7, fontSize: 60, color: "White" }}
-              onClick={handleOpenNav}
-            />
-          </IconButton>
-        </div>
-      </nav>
+            </Grid>
+            <div id="myNav" className="overlay">
+              {/* <!-- Button to close the overlay navigation --> */}
+              <a
+                  href="javascript:void(0)"
+                  className="closebtn"
+                  onClick={handleCloseNav}
+              >
+                &times;
+              </a>
+
+              {/* <!-- Overlay content --> */}
+              <div className="overlay-content">
+                <Link to="/">Home</Link>
+                {username ? <Link to="/Account">Account</Link> : null}
+                <Link to="/ScanImage">Scan Image</Link>
+                <Link to="/UploadImage">Upload Image</Link>
+                {username ? null : (
+                    <>
+                      <Link to="/Login">Login</Link>
+                      <Link to="/SignUp">Sign Up</Link>
+                    </>
+                )}
+              </div>
+            </div>
+
+          </nav>
+
+        </ThemeProvider>
     );
   }
 };
-// import React from 'react'
-// import { Link } from 'react-router-dom'
-// import { useAuth ,logout} from '../auth'
