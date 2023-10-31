@@ -101,17 +101,13 @@ export const Navbar = () => {
     );
   } else {
     return (
-      <nav style={{ minWidth: "20%" }}>
+        <nav style={{minWidth: '20%'}}>
         <div id="myNav" class="overlay">
           {/* <!-- Button to close the overlay navigation --> */}
-          <a
-            href="javascript:void(0)"
-            class="closebtn"
-            onClick={handleCloseNav}
-          >
-            &times;
+          <a href="javascript:void(0)" class="closebtn" onClick={handleCloseNav}>
+            &times; 
           </a>
-
+  
           {/* <!-- Overlay content --> */}
           <div class="overlay-content">
             <Link to="/">Home</Link>
@@ -126,16 +122,9 @@ export const Navbar = () => {
             )}
           </div>
         </div>
-
+  
         <Link to="/" className="title">
-          <img
-            src={hamlet}
-            alt={"Hamlet"}
-            sx={{
-              width: "10%",
-              height: "3%",
-            }}
-          />{" "}
+          <h2 style={{marginLeft: '-30px'}}>Hamlet.</h2>
         </Link>
         <div className="iconContainer">
           {/* <MenuRoundedIcon sx={{ p: 5, pr: 7, fontSize: 60 }}/> */}
@@ -147,8 +136,8 @@ export const Navbar = () => {
           </IconButton>
         </div>
       </nav>
-    );
-  }
+      )
+    }
 };
 // import React from 'react'
 // import { Link } from 'react-router-dom'
