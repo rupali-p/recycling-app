@@ -68,8 +68,12 @@ const Account = () => {
     const [postCode, setPostCode] = useState();
     const [scanCount, setScanCount] = useState();
 
-    const setAccountDetails = async (userEmail) => {
-        const apiPath = `http://127.0.0.1:5000/api/get-accountdetails/${userEmail}`
+    const setAccountDetails = async (userEmail, isMobile) => {
+        if (isMobile === true) {
+            var apiPath = `/api/get-accountdetails/${userEmail}`
+        } else {
+            var apiPath = `http://127.0.0.1:5000/api/get-accountdetails/${userEmail}`
+        }
         try {
             const response = await fetch(apiPath, {
                 method: "GET",
@@ -92,7 +96,11 @@ const Account = () => {
     useEffect(() => {
             if (!email) {
                 const userName = localStorage.getItem("userName");
-                setAccountDetails(userName)
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    setAccountDetails(userName, true)
+                } else {
+                    setAccountDetails(userName, false)
+                }
             }
 
         }
