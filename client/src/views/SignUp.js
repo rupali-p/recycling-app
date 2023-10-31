@@ -18,7 +18,7 @@ import {
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
-import hamlet from "../images/hamlet-only.png";
+import hamlet from "../images/hamlet-logo-white.png";
 import nature from "../images/nature.avif";
 
 
@@ -130,7 +130,7 @@ const Signup = () => {
                         <img src={hamlet} alt="Hamlet" style={{
                             margin: '8px',
                             width: '40vh', // Default width for phone size
-                            height: '100px',
+                            height: '115px',
                             backgroundColor: 'secondary.main',
                         }} className="hamlet-image" />
                         <Typography component="h3" variant="h5" color="white">
@@ -243,13 +243,22 @@ const Signup = () => {
                                     || (password != "" && passwordError != "")
                                 }
                                 fullWidth
+                                sx={{
+                                    backgroundColor: "white",
+                                    color: "Black",
+                                    marginRight: 2,
+                                    "&:hover": {
+                                      backgroundColor: "grey",
+                                      color: "white",
+                                    },
+                                  }}
                             >
                                 Register
                             </Button>
                             {registerResult != "" ? (
                                 <Alert severity={registerResultSeverity}>{registerResult}</Alert>
                             ) : <div></div>}
-                            <Typography variant="subtitle1" color="white">Already have an account? <Link to="/Login">Login
+                            <Typography variant="subtitle1" color="white">Already have an account? <Link to="/Login" sx={{color: "white"}}>Login
                                 Here</Link></Typography>
                         </Box>
                     </Box>
