@@ -17,7 +17,7 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import MuiAlert from "@mui/material/Alert";
 import nature from "../images/nature.avif";
-import hamlet from "../images/hamlet-only.png"
+import hamlet from "../images/hamlet-logo-white.png";
 
 const defaultTheme = createTheme();
 
@@ -32,7 +32,8 @@ const Login = () => {
   const [loginResultSeverity, setLoginResultSeverity] = useState("");
 
   const navigate = useNavigate();
-  const [redirectionDestination, setRedirectionDestination] = useState("/Account");
+  const [redirectionDestination, setRedirectionDestination] =
+    useState("/Account");
 
   let destinationPath;
   if (localStorage.getItem("selectedRoute") !== null) {
@@ -48,7 +49,7 @@ const Login = () => {
     }
     setSnackbarOpen(false);
   };
-    
+
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -82,7 +83,7 @@ const Login = () => {
           console.log("destination is " + destinationPath);
           setLoginResult(`${data.result} Redirecting...`);
           setTimeout(() => {
-            navigate(destinationPath); 
+            navigate(destinationPath);
           }, 2000);
         } else if (result.status === 401) {
           setLoginResultSeverity("Login error");
@@ -125,12 +126,21 @@ const Login = () => {
           md={7}
           sx={{
             backgroundImage: `url(${nature})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         />
-        <Grid item className="gradient_background" xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          className="gradient_background"
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+        >
           <Box
             sx={{
               my: 8,
@@ -140,13 +150,18 @@ const Login = () => {
               alignItems: "center",
             }}
           >
-              <img src={hamlet} alt="Hamlet" style={{
-      margin: '8px',
-      width: '40vh', // Default width for phone size
-      height: '100px',
-      backgroundColor: 'secondary.main',
-    }} className="hamlet-image" />
-            <Typography component="h3" variant="h5" style={{ color: 'white' }}>
+            <img
+              src={hamlet}
+              alt="Hamlet"
+              style={{
+                margin: "8px",
+                width: "40vh", // Default width for phone size
+                height: "115px",
+                backgroundColor: "secondary.main",
+              }}
+              className="hamlet-image"
+            />
+            <Typography component="h3" variant="h5" style={{ color: "white" }}>
               Login
             </Typography>
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -163,15 +178,14 @@ const Login = () => {
                 autoFocus
                 transform="none"
                 InputProps={{
-                  style: { color: 'white' }, // Set the color of the input text to white
+                  style: { color: "white" }, // Set the color of the input text to white
                   classes: {
-                    underline: 'white-underline' // Custom CSS class for the input underline
-                  }
+                    underline: "white-underline", // Custom CSS class for the input underline
+                  },
                 }}
                 InputLabelProps={{
-                  style: { color: 'white' } // Set the color of the label text to white
+                  style: { color: "white" }, // Set the color of the label text to white
                 }}
-                
               />
               <TextField
                 margin="normal"
@@ -185,28 +199,37 @@ const Login = () => {
                 value={password}
                 autoComplete="current-password"
                 InputProps={{
-                  style: { color: 'white' }, // Set the color of the input text to white
+                  style: { color: "white" }, // Set the color of the input text to white
                   classes: {
-                    underline: 'white-underline' // Custom CSS class for the input underline
-                  }
+                    underline: "white-underline", // Custom CSS class for the input underline
+                  },
                 }}
                 InputLabelProps={{
-                  style: { color: 'white' } // Set the color of the label text to white
+                  style: { color: "white" }, // Set the color of the label text to white
                 }}
-              />  
+              />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "white",
+                  color: "Black",
+                  marginRight: 2,
+                  "&:hover": {
+                    backgroundColor: "grey",
+                    color: "white",
+                  },
+                }}
               >
                 Login
               </Button>
               <Grid container>
-                <Grid item xs>  
-                 </Grid>
-                <Grid item>
-                  <Link href="/SignUp" variant="body2">
+                <Grid item xs></Grid>
+                <Grid item style={{colour: 'white'}}>
+                  <Link href="/SignUp" variant="body2" sx={{colour: "white"}}>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
