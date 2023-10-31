@@ -152,8 +152,6 @@ hr {
   height: 108px;
   width: 370px;
   border-radius: 50%;
-  margin: -20%;
-  margin-left: 70%;
   opacity: 75%;
   z-index: -1;
   position: relative;
@@ -191,17 +189,6 @@ hr {
   padding-top: 5%;
   padding-left: 75%;
   z-index: 1;
-}
-
-.drop-shadow{
-  background-color: #12221C;
-  height: 108px;
-  width: 370px;
-  border-radius: 50%;
-  margin-top: -50%;
-  position: relative;
-  opacity: 75%;
-  z-index: -1;
 }
 
 .bin-image-container-right{

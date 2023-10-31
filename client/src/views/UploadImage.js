@@ -452,8 +452,8 @@ const UploadImage = () => {
               <Grid item xs={12} md={6} align={"center"}>
                 <img
                   src={`data:image/jpeg;base64,${image}`}
-                  width={416}
-                  height={416}
+                  width={400}
+                  height={400}
                 />
                 <Grid item xs={12} mt={6} align={"center"}></Grid>
               </Grid>

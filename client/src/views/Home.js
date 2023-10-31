@@ -81,8 +81,6 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div></div>
-      </div>
     )
   } else {
     return (

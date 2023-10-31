@@ -1,18 +1,15 @@
-import React, { useLayoutEffect } from "react";
+import React, {useLayoutEffect} from "react";
 import "../css/Common.css";
 
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import Grid from "@mui/material/Grid";
-import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import MenuIcon from "@mui/icons-material/Menu";
-import Box from "@mui/material/Box";
 
 import RedBin from "../images/red_bin.png";
-import { Rectangle } from "@mui/icons-material";
 
-import { Navbar } from "../components/Navbar";
+import {Navbar} from "../components/Navbar";
+import {Divider, Typography} from "@mui/material";
 
 const RedBinResult = () => {
 
@@ -21,49 +18,82 @@ const RedBinResult = () => {
     })
     const navigate = useNavigate();
 
-  
+
     const navigateHome = () => {
-      // 👇️ navigate to /
-      navigate('/');
+        // 👇️ navigate to /
+        navigate('/');
     };
 
     return (
-        <div>
-            <div>
-                <Navbar />
-                
-                <div>
-                    <Grid container>
-                        <Grid item xs={4}>
-                        <h2>
-                            Result
-                        </h2>
+        <>
+            <Navbar/>
 
-                        <hr className="results-hr-line" />
+            <Grid container spacing={2}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={6} align={"center"}>
+                        <Grid item xs={12}>
+                            <Grid item xs={12} align={"center"}>
+                                <Grid item xs={8} align={"left"}>
+                                    <Grid item xs={12} mb={5} mt={5}>
+                                        <Typography variant={"h3"} style={{color: "white"}}>
+                                            Result
+                                        </Typography>
+                                        <Divider component="li" sx={{
+                                            listStyleType: "none",
+                                            borderColor: 'white',
+                                            borderBottomWidth: 4
+                                        }}/>
+                                    </Grid>
+                                    <Grid item xs={12} mb={5}>
+                                        <Typography variant={"h4"} style={{color: "white"}}>
+                                            This item is:
+                                        </Typography>
+                                        <Typography variant={"h4"} style={{color: "white"}}>
+                                            <strong>
+                                                Not Recyclable
+                                            </strong>
+                                        </Typography>
 
-                        <p className="text-result-left-larger">
-                            This item is: <b>Not Recyclable</b>
-                        </p>
+                                    </Grid>
 
-                        <p className="text-result-left-regular">
-                            To correctly dispose of this item, please put it in the <b>red bin.</b> 
-                        </p>
+                                    <Typography variant={"h6"} style={{color: "white"}}>
+                                        To correctly dispose of this item, please put it in the <strong>red
+                                        bin.</strong>
+                                    </Typography>
 
-                        </Grid>
+                                </Grid>
 
-                        <Grid item xs={4}>
-                            <img src={RedBin} alt="red-bin" className="result-bin-image-container-right"></img>
-                            <div className="drop-shadow"/>
+                            </Grid>
+
+
                         </Grid>
 
                     </Grid>
-                </div>
-                    
-                <div className="scan-button-container">
-                    <Button onClick={navigateHome} variant="contained" style={{height: "40px", width:"250px", color: "black", backgroundColor: "white"}}>Scan again</Button>
-                </div>
-            </div> 
-        </div> 
+
+                    <Grid item xs={12} md={6}>
+                        <Grid container xs={12} md={6} align={"center"}>
+                            <Grid item xs={12} md={12} align={"center"}>
+                                <Grid item xs={6} md={12}>
+                                    <img src={RedBin} alt="red-bin" width={"100%"}/>
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={12} align={"center"} mt={-10}>
+                                <div className="drop-shadow"/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+                <Grid item xs={12} align={"center"} mt={7}>
+                    <Button onClick={navigateHome} variant="contained"
+                            style={{height: "40px", width: "250px", color: "black", backgroundColor: "white"}}>Scan
+                        again
+                    </Button>
+                </Grid>
+
+            </Grid>
+
+        </>
     );
 };
 
