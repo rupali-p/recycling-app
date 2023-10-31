@@ -17,6 +17,7 @@ import Paper from "@mui/material/Paper";
 import {TableVirtuoso, TableComponents} from "react-virtuoso";
 import {styled} from "@mui/system";
 import { Navbar } from "../components/Navbar";
+import Box from "@mui/material/Box";
 
 import placeholder1 from "../images/dummy photos/placeholder_arl_table_1.jpg";
 import placeholder2 from "../images/dummy photos/placeholder_arl_table_2.jpg";
@@ -55,12 +56,35 @@ const WhiteIndicatorTabs = styled(Tabs)({
 });
 
 const tabStyle = {
-    color: "black",
-    backgroundColor: "#d9d9d9",
-    borderRadius: "10px",
+  margin: '10px',
+  color: 'black',
+  minWidth: '40rem',
+  backgroundColor: '#d9d9d9',
+  borderRadius: '10px',
 };
 
+const tabStylePhone = {
+  margin: '10px',
+  color: 'black',
+  backgroundColor: '#d9d9d9',
+  borderRadius: '10px',
+};  
+
 const Account = () => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
     const [council, setCouncil] = useState("");
     const [tabValue, setTabValue] = useState(0);
     const [email, setEmail] = useState();
@@ -379,160 +403,321 @@ const Account = () => {
     })
 
     const AccountInfo = () => {
-        return (
-            <>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} align={"center"}>
-                        <Grid item xs={12} md={6} m={3}>
-                            <TextField
-                                value={name}
-                                variant="outlined"
-                                fullWidth
-                                style={tabStyle}
-                                InputLabelProps={{style: {color: "black"}}}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6} m={3}>
-                            <TextField
-                                value={email}
-                                variant="outlined"
-                                style={tabStyle}
-                                fullWidth
-                                InputLabelProps={{style: {color: "black"}}}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6} m={3}>
-                            <TextField
-                                variant="outlined"
-                                value={postCode}
-                                autoFocus
-                                fullWidth
-                                style={tabStyle}
-                                InputLabelProps={{style: {color: "black"}}}
-                            />
+      return (
+          <>
+              <Grid container spacing={2}>
+                  <Grid item xs={12} align={"center"}>
+                      <Grid item xs={12} md={6} m={3}>
+                          <TextField
+                              value={name}
+                              variant="outlined"
+                              fullWidth
+                              style={tabStyle}
+                              InputLabelProps={{style: {color: "black"}}}
+                          />
+                      </Grid>
+                      <Grid item xs={12} md={6} m={3}>
+                          <TextField
+                              value={email}
+                              variant="outlined"
+                              style={tabStyle}
+                              fullWidth
+                              InputLabelProps={{style: {color: "black"}}}
+                          />
+                      </Grid>
+                      <Grid item xs={12} md={6} m={3}>
+                          <TextField
+                              variant="outlined"
+                              value={postCode}
+                              autoFocus
+                              fullWidth
+                              style={tabStyle}
+                              InputLabelProps={{style: {color: "black"}}}
+                          />
 
-                        </Grid>
+                      </Grid>
 
-                        {/*<Button*/}
-                        {/*  style={{*/}
-                        {/*    borderRadius: "50px",*/}
-                        {/*    textTransform: "none",*/}
-                        {/*    padding: "10px 20px",*/}
-                        {/*    borderColor: "blue",*/}
-                        {/*    backgroundColor: "#d9d9d9",*/}
-                        {/*    color: "black",*/}
-                        {/*    margin: "10px",*/}
-                        {/*    minWidth: "30rem",*/}
-                        {/*  }}*/}
-                        {/*>*/}
-                        {/*  Edit*/}
-                        {/*</Button>*/}
-                        <Button
-                            onClick={handleClick}
-                            href="/"
-                            style={
-                                {
-                                    backgroundColor: "white",
-                                    color: "Black",
-                                    marginRight: 2,
-                                    "&:hover": {
-                                        backgroundColor: "green",
-                                        color: "white",
-                                    }
-                                }
+                      {/*<Button*/}
+                      {/*  style={{*/}
+                      {/*    borderRadius: "50px",*/}
+                      {/*    textTransform: "none",*/}
+                      {/*    padding: "10px 20px",*/}
+                      {/*    borderColor: "blue",*/}
+                      {/*    backgroundColor: "#d9d9d9",*/}
+                      {/*    color: "black",*/}
+                      {/*    margin: "10px",*/}
+                      {/*    minWidth: "30rem",*/}
+                      {/*  }}*/}
+                      {/*>*/}
+                      {/*  Edit*/}
+                      {/*</Button>*/}
+                      <Button
+                          onClick={handleClick}
+                          href="/"
+                          style={
+                              {
+                                  backgroundColor: "white",
+                                  color: "Black",
+                                  marginRight: 2,
+                                  "&:hover": {
+                                      backgroundColor: "green",
+                                      color: "white",
+                                  }
+                              }
 
-                            }
-                        >
-                            {" "}
-                            Sign Out{" "}
-                        </Button>
-                    </Grid>
+                          }
+                      >
+                          {" "}
+                          Sign Out{" "}
+                      </Button>
+                  </Grid>
 
-                </Grid>
-            </>
+              </Grid>
+          </>
 
-        )
-    }
+      )
+  }
 
-    const ScanHistory = () => {
-        return (
-            <>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} md={6} align={"center"}>
-                        <Typography variant={"h4"} style={{color: "white"}} mt={2}>You've scanned</Typography>
-                        <Typography variant={"h1"} display={"inline"} sx={{fontSize: {xs: "5em", md: "10em"}}}>
-                            <strong>{scanCount}</strong>
-                        </Typography>
-                        <Typography display={"inline"}> items</Typography>
-                        <Grid item xs={12} align={"center"} mt={3}>
-                            <Typography variant={"h5"} style={{color: "white"}}>
-                                <strong>Did you know</strong> that’s enough plastic to make
-                            </Typography>
-                            <Typography variant={"h6"} style={{color: "white"}}>exactly 3.52 Kardashians?</Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={12} md={6} align={"center"}>
-                        <Grid item xs={12} mb={2} mt={2}>
-                            <Typography variant={"h4"} style={{color: "white"}}><strong>
-                                Scan
-                                History</strong></Typography>
-                        </Grid>
-                        <Paper style={{height: 320, width: "90%"}}>
-                            <TableVirtuoso
-                                data={rows}
-                                components={VirtuosoTableComponents}
-                                fixedHeaderContent={fixedHeaderContent}
-                                itemContent={rowContent}
-                            />
-                        </Paper>
-                    </Grid>
-                </Grid>
-            </>
-        )
-    }
-
+  const ScanHistory = () => {
     return (
-        <ThemeProvider theme={theme}>
-            <Navbar/>
+        <>
             <Grid container spacing={2}>
-                <Grid item xs={12} align={"center"}>
-                    <WhiteIndicatorTabs onChange={handleChange} value={tabValue}>
-                        <Tabs value={tabValue} onChange={handleChange}>
-                            <Tab
-                                label="Account details"
-                                value={0}
-                                style={{
-                                    color: "white",
-                                }}
-                                sx={{
-                                    minWidth: {xs: "10rem", md: "20rem"},
-                                }}
-                            />
-                            <Tab
-                                label="Your Journey"
-                                value={1}
-                                style={{
-                                    color: "white",
-                                }}
-                                sx={{
-                                    minWidth: {xs: "10rem", md: "20rem"},
-                                }}
-                            />
-                        </Tabs>
-
-                    </WhiteIndicatorTabs>
-
+                <Grid item xs={12} md={6} align={"center"}>
+                    <Typography variant={"h4"} style={{color: "white"}} mt={2}>You've scanned</Typography>
+                    <Typography variant={"h1"} display={"inline"} sx={{fontSize: {xs: "5em", md: "10em"}}}>
+                        <strong>{scanCount}</strong>
+                    </Typography>
+                    <Typography display={"inline"}> items</Typography>
+                    <Grid item xs={12} align={"center"} mt={3}>
+                        <Typography variant={"h5"} style={{color: "white"}}>
+                            <strong>Did you know</strong> that’s enough plastic to make
+                        </Typography>
+                        <Typography variant={"h6"} style={{color: "white"}}>exactly 3.52 Kardashians?</Typography>
+                    </Grid>
                 </Grid>
-                {tabValue === 0 && email && (
-                    <AccountInfo/>
-                )}
-                {tabValue === 1 && scanCount && (
-                    <ScanHistory/>
-                )}
-
+                <Grid item xs={12} md={6} align={"center"}>
+                    <Grid item xs={12} mb={2} mt={2}>
+                        <Typography variant={"h4"} style={{color: "white"}}><strong>
+                            Scan
+                            History</strong></Typography>
+                    </Grid>
+                    <Paper style={{height: 320, width: "90%"}}>
+                        <TableVirtuoso
+                            data={rows}
+                            components={VirtuosoTableComponents}
+                            fixedHeaderContent={fixedHeaderContent}
+                            itemContent={rowContent}
+                        />
+                    </Paper>
+                </Grid>
             </Grid>
-        </ThemeProvider>
-    );
+        </>
+    )
+}
+
+    if (windowWidth >= 1024) { // Laptop size
+      return (
+        <div
+          style={{
+            flexDirection: 'column',
+            // Align children components to the start of the column
+            height: '100vh', // Set the height of the container to the full viewport height
+            background: 'linear-gradient(to right, #12271e, #1a4d39)',
+            padding: '20px', // Add some padding for better spacing
+            width: '100%',
+            height: '100vh'
+          }}
+        >
+          <Navbar />
+          <WhiteIndicatorTabs onChange={handleChange}>
+            <Tabs value={tabValue} onChange={handleChange}>
+              <Tab label="Account details"
+                style={{
+                  color: 'white',
+                  minWidth: '20rem'
+                }}
+              />
+              <Tab label="Your Journey"
+                style={{
+                  color: 'white',
+                  minWidth: '20rem'
+                }} />
+            </Tabs>
+          </WhiteIndicatorTabs>
+          {tabValue === 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
+              <AccountInfo/>
+            </div>
+          )}
+          {tabValue === 1 && (
+            <div style={{ margin: '30px' }}>
+              <div style={{ flexGrow: 1 }}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={6}>
+                    <div className="section-left">
+                      <h1>
+                        You've scanned
+                      </h1>
+  
+                      <br />
+  
+                      <p style={{ display: 'inline-block' }}>
+                        <strong className="number-of-scans">27</strong> items
+                      </p>
+  
+                      <br />
+  
+                      <p>
+                        <strong>Did you know</strong> that’s enough plastic to make
+                      </p>
+                      <p>
+                        exactly 3.52 Kardashians?
+                      </p>
+                    </div>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <div className="section-right">
+                      <h1 >
+                        Scan History
+                      </h1>
+                      <div className="table-container">
+                        <Paper style={{ height: 350, width: '90%' }}>
+                          <TableVirtuoso
+                            data={rows}
+                            components={VirtuosoTableComponents}
+                            fixedHeaderContent={fixedHeaderContent}
+                            itemContent={rowContent}
+                          />
+                        </Paper>
+                      </div>
+                    </div>
+                  </Grid>
+                </Grid>
+              </div>
+            </div>
+          )}
+        </div>
+      )
+    } else { // Phone size
+      return (
+        <Grid className="gradient_background">
+          <Grid container component="main" sx={{ height: '100vh' }}>
+            <Grid className="gradient_background" item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+              <Box
+                sx={{
+                  my: 8,
+                  mx: 4,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                <Navbar />
+                <WhiteIndicatorTabs onChange={handleChange}>
+                  <Tabs value={tabValue} onChange={handleChange} sx={{ width: '100%' }}>
+                    <Tab label="Account details"
+                      style={{
+                        color: 'white',
+                      }}
+                    />
+                    <Tab label="Your Journey"
+                      style={{
+                        color: 'white',
+                      }} />
+                  </Tabs>
+                </WhiteIndicatorTabs>
+                {tabValue === 0 && (
+                  <Box component="form" sx={{ mt: 1 }}>
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      label="Name"
+                      style={tabStylePhone}
+                      autoFocus
+                    />
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      label="Email"
+                      style={tabStylePhone}
+                      autoFocus
+                    />
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      label="Password"
+                      style={tabStylePhone}
+                      autoFocus
+                    />
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      label="Postcode"
+                      style={tabStylePhone}
+                      autoFocus
+                    />
+                    <div style={{ display: 'flex', justifyContent: 'center', margin: '10px 0', flexDirection: 'column' }}>
+                      <Button style={{
+                        borderRadius: '50px',
+                        textTransform: 'none',
+                        padding: '10px 20px',
+                        borderColor: 'blue',
+                        backgroundColor: '#d9d9d9',
+                        color: 'black',
+                        margin: '10px',
+                        textAlign: 'center'
+                      }}>Edit</Button> <br />
+                      <Button style={{ textDecoration: 'underline', textAlign: 'center' }}> Sign Out </Button>
+                    </div>
+                  </Box>
+                )}
+                {tabValue === 1 && (
+                  <Box component="form" sx={{ mt: 1 }}>
+                  <div className="section-left">
+                      <h1>
+                        You've scanned
+                      </h1>
+  
+                      <p style={{ display: 'inline-block' }}>
+                        <strong className="number-of-scans">27</strong> items
+                      </p>
+  
+                      <p>
+                        <strong>Did you know</strong> that’s enough plastic to make
+                      </p>
+                      <p>
+                        exactly 3.52 Kardashians?
+                      </p>
+                    </div>
+                    <div>
+                    <div className="section-right">
+                      <h1 >
+                        Scan History
+                      </h1>
+                      <div className="table-container">
+                        <Paper style={{ height: 350, width: '90%' }}>
+                          <TableVirtuoso
+                            data={rows}
+                            components={VirtuosoTableComponents}
+                            fixedHeaderContent={fixedHeaderContent}
+                            itemContent={rowContent}
+                          />
+                        </Paper>
+                      </div>
+                    </div>
+                    </div>
+                </Box>
+                )}
+              </Box>
+            </Grid>
+          </Grid>
+        </Grid>
+      );
+    }
 };
 
 export default Account;
